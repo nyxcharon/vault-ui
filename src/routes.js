@@ -11,8 +11,9 @@ import {
     Policies,
     Users,
     Mounts,
-    Secrets
-  } from 'containers';
+    Secrets,
+    Login
+} from 'containers';
 
 export default () => {
   // const requireLogin = (nextState, replaceState, cb) => {
@@ -45,18 +46,17 @@ export default () => {
       <Route path="policies" component={Policies} />
       <Route path="mounts" component={Mounts} />
 
-      /* just some stuff */
       { /* Routes requiring login */ }
       { /* <Route onEnter={requireLogin}>
         <Route path="chat" component={Chat}/>
         <Route path="loginSuccess" component={LoginSuccess}/>
-      </Route> */}
+      </Route> */ }
 
       { /* Routes */ }
       {/* <Route path="about" component={About}/>
-      <Route path="login" component={Login}/>
       <Route path="survey" component={Survey}/>
       <Route path="widgets" component={Widgets}/>*/}
+      <Route path="login" component={Login}/>
 
       { /* Catch all route */ }
       {/* <Route path="*" component={NotFound} status={404} /> */}

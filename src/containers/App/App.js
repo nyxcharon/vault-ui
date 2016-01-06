@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-// import { IndexLink } from 'react-router';
+import { IndexLink, Link } from 'react-router';
 import DocumentMeta from 'react-document-meta';
 import { isLoaded as isInfoLoaded, load as loadInfo } from 'redux/modules/info';
 import { isLoaded as isAuthLoaded, load as loadAuth, logout } from 'redux/modules/auth';
@@ -59,12 +59,13 @@ export default class App extends Component {
     return (
       <div className={styles.app}>
         <Layout fixedHeader fixedDrawer>
-          <Header title={<strong>{appName}</strong>} className="mdl-color--blue-grey">
+          <Header className="mdl-color--blue-grey"
+                  title={<IndexLink to="/" className={styles.title}>{appName}</IndexLink>}>
             <Navigation>
-              <a href="#">Link</a>
+              <Link to="/login">Login</Link>
             </Navigation>
           </Header>
-          <Drawer title={appName} className="mdl-color--blue-grey mdl-color-text--white" style={{borderRight: 'none'}}>
+          <Drawer title={<IndexLink to="/" className={styles.title}>{appName}</IndexLink>} className="mdl-color--blue-grey mdl-color-text--white" style={{borderRight: 'none'}}>
             <Navigation>
               <a href="/paz" className="mdl-color-text--white">Vault Healthcheck</a>
               <a href="/secrets" className="mdl-color-text--white">Secrets</a>
