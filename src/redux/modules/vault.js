@@ -26,6 +26,17 @@ export default function reducer(state = initialState, action = {}) {
   }
 }
 
+export function login(username, password) {
+  return {
+    types: [HEALTH, HEALTH_SUCCESS],
+    promise: (client) => client.post(`/v1/auth/userpass/login/$(username)`, {
+      data: {
+        password: password
+      }
+    })
+  };
+}
+
 // This builds an action map that the dispatcher will use to pass into the reducer ^^^^
 export function health() {
   return {

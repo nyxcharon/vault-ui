@@ -67,9 +67,9 @@ export default class App extends Component {
           <Drawer title={appName} className="mdl-color--blue-grey mdl-color-text--white" style={{borderRight: 'none'}}>
             <Navigation>
               <a href="/paz" className="mdl-color-text--white">Vault Healthcheck</a>
-              <a href="#" className="mdl-color-text--white">Drawer Link 3</a>
-              <a href="#" className="mdl-color-text--white">Drawer Link 2s</a>
-              <a href="#" className="mdl-color-text--white">Drawer Link 4</a>
+              <a href="/secrets" className="mdl-color-text--white">Secrets</a>
+              <a href="/mounts" className="mdl-color-text--white">Mounts</a>
+              <a href="/policies" className="mdl-color-text--white">Policies</a>
             </Navigation>
           </Drawer>
           <Content>
