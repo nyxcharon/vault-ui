@@ -10,10 +10,19 @@ const environment = {
 }[process.env.NODE_ENV || 'development'];
 
 module.exports = Object.assign({
+  vaultToken: process.env.VAULTTOKEN || 'PLEASE_SET_THE_VAULTTOKEN',
   host: process.env.HOST || 'localhost',
   port: process.env.PORT,
-  apiHost: process.env.APIHOST || 'localhost',
-  apiPort: process.env.APIPORT,
+  api: {
+    'vault': {
+      host: process.env.APIHOST || 'localhost',
+      port: process.env.APIPORT
+    },
+    'consul': {
+      host: process.env.CONSUL_API_HOST || 'localhost',
+      port: process.env.CONSUL_API_PORT
+    }
+  },
   app: {
     title: 'Vault UI',
     description: 'Vault UI for hashicorps Vault.',
