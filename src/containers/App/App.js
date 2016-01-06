@@ -67,10 +67,10 @@ export default class App extends Component {
           </Header>
           <Drawer title={<IndexLink to="/" className={styles.title}>{appName}</IndexLink>} className="mdl-color--blue-grey mdl-color-text--white" style={{borderRight: 'none'}}>
             <Navigation>
-              <a href="/paz" className="mdl-color-text--white">Vault Healthcheck</a>
               <a href="/secrets" className="mdl-color-text--white">Secrets</a>
               <a href="/mounts" className="mdl-color-text--white">Mounts</a>
               <a href="/policies" className="mdl-color-text--white">Policies</a>
+              <a href="/paz" className="mdl-color-text--white">Vault Healthcheck</a>
             </Navigation>
           </Drawer>
           <Content>
