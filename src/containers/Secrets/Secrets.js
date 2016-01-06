@@ -4,10 +4,15 @@ import React, { Component } from 'react';
 
 var tempSecrets = [
   { secretName: 'Foo', data: 'Good'},
-  { secretName: 'Bar', error: 'Bad'}
+  { secretName: 'Bar', error: true}
 ];
 
 class SecretValue extends Component {
+  static propTypes = {
+    data: React.PropTypes.string,
+    error: React.PropTypes.bool
+  }
+
   render() {
     if (this.props.error) {
       return (<p>Denied</p>);
@@ -18,6 +23,12 @@ class SecretValue extends Component {
 }
 
 class SecretDisplay extends Component {
+  static propTypes = {
+    secretName: React.PropTypes.string.isRequired,
+    data: React.PropTypes.string,
+    error: React.PropTypes.bool
+  }
+
   render() {
     return (<div className="SecretName">
       <h2>{this.props.secretName}</h2>
@@ -27,6 +38,7 @@ class SecretDisplay extends Component {
 }
 
 export default class Secrets extends Component {
+
   render() {
     var secrets = tempSecrets.map(function(secret) {
       return (<SecretDisplay secretName={secret.secretName}
