@@ -57,7 +57,7 @@ export default class App extends Component {
     return (
       <div className={styles.app}>
         <Layout fixedHeader fixedDrawer>
-          <Header title={<strong>Vault UI</strong>}>
+          <Header title={<strong>Vault - UI</strong>}>
             <Navigation>
               <a href="#">Link</a>
             </Navigation>
