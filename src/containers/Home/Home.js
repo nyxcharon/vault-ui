@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import Button from 'react-mdl/lib/Button';
 import {Grid, Cell} from 'react-mdl';
-import PazTest from 'components/PazTest';
-// import { Link } from 'react-router';
-// import { CounterButton, GithubButton } from 'components';
-// import config from '../../config';
 
 export default class Home extends Component {
   render() {
@@ -24,9 +20,6 @@ export default class Home extends Component {
           </Cell>
           <Cell col={12}>
             <Button raised ripple>Button 3</Button>
-          </Cell>
-          <Cell col={12}>
-            <PazTest />
           </Cell>
         </Grid>
       </div>

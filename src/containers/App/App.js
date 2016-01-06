@@ -64,7 +64,7 @@ export default class App extends Component {
           </Header>
           <Drawer title="Dem links">
             <Navigation>
-              <a href="#">Drawer Link 2s</a>
+              <a href="/paz">Vault Health</a>
               <a href="#">Drawer Link 2</a>
               <a href="#">Drawer Link 3</a>
               <a href="#">Drawer Link 4</a>

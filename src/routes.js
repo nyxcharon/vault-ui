@@ -1,9 +1,14 @@
 import React from 'react';
 import {IndexRoute, Route} from 'react-router';
+
+
+import AppTest from 'components/AppTest';
+
 // import { isLoaded as isAuthLoaded, load as loadAuth } from 'redux/modules/auth';
 import {
     App,
-    Home
+    Home,
+    Secrets
   } from 'containers';
 
 export default () => {
@@ -31,6 +36,15 @@ export default () => {
       { /* Home (main) route */ }
       { <IndexRoute component={Home}/> }
 
+      <Route path="paz" component={AppTest}>
+        { /* Need this here */ }
+      </Route>
+
+      <Route path="secrets" component={Secrets}>
+        { /* Need this here */ }
+      </Route>
+
+      /* just some stuff */
       { /* Routes requiring login */ }
       { /* <Route onEnter={requireLogin}>
         <Route path="chat" component={Chat}/>
@@ -46,5 +60,7 @@ export default () => {
       { /* Catch all route */ }
       {/* <Route path="*" component={NotFound} status={404} /> */}
     </Route>
+
+
   );
 };
