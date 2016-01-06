@@ -1,4 +1,5 @@
 import Express from 'express';
+import session from 'express-session';
 import React from 'react';
 import ReactDOM from 'react-dom/server';
 import config from './config';
@@ -12,6 +13,7 @@ import Html from './helpers/Html';
 import PrettyError from 'pretty-error';
 import http from 'http';
 import SocketIo from 'socket.io';
+import superagent from 'superagent';
 
 import {ReduxRouter} from 'redux-router';
 import createHistory from 'history/lib/createMemoryHistory';
@@ -20,6 +22,7 @@ import {Provider} from 'react-redux';
 import qs from 'query-string';
 import getRoutes from './routes';
 import getStatusFromRoutes from './helpers/getStatusFromRoutes';
+import bodyParser from 'body-parser';
 
 const pretty = new PrettyError();
 const app = new Express();
@@ -28,6 +31,13 @@ const server = new http.Server(app);
 
 app.use(compression());
 app.use(favicon(path.join(__dirname, '..', 'static', 'favicon.ico')));
+app.use(bodyParser.json());
+app.use(session({
+  secret: 'ayylmaoimasecret',
+  resave: false,
+  saveUninitialized: false,
+  cookie: { maxAge: 60000 }
+}));
 
 app.use(Express.static(path.join(__dirname, '..', 'static')));
 
@@ -61,6 +71,24 @@ createProxy('vault', config.api.vault);
 createProxy('consul', config.api.consul);
 
 app.use('/scripts/react-mdl', Express.static(path.join(__dirname, '..', 'node_modules/react-mdl/extra')));
+
+app.post('/login', (req, res) => {
+  console.log(req.body);
+  console.log(`http://10.0.10.131:8200/v1/auth/userpass/login/${req.body.username}`);
+  superagent
+    .post(`http://10.0.10.131:8200/v1/auth/userpass/login/${req.body.username}`)
+    .send({ 'password': req.body.password })
+    .set('Content-Type', 'application/json')
+    .end((err, response) => {
+      if (err) {
+        console.log('Error logging into vault', err);
+        res.send(500, 'You could not be logged in to vault');
+      }
+      console.log(response.body.auth.client_token);
+      req.session.vault_api_token = response.body.auth.client_token;
+      res.send({'message': 'success'});
+    });
+});
 
 app.use((req, res) => {
   if (__DEVELOPMENT__) {

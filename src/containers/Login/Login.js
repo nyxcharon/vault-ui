@@ -19,7 +19,7 @@ export default class Login extends Component {
     const username = this.refs.username.refs.input.value;
     const password = this.refs.password.refs.input.value;
     console.log(`Received username: ${username}, pw: ${password}`);
-    this.props.login(username);
+    this.props.login(username, password);
     // input.value = '';
   }
 
