@@ -8,8 +8,10 @@ import AppTest from 'components/AppTest';
 import {
     App,
     Home,
-    Secrets
+    Secret
   } from 'containers';
+
+import { Secrets } from 'containers/Secrets/Secrets';
 
 export default () => {
   // const requireLogin = (nextState, replaceState, cb) => {
@@ -36,13 +38,8 @@ export default () => {
       { /* Home (main) route */ }
       { <IndexRoute component={Home}/> }
 
-      <Route path="paz" component={AppTest}>
-        { /* Need this here */ }
-      </Route>
-
-      <Route path="secrets" component={Secrets}>
-        { /* Need this here */ }
-      </Route>
+      <Route path="paz" component={AppTest} />
+      <Route path="secrets" component={Secrets} />
 
       /* just some stuff */
       { /* Routes requiring login */ }
