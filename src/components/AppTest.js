@@ -25,7 +25,7 @@ export default class AppTest extends Component {
     return (
       <div>
         <h3>Health Check</h3>
-        <button onClick={health}>I am a friggin button</button>
+        <button onClick={health}>Check Health</button>
         <pre>{ JSON.stringify(butt, null, 2) }</pre>
       </div>
     );
