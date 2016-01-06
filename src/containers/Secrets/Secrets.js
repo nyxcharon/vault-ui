@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 // import Button from 'react-mdl/lib/Button';
 // import {Grid, Cell} from 'react-mdl';
 
-var tempSecrets = [
+const tempSecrets = [
   { secretName: 'Foo', data: 'Good'},
   { secretName: 'Bar', error: true}
 ];
@@ -14,11 +14,16 @@ class SecretValue extends Component {
   }
 
   render() {
+
+    let returnVal;
+
     if (this.props.error) {
-      return (<p>Denied</p>);
+      returnVal = (<p>Denied</p>);
     } else {
-      return (<p>{this.props.data}</p>);
+      returnVal = (<p>{this.props.data}</p>);
     }
+
+    return returnVal;
   }
 }
 
@@ -40,7 +45,7 @@ class SecretDisplay extends Component {
 export default class Secrets extends Component {
 
   render() {
-    var secrets = tempSecrets.map(function(secret) {
+    const secrets = tempSecrets.map((secret) => {
       return (<SecretDisplay secretName={secret.secretName}
         key={secret.id}
         data={secret.data}
