@@ -1,11 +1,16 @@
 import React from 'react';
 import {IndexRoute, Route} from 'react-router';
+
+
+import AppTest from 'components/AppTest';
+
 // import { isLoaded as isAuthLoaded, load as loadAuth } from 'redux/modules/auth';
 import {
     App,
     Home,
-    Login
-  } from 'containers';
+    Login,
+    Secrets
+} from 'containers';
 
 export default () => {
   // const requireLogin = (nextState, replaceState, cb) => {
@@ -32,11 +37,14 @@ export default () => {
       { /* Home (main) route */ }
       { <IndexRoute component={Home}/> }
 
+      <Route path="paz" component={AppTest} />
+      <Route path="secrets" component={Secrets} />
+
       { /* Routes requiring login */ }
       { /* <Route onEnter={requireLogin}>
         <Route path="chat" component={Chat}/>
         <Route path="loginSuccess" component={LoginSuccess}/>
-      </Route> */}
+      </Route> */ }
 
       { /* Routes */ }
       {/* <Route path="about" component={About}/>
@@ -47,5 +55,7 @@ export default () => {
       { /* Catch all route */ }
       {/* <Route path="*" component={NotFound} status={404} /> */}
     </Route>
+
+
   );
 };
