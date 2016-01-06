@@ -12,8 +12,16 @@ const environment = {
 module.exports = Object.assign({
   host: process.env.HOST || 'localhost',
   port: process.env.PORT,
-  apiHost: process.env.APIHOST || 'localhost',
-  apiPort: process.env.APIPORT,
+  api: {
+    'vault': {
+      host: process.env.APIHOST || 'localhost',
+      port: process.env.APIPORT
+    },
+    'consul': {
+      host: process.env.CONSUL_API_HOST || 'localhost',
+      port: process.env.CONSUL_API_PORT
+    }
+  },
   app: {
     title: 'Vault UI',
     description: 'Vault UI for hashicorps Vault.',

@@ -48,10 +48,6 @@ export function login(username, password) {
 export function health() {
   return {
     types: [HEALTH, HEALTH_SUCCESS, HEALTH_FAIL],
-    promise: (client) => client.get('/v1/sys/health', {
-      params: {
-        standbyok: true
-      }
-    })
+    promise: (client) => client.get('vault', '/v1/sys/health')
   };
 }

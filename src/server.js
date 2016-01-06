@@ -24,10 +24,7 @@ import getStatusFromRoutes from './helpers/getStatusFromRoutes';
 const pretty = new PrettyError();
 const app = new Express();
 const server = new http.Server(app);
-const proxy = httpProxy.createProxyServer({
-  target: 'http://' + config.apiHost + ':' + config.apiPort,
-  ws: true
-});
+
 
 app.use(compression());
 app.use(favicon(path.join(__dirname, '..', 'static', 'favicon.ico')));
@@ -35,23 +32,33 @@ app.use(favicon(path.join(__dirname, '..', 'static', 'favicon.ico')));
 app.use(Express.static(path.join(__dirname, '..', 'static')));
 
 // Proxy to API server
-app.use('/api', (req, res) => {
-  proxy.web(req, res);
-});
+function createProxy(value, key) {
+  const proxy = httpProxy.createProxyServer({
+    target: 'http://' + key.host + ':' + key.port,
+    ws: true
+  });
 
-// added the error handling to avoid https://github.com/nodejitsu/node-http-proxy/issues/527
-proxy.on('error', (error, req, res) => {
-  let json;
-  if (error.code !== 'ECONNRESET') {
-    console.error('proxy error', error);
-  }
-  if (!res.headersSent) {
-    res.writeHead(500, {'content-type': 'application/json'});
-  }
+  app.use(`/api/${value}`, (req, res) => {
+    proxy.web(req, res);
+  });
 
-  json = {error: 'proxy_error', reason: error.message};
-  res.end(JSON.stringify(json));
-});
+  // added the error handling to avoid https://github.com/nodejitsu/node-http-proxy/issues/527
+  proxy.on('error', (error, req, res) => {
+    let json;
+    if (error.code !== 'ECONNRESET') {
+      console.error('proxy error', error);
+    }
+    if (!res.headersSent) {
+      res.writeHead(500, {'content-type': 'application/json'});
+    }
+
+    json = {error: 'proxy_error', reason: error.message};
+    res.end(JSON.stringify(json));
+  });
+}
+
+createProxy('vault', config.api.vault);
+createProxy('consul', config.api.consul);
 
 app.use('/scripts/react-mdl', Express.static(path.join(__dirname, '..', 'node_modules/react-mdl/extra')));
 

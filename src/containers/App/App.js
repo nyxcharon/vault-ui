@@ -4,10 +4,12 @@ import { IndexLink, Link } from 'react-router';
 import DocumentMeta from 'react-document-meta';
 import { isLoaded as isInfoLoaded, load as loadInfo } from 'redux/modules/info';
 import { isLoaded as isAuthLoaded, load as loadAuth, logout } from 'redux/modules/auth';
+import { isLoaded as isConsulLoaded, load as loadConsul } from 'redux/modules/consul';
 import { pushState } from 'redux-router';
 import connectData from 'helpers/connectData';
 import config from '../../config';
 import {Layout, Header, Navigation, Drawer, Content} from 'react-mdl/lib/Layout';
+
 
 function fetchData(getState, dispatch) {
   const promises = [];
@@ -16,6 +18,9 @@ function fetchData(getState, dispatch) {
   }
   if (!isAuthLoaded(getState())) {
     promises.push(dispatch(loadAuth()));
+  }
+  if (!isConsulLoaded(getState())) {
+    promises.push(dispatch(loadConsul()));
   }
   return Promise.all(promises);
 }
