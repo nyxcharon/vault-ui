@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { IndexLink, Link } from 'react-router';
 import DocumentMeta from 'react-document-meta';
-import { isLoaded as isInfoLoaded, load as loadInfo } from 'redux/modules/info';
 import { isLoaded as isAuthLoaded, load as loadAuth, logout } from 'redux/modules/auth';
 import { isLoaded as isConsulLoaded, load as loadConsul } from 'redux/modules/consul';
 import { pushState } from 'redux-router';
@@ -13,9 +12,6 @@ import {Layout, Header, Navigation, Drawer, Content} from 'react-mdl/lib/Layout'
 
 function fetchData(getState, dispatch) {
   const promises = [];
-  if (!isInfoLoaded(getState())) {
-    promises.push(dispatch(loadInfo()));
-  }
   if (!isAuthLoaded(getState())) {
     promises.push(dispatch(loadAuth()));
   }
