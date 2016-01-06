@@ -4,8 +4,8 @@
 [![Dependency Status](https://david-dm.org/nyxcharon/vault-ui.svg?style=flat-square)](https://david-dm.org/nyxcharon/vault-ui)
 [![devDependency Status](https://david-dm.org/nyxcharon/vault-ui/dev-status.svg?style=flat-square)](https://david-dm.org/nyxcharon/vault-ui#info=devDependencies)
 
-[![Image Layers](https://badge.imagelayers.io/sstarcher/sensu:latest.svg)](https://imagelayers.io/?images=sstarcher/sensu:latest)
-[![Docker Registry](https://img.shields.io/docker/pulls/sstarcher/sensu.svg)](https://registry.hub.docker.com/u/sstarcher/sensu)
+[![Image Layers](https://badge.imagelayers.io/nyxcharon/vault-ui:latest.svg)](https://imagelayers.io/?images=nyxcharon/vault-ui:latest)
+[![Docker Registry](https://img.shields.io/docker/pulls/nyxcharon/vault-ui.svg)](https://registry.hub.docker.com/u/nyxcharon/vault-ui)
 
 ---
 
