@@ -62,7 +62,7 @@ export default class App extends Component {
               <a href="#">Link</a>
             </Navigation>
           </Header>
-          <Drawer title="Title">
+          <Drawer title="Hello world">
             <Navigation>
               <a href="#">Drawer Link 1</a>
               <a href="#">Drawer Link 2</a>
