@@ -12,6 +12,9 @@ function formatUrl(api, path) {
     // Prepend host and port of the API server to the path.
     return 'http://' + config.api[api].host + ':' + config.api[api].port + adjustedPath;
   }
+  if (api === 'app') {
+    return adjustedPath;
+  }
 
   // Prepend `/api` to relative URL, to proxy to API server.
   return `/api/${api}/${adjustedPath}`;

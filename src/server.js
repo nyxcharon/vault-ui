@@ -36,7 +36,7 @@ app.use(session({
   secret: 'ayylmaoimasecret',
   resave: false,
   saveUninitialized: false,
-  cookie: { maxAge: 60000 }
+  cookie: { maxAge: 86400000 } // One Day
 }));
 
 app.use(Express.static(path.join(__dirname, '..', 'static')));
