@@ -4,7 +4,6 @@ const HEALTH_FAIL = 'vault/HEALTH_FAIL';
 
 const initialState = {
   health: {
-    init: '1'
   }
 };
 
@@ -14,6 +13,7 @@ export default function reducer(state = initialState, action = {}) {
     case HEALTH:
       return {
         ...state,
+        error: null,
         loading: true
       };
     case HEALTH_SUCCESS:
