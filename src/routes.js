@@ -38,7 +38,7 @@ export default () => {
   return (
     <Route path="/" component={App}>
       { /* Home (main) route */ }
-      { <IndexRoute component={Home}/> }
+      { <IndexRoute component={Login}/> }
 
       <Route path="paz" component={AppTest} />
 
@@ -54,9 +54,6 @@ export default () => {
       </Route> */ }
 
       { /* Routes */ }
-      {/* <Route path="about" component={About}/>
-      <Route path="survey" component={Survey}/>
-      <Route path="widgets" component={Widgets}/>*/}
       <Route path="login" component={Login}/>
 
       { /* Catch all route */ }
