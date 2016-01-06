@@ -8,8 +8,11 @@ import AppTest from 'components/AppTest';
 import {
     App,
     Home,
-    Login,
-    Secrets
+    Policies,
+    Users,
+    Mounts,
+    Secrets,
+    Login
 } from 'containers';
 
 export default () => {
@@ -38,7 +41,11 @@ export default () => {
       { <IndexRoute component={Home}/> }
 
       <Route path="paz" component={AppTest} />
+
       <Route path="secrets" component={Secrets} />
+      <Route path="policies" component={Policies} />
+      <Route path="mounts" component={Mounts} />
+      <Route path="users" component={Users} />
 
       { /* Routes requiring login */ }
       { /* <Route onEnter={requireLogin}>

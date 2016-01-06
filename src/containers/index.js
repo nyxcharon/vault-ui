@@ -1,4 +1,8 @@
 export App from './App/App';
 export Home from './Home/Home';
-export Login from './Login/Login';
+
 export Secrets from './Secrets/Secrets';
+export Users from './Users/Users';
+export Policies from './Policies/Policies';
+export Mounts from './Mounts/Mounts';
+export Login from './Login/Login';

@@ -6,7 +6,7 @@ export default class Secrets extends Component {
   render() {
     return (
       <div>
-        <p>1</p>
+        <h1>Secrets</h1>
       </div>
     );
   }
