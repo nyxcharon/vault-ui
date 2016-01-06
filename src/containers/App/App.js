@@ -54,20 +54,22 @@ export default class App extends Component {
   render() {
     // const {user} = this.props;
     const styles = require('./App.scss');
+    const appName = 'Vault - UI';
+
     return (
       <div className={styles.app}>
         <Layout fixedHeader fixedDrawer>
-          <Header title={<strong>Vault - UI</strong>}>
+          <Header title={<strong>{appName}</strong>} className="mdl-color--blue-grey">
             <Navigation>
               <a href="#">Link</a>
             </Navigation>
           </Header>
-          <Drawer title="Dem links">
+          <Drawer title={appName} className="mdl-color--blue-grey mdl-color-text--white" style={{borderRight: 'none'}}>
             <Navigation>
-              <a href="#">Drawer Link 2s</a>
-              <a href="#">Drawer Link 2</a>
-              <a href="#">Drawer Link 3</a>
-              <a href="#">Drawer Link 4</a>
+              <a href="#" className="mdl-color-text--white">Drawer Link 2</a>
+              <a href="#" className="mdl-color-text--white">Drawer Link 3</a>
+              <a href="#" className="mdl-color-text--white">Drawer Link 2s</a>
+              <a href="#" className="mdl-color-text--white">Drawer Link 4</a>
             </Navigation>
           </Drawer>
           <Content>
