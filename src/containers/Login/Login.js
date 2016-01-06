@@ -24,8 +24,7 @@ export default class Login extends Component {
   }
 
   render() {
-    const {user, logout} = this.props;
-    console.log(logout);
+    const {user} = this.props;
     // const styles = require('./Login.scss');
     return (
       <Card shadow={0} style={{width: '100%'}}>
