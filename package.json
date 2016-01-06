@@ -45,7 +45,8 @@
         "NODE_PATH": "./src",
         "NODE_ENV": "production",
         "PORT": 8080,
-        "APIPORT": 3030
+        "APIHOST": "vault.service.consul",
+        "APIPORT": 8200
       }
     },
     "start-prod-api": {
@@ -53,7 +54,8 @@
       "env": {
         "NODE_PATH": "./api",
         "NODE_ENV": "production",
-        "APIPORT": 3030
+        "APIHOST": "vault.service.consul",
+        "APIPORT": 8200
       }
     },
     "start-dev": {
@@ -62,7 +64,8 @@
         "NODE_PATH": "./src",
         "NODE_ENV": "development",
         "PORT": 8080,
-        "APIPORT": 3030
+        "APIHOST": "vault.service.consul",
+        "APIPORT": 8200
       }
     },
     "start-dev-api": {
@@ -70,7 +73,8 @@
       "env": {
         "NODE_PATH": "./api",
         "NODE_ENV": "development",
-        "APIPORT": 3030
+        "APIHOST": "vault.service.consul",
+        "APIPORT": 8200
       }
     },
     "watch-client": {
