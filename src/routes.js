@@ -7,7 +7,6 @@ import AppTest from 'components/AppTest';
 // import { isLoaded as isAuthLoaded, load as loadAuth } from 'redux/modules/auth';
 import {
     App,
-    Home,
     Policies,
     Users,
     Mounts,
@@ -37,7 +36,7 @@ export default () => {
    */
   return (
     <Route path="/" component={App}>
-      { /* Home (main) route */ }
+      { /* Index route */ }
       { <IndexRoute component={Login}/> }
 
       <Route path="paz" component={AppTest} />
