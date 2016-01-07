@@ -62,7 +62,7 @@ if (config.apiPort) {
       console.error(err);
     }
     console.info('----\n==> 🌎  API is running on port %s', config.apiPort);
-    console.info('==> 💻  Send requests to http://%s:%s', config.api.vault.host, config.api.vault.port);
+    console.info('==> 💻  Send requests to http://%s:%s', config.apiHost, config.apiPort);
   });
 
   io.on('connection', (socket) => {

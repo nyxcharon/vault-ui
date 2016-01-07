@@ -40,6 +40,6 @@ export function isLoaded(globalState) {
 export function load() {
   return {
     types: [LOAD, SUCCESS, FAIL],
-    promise: (client) => client.get('app', '/loadUsers')
+    promise: (client) => client.get('/users')
   };
 }

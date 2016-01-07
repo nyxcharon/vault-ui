@@ -45,10 +45,9 @@
         "NODE_PATH": "./src",
         "NODE_ENV": "production",
         "PORT": 8080,
-        "APIHOST": "10.0.10.131",
-        "APIPORT": 8200,
-        "CONSUL_API_HOST": "consul.service.consul",
-        "CONSUL_API_PORT": 8500
+        "API_PORT": 3030,
+        "VAULT_HOST": "10.0.10.131",
+        "CONSUL_HOST": "consul.service.consul"
       }
     },
     "start-prod-api": {
@@ -56,10 +55,7 @@
       "env": {
         "NODE_PATH": "./api",
         "NODE_ENV": "production",
-        "APIHOST": "10.0.10.131",
-        "APIPORT": 8200,
-        "CONSUL_API_HOST": "consul.service.consul",
-        "CONSUL_API_PORT": 8500
+        "API_PORT": 3030
       }
     },
     "start-dev": {
@@ -68,10 +64,9 @@
         "NODE_PATH": "./src",
         "NODE_ENV": "development",
         "PORT": 8080,
-        "APIHOST": "10.0.10.131",
-        "APIPORT": 8200,
-        "CONSUL_API_HOST": "consul.service.consul",
-        "CONSUL_API_PORT": 8500
+        "API_PORT": 3030,
+        "VAULT_HOST": "10.0.10.131",
+        "CONSUL_HOST": "consul.service.consul"
       }
     },
     "start-dev-api": {
@@ -79,10 +74,7 @@
       "env": {
         "NODE_PATH": "./api",
         "NODE_ENV": "development",
-        "APIHOST": "10.0.10.131",
-        "APIPORT": 8200,
-        "CONSUL_API_HOST": "consul.service.consul",
-        "CONSUL_API_PORT": 8500
+        "API_PORT": 3030
       }
     },
     "watch-client": {

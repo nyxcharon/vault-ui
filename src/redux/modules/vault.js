@@ -82,20 +82,20 @@ export default function reducer(state = initialState, action = {}) {
 export function secrets(path) {
   return {
     types: [PATH, PATH_SUCCESS, PATH],
-    promise: (client) => client.get('vault', `v1/${path}`)
+    promise: (client) => client.get(`v1/${path}`)
   };
 }
 
 export function mounts() {
   return {
     types: [MOUNTS, MOUNTS_SUCCESS, MOUNTS],
-    promise: (client) => client.get('vault', `v1/sys/mounts`)
+    promise: (client) => client.get('v1/sys/mounts')
   };
 }
 
 export function health() {
   return {
     types: [HEALTH, HEALTH_SUCCESS, HEALTH_FAIL],
-    promise: (client) => client.get('vault', 'v1/sys/health')
+    promise: (client) => client.get('v1/sys/health')
   };
 }

@@ -13,15 +13,15 @@ module.exports = Object.assign({
   vaultToken: process.env.VAULTTOKEN || 'PLEASE_SET_THE_VAULTTOKEN',
   host: process.env.HOST || 'localhost',
   port: process.env.PORT,
-  api: {
-    'vault': {
-      host: process.env.APIHOST || 'localhost',
-      port: process.env.APIPORT
-    },
-    'consul': {
-      host: process.env.CONSUL_API_HOST || 'localhost',
-      port: process.env.CONSUL_API_PORT
-    }
+  apiHost: process.env.API_HOST || 'localhost',
+  apiPort: process.env.API_PORT,
+  vault: {
+    host: process.env.VAULT_HOST,
+    port: process.env.VAULT_PORT || 8200
+  },
+  consul: {
+    host: process.env.CONSUL_HOST,
+    port: process.env.CONSUL_PORT || 8500
   },
   app: {
     title: 'Vault UI',

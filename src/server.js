@@ -24,8 +24,6 @@ import getRoutes from './routes';
 import getStatusFromRoutes from './helpers/getStatusFromRoutes';
 import bodyParser from 'body-parser';
 
-import * as consul from './utils/consul.js';
-
 const pretty = new PrettyError();
 const app = new Express();
 const server = new http.Server(app);
@@ -48,7 +46,7 @@ app.use('/scripts/react-mdl', Express.static(path.join(__dirname, '..', 'node_mo
 /* AUTH ROUTES */
 app.post('/login', (req, res) => {
   superagent
-    .post(`http://${config.api.vault.host}:${config.api.vault.port}/v1/auth/userpass/login/${req.body.username}`)
+    .post(`http://${config.vault.host}:${config.vault.port}/v1/auth/userpass/login/${req.body.username}`)
     .send({ 'password': req.body.password })
     .set('Content-Type', 'application/json')
     .end((err, response) => {
@@ -110,8 +108,8 @@ function createProxy(value, key) {
   });
 }
 
-createProxy('vault', config.api.vault);
-createProxy('consul', config.api.consul);
+createProxy('vault', config.vault);
+createProxy('consul', config.consul);
 
 app.post('/login', (req, res) => {
   console.log(`http://10.0.10.131:8200/v1/auth/userpass/login/${req.body.username}`);
@@ -130,31 +128,12 @@ app.post('/login', (req, res) => {
     });
 });
 
-
-app.get('/loadUsers', (req, res) => {
-  consul.users().then((data) => {
-    res.send(data);
-  }, (err) => {
-    console.log(err);
-    res.send(err);
-  });
-});
-
-app.get('/loadSecrets', (req, res) => {
-  consul.keys().then((data) => {
-    res.send(data);
-  }, (err) => {
-    console.log(err);
-    res.send(err);
-  });
-});
-
 // If vault api token not on request, redirect to login
 app.use((req, res, next) => {
   if (req.session && req.session.vault_api_token) {
     next();
   } else {
-    if (req.path !== '/login') {
+    if (req.path !== '/login' || req.path !== '/api/login' ) {
       console.log(`Request to path: ${req.path} Unauthorized, redirecting to /login`);
       res.redirect('/login');
     } else {
