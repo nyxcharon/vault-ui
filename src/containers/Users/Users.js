@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import * as authActions from 'redux/modules/users';
 import {connect} from 'react-redux';
+import { Button } from 'react-mdl';
 
 class UserName extends Component {
   static propTypes = {
@@ -26,7 +27,15 @@ export default class Users extends Component {
 
   componentWillMount() {
     console.log('Calling load');
-    this.props.load();
+    this.loadUsersIfNeeded();
+  }
+
+  loadUsersIfNeeded = () => {
+    console.log('Calling load users');
+
+    if (!this.props.isLoading) {
+      this.props.load();
+    }
   }
 
   render() {
@@ -45,6 +54,7 @@ export default class Users extends Component {
     return (
       <div>
         <h1>Users</h1>
+        <Button onClick={this.loadUsersIfNeeded}>Reload</Button>
         { isLoading &&
           <p>Loading Users!</p>
         }
