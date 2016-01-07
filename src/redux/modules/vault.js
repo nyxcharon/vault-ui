@@ -96,6 +96,6 @@ export function mounts() {
 export function health() {
   return {
     types: [HEALTH, HEALTH_SUCCESS, HEALTH_FAIL],
-    promise: (client) => client.get('v1/sys/health')
+    promise: (client) => client.get('health')
   };
 }
