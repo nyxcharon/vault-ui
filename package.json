@@ -55,7 +55,8 @@
       "env": {
         "NODE_PATH": "./api",
         "NODE_ENV": "production",
-        "API_PORT": 3030
+        "API_PORT": 3030,
+        "VAULT_HOST": "10.0.10.131"
       }
     },
     "start-dev": {
