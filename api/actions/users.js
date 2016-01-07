@@ -38,7 +38,7 @@ function fromCallback(fn) {
 
 const consul = require('consul')({'host': 'consul.service.consul', promisify: fromCallback});
 
-export function users() {
+export  function users() {
   return consul.kv.keys(usersMount).spread((data) => {
     const startString = usersMount.length;
     return data.map((value) => {
