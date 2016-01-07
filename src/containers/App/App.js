@@ -13,6 +13,7 @@ import {Layout, Header, Navigation, Drawer, Content} from 'react-mdl/lib/Layout'
 function fetchData(getState, dispatch) {
   const promises = [];
   if (!isAuthLoaded(getState())) {
+    console.log('AUTH_IS_NOT_LOADED');
     promises.push(dispatch(loadAuth()));
   }
   if (!isConsulLoaded(getState())) {
@@ -40,7 +41,7 @@ export default class App extends Component {
   componentWillReceiveProps(nextProps) {
     if (!this.props.user && nextProps.user) {
       // login
-      this.props.pushState(null, '/loginSuccess');
+      this.props.pushState(null, '/');
     } else if (this.props.user && !nextProps.user) {
       // logout
       this.props.pushState(null, '/');

@@ -10,8 +10,6 @@ const initialState = {
 
 
 export default function reducer(state = initialState, action = {}) {
-  console.log(`consul reducer ${action.type}`);
-  console.log(action.result);
   switch (action.type) {
     case LOAD:
       return {
@@ -41,7 +39,6 @@ export function isLoaded(globalState) {
 
 
 export function load() {
-  console.log('derpy');
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
     promise: (client) => client.get('consul', '/v1/kv/vault-prod/auth/d535374b-ddfd-5dca-76a7-74e28f669e29/user/apaz')

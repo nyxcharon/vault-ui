@@ -36,7 +36,7 @@ export default function reducer(state = initialState, action = {}) {
 export function login(username, password) {
   return {
     types: [HEALTH, HEALTH_SUCCESS, HEALTH],
-    promise: (client) => client.post(`/v1/auth/userpass/login/$(username)`, {
+    promise: (client) => client.post(`v1/auth/userpass/login/$(username)`, {
       data: {
         password: password
       }
@@ -48,6 +48,6 @@ export function login(username, password) {
 export function health() {
   return {
     types: [HEALTH, HEALTH_SUCCESS, HEALTH_FAIL],
-    promise: (client) => client.get('vault', '/v1/sys/health')
+    promise: (client) => client.get('vault', 'v1/sys/health')
   };
 }

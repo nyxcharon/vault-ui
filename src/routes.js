@@ -4,7 +4,7 @@ import {IndexRoute, Route} from 'react-router';
 
 import AppTest from 'components/AppTest';
 
-// import { isLoaded as isAuthLoaded, load as loadAuth } from 'redux/modules/auth';
+import { isLoaded as isAuthLoaded, load as loadAuth } from 'redux/modules/auth';
 import {
     App,
     Policies,
@@ -14,22 +14,23 @@ import {
     Login
 } from 'containers';
 
-export default () => {
-  // const requireLogin = (nextState, replaceState, cb) => {
-  //   function checkAuth() {
-  //     const { auth: { user }} = store.getState();
-  //     if (!user) {
-  //       // oops, not logged in, so can't be here!
-  //       replaceState(null, '/');
-  //     }
-  //     cb();
-  //   }
-  //   if (!isAuthLoaded(store.getState())) {
-  //     store.dispatch(loadAuth()).then(checkAuth);
-  //   } else {
-  //     checkAuth();
-  //   }
-  // };
+export default (store) => {
+  const requireLogin = (nextState, replaceState, cb) => {
+    function checkAuth() {
+      const { auth: { user }} = store.getState();
+      console.log('Checking auth: user: ', user);
+      if (!user) {
+        // oops, not logged in, so can't be here!
+        replaceState(null, '/login');
+      }
+      cb();
+    }
+    if (!isAuthLoaded(store.getState())) {
+      store.dispatch(loadAuth()).then(checkAuth);
+    } else {
+      checkAuth();
+    }
+  };
 
   /**
    * Please keep routes in alphabetical order
@@ -39,7 +40,9 @@ export default () => {
       { /* Index route */ }
       { <IndexRoute component={Login}/> }
 
-      <Route path="paz" component={AppTest} />
+      <Route onEnter={requireLogin}>
+        <Route path="paz" component={AppTest} />
+      </Route>
 
       <Route path="secrets" component={Secrets} />
       <Route path="policies" component={Policies} />

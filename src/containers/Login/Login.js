@@ -20,18 +20,22 @@ export default class Login extends Component {
     const password = this.refs.password.refs.input.value;
     console.log(`Received username: ${username}, pw: ${password}`);
     this.props.login(username, password);
-    // input.value = '';
+  }
+
+  handleLogout = (event) => {
+    event.preventDefault();
+    this.props.logout();
   }
 
   render() {
     const {user} = this.props;
-    // const styles = require('./Login.scss');
     return (
       <Card shadow={0} style={{width: '100%'}}>
         <Grid>
           {user &&
           <Cell col={12}>
             <h1>You are logged in. Grats.</h1>
+            <Button className="mdl-cell--bottom" style={{float: 'right'}} onClick={this.handleLogout} raised colored ripple>Logout</Button>
           </Cell>
           }
           {!user &&

@@ -15,17 +15,19 @@ export default class AppTest extends Component {
     butt: PropTypes.object.isRequired,
   };
 
-  onClick() {
-    console.log('I clicked');
+  handleHealthClick = (event) => {
+    event.preventDefault();
+    this.props.health();
+    return;
   }
 
   render() {
-    const {health, butt} = this.props; // eslint-disable-line no-shadow
+    const {butt} = this.props; // eslint-disable-line no-shadow
     /* const styles = require('./AppTest.scss'); */
     return (
       <div>
         <h3>Health Check</h3>
-        <button onClick={health}>Check Health</button>
+        <button onClick={this.handleHealthClick}>Check Health</button>
         <pre>{ JSON.stringify(butt, null, 2) }</pre>
       </div>
     );
