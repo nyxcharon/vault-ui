@@ -37,6 +37,14 @@ export function mounts(req) {
   return getVault(req).getMounts();
 }
 
-// export function secret(req) {
-//   return getVault(req).read(req.);
-// }
+export function policies(req) {
+  return getVault(req).getPolicies();
+}
+
+export function policy(req) {
+  return getVault(req).getPolicy(req.query);
+}
+
+export function secret(req) {
+  return getVault(req).read(req.query);
+}
