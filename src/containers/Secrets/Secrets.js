@@ -1,89 +1,92 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import connectData from 'helpers/connectData';
-
 import { isLoaded, load } from 'redux/modules/secrets';
 
 
 function fetchData(getState, dispatch) {
-  console.log('fetching data');
+  console.log('fetching secret data');
   const promises = [];
   if (!isLoaded(getState())) {
-    console.log('calling load');
+    console.log('calling load secret');
     promises.push(dispatch(load()));
   }else {
-    console.log('skpping load');
+    console.log('skpping load secret');
   }
   return Promise.all(promises);
 }
 
-@connectData(fetchData)
-@connect(
-  state => ({secrets: state.users.data}))
-class SecretValue extends Component {
+function groupOrKey(secret) {
+  // console.log(`Analyzing secret: ${secret}`);
+  const keys = Object.keys(secret);
+  let result = null;
+
+  if (keys.length > 0) {
+    console.log(`Key Length of Secret: ${keys.length}`);
+    const moreKeys = keys.map((key) => {
+      let display = null;
+      console.log(`Working key ${key}`);
+      if (Object.keys(secret[key]).length > 0 ) {
+        console.log( 'Would be group');
+        display = (<SecretGroup groupName={key} groupData={secret[key]} id={key} />);
+      } else {
+        console.log( 'Would be entry');
+        display = (<SecretDisplay secretName={key} id={key}/>);
+      }
+
+      return display;
+    });
+
+    result = moreKeys;
+  } else {
+    console.log(`No length for ${Object.keys(secret)}`);
+  }
+
+  return result;
+}
+
+class SecretDisplay extends Component {
   static propTypes = {
-    secrets: React.PropTypes.string,
-    data: React.PropTypes.string,
-    error: React.PropTypes.string
+    secretName: PropTypes.string.isRequired
   }
 
   render() {
-
-    let returnVal;
-
-    if (this.props.error) {
-      returnVal = (<p>Denied</p>);
-    } else {
-      returnVal = (<p>{this.props.data}</p>);
-    }
-
-    return returnVal;
+    console.log(`Displaying secret: ${this.props.secretName}`);
+    return (<div>Secret Name: {this.props.secretName}</div>);
   }
 }
 
-
-@connectData(fetchData)
-@connect(
-  state => ({secrets: state.users.data}))
-class SecretDisplay extends Component {
+class SecretGroup extends Component {
   static propTypes = {
-    secrets: React.PropTypes.string.isRequired,
-    data: React.PropTypes.string,
-    error: React.PropTypes.string
+    groupName: PropTypes.string.isRequired,
+    groupData: PropTypes.object
   }
 
   render() {
-    return (<div className="SecretName">
-      <h2>{this.props.secrets}</h2>
-      <SecretValue data={this.props.data} error={this.props.error}/>
+    console.log(`Secret group: ${this.props.groupName} Data: ${Object.keys(this.props.groupData)}`);
+    return (<div><h1>{this.props.groupName}</h1>
+      {groupOrKey(this.props.groupData)}
     </div>);
   }
 }
 
+
 @connectData(fetchData)
 @connect(
-  state => ({secrets: state.users.data}))
+  state => ({secrets: state.secrets.data}))
 export default class Secrets extends Component {
   static propTypes = {
-    secrets: React.PropTypes.string
+    secrets: React.PropTypes.object
   }
 
   render() {
-    const secrets = [
-      { secretName: 'Foo', data: 'Good'},
-      { secretName: 'Bar', error: true}
-    ].map((secret, index) => {
-      return (<SecretDisplay secretName={secret.secretName}
-        key={index}
-        data={secret.data}
-        error={secret.error}
-        />);
-    });
-
+    if (this.props.secrets !== null) {
+      console.log(Object.keys(this.props.secrets).length);
+    }
     return (
       <div>
         <h1>Secrets</h1>
-        {secrets}
+        {groupOrKey(this.props.secrets)}
       </div>
     );
   }
