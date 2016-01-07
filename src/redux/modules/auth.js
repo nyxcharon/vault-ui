@@ -89,7 +89,7 @@ export function login(username, password) {
   console.log('calling client');
   return {
     types: [LOGIN, LOGIN_SUCCESS, LOGIN_FAIL],
-    promise: (client) => client.post('/doLogin', {
+    promise: (client) => client.post('/login', {
       data: {
         username: username,
         password: password

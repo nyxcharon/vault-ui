@@ -1,7 +1,6 @@
 import superagent from 'superagent';
 
-export function doLogin(req) {
-  console.log(`http://10.0.10.131:8200/v1/auth/userpass/login/${req.body.username}`);
+export function login(req) {
   return new Promise((resolve, reject) => {
     superagent
       .post(`http://10.0.10.131:8200/v1/auth/userpass/login/${req.body.username}`)
@@ -12,7 +11,6 @@ export function doLogin(req) {
           console.log('Error logging into vault', err);
           reject({'status': 500, 'message': 'You could not be logged in to vault'});
         }
-        console.log(response.body.auth.client_token);
         req.session.vault_api_token = response.body.auth.client_token;
         resolve({'message': 'success'});
       });

@@ -13,7 +13,6 @@ import Html from './helpers/Html';
 import PrettyError from 'pretty-error';
 import http from 'http';
 import SocketIo from 'socket.io';
-import superagent from 'superagent';
 
 import {ReduxRouter} from 'redux-router';
 import createHistory from 'history/lib/createMemoryHistory';
@@ -31,7 +30,6 @@ const server = new http.Server(app);
 
 app.use(compression());
 app.use(favicon(path.join(__dirname, '..', 'static', 'favicon.ico')));
-app.use(bodyParser.json());
 app.use(session({
   secret: 'ayylmaoimasecret',
   resave: false,
@@ -49,11 +47,10 @@ const proxy = httpProxy.createProxyServer({
   ws: true
 });
 
-app.use(`/api`, (req, res) => {
-  if (!req.session.vault_api_token) {
-    res.send(401);
+app.use('/api', (req, res) => {
+  if (req.session.vault_api_token) {
+    req.headers['X-Vault-Token'] = req.session.vault_api_token;
   }
-  //req.headers['X-Vault-Token'] = req.session.vault_api_token;
   proxy.web(req, res);
 });
 
@@ -77,7 +74,7 @@ app.use((req, res, next) => {
   if (req.session && req.session.vault_api_token) {
     next();
   } else {
-    if (!(req.path === '/login' || req.path === '/api/doLogin' || req.path === '/loadAuth')) {
+    if (!(req.path === '/login' || req.path === '/api/login' || req.path === '/loadAuth')) {
       console.log(`Request to path: ${req.path} Unauthorized, redirecting to /login`);
       res.redirect('/login');
     } else {
