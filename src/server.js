@@ -13,7 +13,6 @@ import Html from './helpers/Html';
 import PrettyError from 'pretty-error';
 import http from 'http';
 import SocketIo from 'socket.io';
-import superagent from 'superagent';
 
 import {ReduxRouter} from 'redux-router';
 import createHistory from 'history/lib/createMemoryHistory';
@@ -31,7 +30,6 @@ const server = new http.Server(app);
 
 app.use(compression());
 app.use(favicon(path.join(__dirname, '..', 'static', 'favicon.ico')));
-app.use(bodyParser.json());
 app.use(session({
   secret: 'ayylmaoimasecret',
   resave: false,
@@ -43,6 +41,7 @@ app.use(Express.static(path.join(__dirname, '..', 'static')));
 
 app.use('/scripts/react-mdl', Express.static(path.join(__dirname, '..', 'node_modules/react-mdl/extra')));
 
+<<<<<<< HEAD
 /* AUTH ROUTES */
 app.post('/login', (req, res) => {
   superagent
@@ -64,18 +63,32 @@ app.get('/logout', (req, res) => {
     req.session = null;
     res.send(200);
   });
+=======
+// Proxy to API server
+const proxy = httpProxy.createProxyServer({
+  target: 'http://' + config.apiHost + ':' + config.apiPort,
+  ws: true
+>>>>>>> b13b78b3eda93675d1df6bf7e0d2a507fd499edd
 });
 
-app.get('/loadAuth', (req, res) => {
+app.use('/api', (req, res) => {
   if (req.session.vault_api_token) {
-    res.send({message: 'user authed!'});
-    return;
+    req.headers['X-Vault-Token'] = req.session.vault_api_token;
   }
-  res.status(500).send('You are not logged in!');
-  return;
+  proxy.web(req, res);
 });
 
+// added the error handling to avoid https://github.com/nodejitsu/node-http-proxy/issues/527
+proxy.on('error', (error, req, res) => {
+  let json;
+  if (error.code !== 'ECONNRESET') {
+    console.error('proxy error', error);
+  }
+  if (!res.headersSent) {
+    res.writeHead(500, {'content-type': 'application/json'});
+  }
 
+<<<<<<< HEAD
 // Proxy to API server
 function createProxy(value, key) {
   const proxy = httpProxy.createProxyServer({
@@ -128,12 +141,23 @@ app.post('/login', (req, res) => {
     });
 });
 
+=======
+  json = {error: 'proxy_error', reason: error.message};
+  res.end(JSON.stringify(json));
+});
+
+
+>>>>>>> b13b78b3eda93675d1df6bf7e0d2a507fd499edd
 // If vault api token not on request, redirect to login
 app.use((req, res, next) => {
   if (req.session && req.session.vault_api_token) {
     next();
   } else {
+<<<<<<< HEAD
     if (req.path !== '/login' || req.path !== '/api/login' ) {
+=======
+    if (!(req.path === '/login' || req.path === '/api/login' || req.path === '/loadAuth')) {
+>>>>>>> b13b78b3eda93675d1df6bf7e0d2a507fd499edd
       console.log(`Request to path: ${req.path} Unauthorized, redirecting to /login`);
       res.redirect('/login');
     } else {

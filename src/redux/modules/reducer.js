@@ -6,6 +6,7 @@ import auth from './auth';
 import vault from './vault';
 import secrets from './secrets';
 import users from './users';
+import policies from './policies';
 
 export default combineReducers({
   router: routerStateReducer,
@@ -13,5 +14,6 @@ export default combineReducers({
   auth,
   vault,
   secrets,
-  users
+  users,
+  policies
 });

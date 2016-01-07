@@ -37,7 +37,10 @@ class _ApiClient {
           request.send(data);
         }
 
+<<<<<<< HEAD
         request.set('X-Vault-Token', config.vaultToken);
+=======
+>>>>>>> b13b78b3eda93675d1df6bf7e0d2a507fd499edd
         request.end((err, { body } = {}) => err ? reject(body || err) : resolve(body));
       }));
   }

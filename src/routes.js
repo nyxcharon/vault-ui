@@ -18,7 +18,6 @@ export default (store) => {
   const requireLogin = (nextState, replaceState, cb) => {
     function checkAuth() {
       const { auth: { user }} = store.getState();
-      console.log('Checking auth: user: ', user);
       if (!user) {
         // oops, not logged in, so can't be here!
         replaceState(null, '/login');
@@ -36,32 +35,23 @@ export default (store) => {
    * Please keep routes in alphabetical order
    */
   return (
-    <Route path="/" component={App}>
-      { /* Index route */ }
-      { <IndexRoute component={Login}/> }
+    <div>
 
-      <Route onEnter={requireLogin}>
-        <Route path="health" component={Health} />
+      <IndexRoute component={Login}/>
+
+      <Route path="/" component={App}>
+        <Route path="/login" component={Login} />
+
+        <Route onEnter={requireLogin}>
+          <Route path="health" component={Health} />
+        </Route>
+
+        <Route path="secrets" component={Secrets} />
+        <Route path="policies" component={Policies} />
+        <Route path="mounts" component={Mounts} />
+        <Route path="users" component={Users} />
       </Route>
-
-      <Route path="secrets" component={Secrets} />
-      <Route path="policies" component={Policies} />
-      <Route path="mounts" component={Mounts} />
-      <Route path="users" component={Users} />
-
-      { /* Routes requiring login */ }
-      { /* <Route onEnter={requireLogin}>
-        <Route path="chat" component={Chat}/>
-        <Route path="loginSuccess" component={LoginSuccess}/>
-      </Route> */ }
-
-      { /* Routes */ }
-      <Route path="login" component={Login}/>
-
-      { /* Catch all route */ }
-      {/* <Route path="*" component={NotFound} status={404} /> */}
-    </Route>
-
+      </div>
 
   );
 };
