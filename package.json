@@ -94,6 +94,7 @@
     }
   },
   "dependencies": {
+    "redux-thunk": "~1.0.3",
     "babel": "~5.8.29",
     "babel-plugin-typecheck": "^2.0.0",
     "bluebird": "^3.1.1",
