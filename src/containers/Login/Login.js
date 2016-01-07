@@ -41,22 +41,24 @@ export default class Login extends Component {
           {!user &&
           <Cell col={12}>
             <h1>Login to Vault - UI</h1>
-            <Textfield
-                floatingLabel
-                ref="username"
-                onChange={() => {}}
-                label="Username"
-                style={{width: '100%'}}
-            />
-            <Textfield
-                floatingLabel
-                ref="password"
-                onChange={() => {}}
-                label="Password"
-                style={{width: '100%'}}
-                type="password"
-            />
-            <Button className="mdl-cell--bottom" style={{float: 'right'}} onClick={this.handleSubmit} raised colored ripple>Submit</Button>
+            <form onSubmit={this.handleSubmit}>
+              <Textfield
+                  floatingLabel
+                  ref="username"
+                  onChange={() => {}}
+                  label="Username"
+                  style={{width: '100%'}}
+              />
+              <Textfield
+                  floatingLabel
+                  ref="password"
+                  onChange={() => {}}
+                  label="Password"
+                  style={{width: '100%'}}
+                  type="password"
+              />
+              <Button className="mdl-cell--bottom" style={{float: 'right'}} type="submit" raised colored ripple>Submit</Button>
+            </form>
           </Cell>
           }
         </Grid>

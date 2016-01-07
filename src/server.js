@@ -122,7 +122,7 @@ app.post('/login', (req, res) => {
     .end((err, response) => {
       if (err) {
         console.log('Error logging into vault', err);
-        res.send(500, 'You could not be logged in to vault');
+        res.status(500).send({'message': 'You could not be logged in to vault'});
       }
       console.log(response.body.auth.client_token);
       req.session.vault_api_token = response.body.auth.client_token;
@@ -154,8 +154,8 @@ app.use((req, res, next) => {
   if (req.session && req.session.vault_api_token) {
     next();
   } else {
-    console.log(`Request to path: ${req.path} Unauthorized, redirecting to /login`);
     if (req.path !== '/login') {
+      console.log(`Request to path: ${req.path} Unauthorized, redirecting to /login`);
       res.redirect('/login');
     } else {
       next();

@@ -15,10 +15,9 @@ export default function clientMiddleware(client) {
       return promise(client).then(
         (result) => next({...rest, result, type: SUCCESS}),
         (error) => {
-          console.log('ERROR: ', error.status);
-          // If unauthed ajax occurs, redirect to login
+          // console.log('ERROR: ', error.status);
+          // If unauthed ajax occurs on client, redirect to login
           if (error.status === 401 && window) {
-            console.log('REDIRECTING: ', window);
             window.location.href = `${window.location.protocol}${window.location.host}/login`;
           }
           next({...rest, error, type: FAILURE});
