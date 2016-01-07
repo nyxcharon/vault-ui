@@ -13,7 +13,7 @@ class Policies extends Component {
     this.props.dispatch(loadPolicies());
   }
 
-  handleRefreshPolicies(event) {
+  handleRefreshPolicies = (event) => {
     event.preventDefault();
     this.props.dispatch(loadPolicies());
   }
@@ -28,7 +28,7 @@ class Policies extends Component {
             return (<li key={index}>{policy}</li>);
           }) }
         </ul>
-        <Button onClick={this.handleRefreshPolicies.bind(this)} className="mdl-cell--bottom" raised colored ripple>Refresh Policies</Button>
+        <Button onClick={this.handleRefreshPolicies} className="mdl-cell--bottom" raised colored ripple>Refresh Policies</Button>
       </div>
     );
   }
