@@ -1,6 +1,6 @@
-const LOAD = 'secrets/LOAD';
-const SUCCESS = 'secrets/SUCCESS';
-const FAIL = 'secrets/FAIL';
+const LOAD = 'users/LOAD';
+const SUCCESS = 'users/SUCCESS';
+const FAIL = 'users/FAIL';
 
 const initialState = { data: null };
 
@@ -11,6 +11,7 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
       };
     case SUCCESS:
+      console.log(action.result);
       return {
         ...state,
         data: action.result,
@@ -36,4 +37,3 @@ export function load() {
     promise: (client) => client.get('app', '/loadUsers')
   };
 }
-
