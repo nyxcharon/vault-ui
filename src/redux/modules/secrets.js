@@ -27,7 +27,7 @@ export default function reducer(state = initialState, action = {}) {
 }
 
 export function isLoaded(globalState) {
-  return globalState.secrets;
+  return globalState.secrets && globalState.secrets.data !== null;
 }
 
 export function load() {

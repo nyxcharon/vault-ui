@@ -1,16 +1,30 @@
 import React, { Component } from 'react';
-// import Button from 'react-mdl/lib/Button';
-// import {Grid, Cell} from 'react-mdl';
+import { connect } from 'react-redux';
+import connectData from 'helpers/connectData';
 
-const tempSecrets = [
-  { secretName: 'Foo', data: 'Good'},
-  { secretName: 'Bar', error: true}
-];
+import { isLoaded, load } from 'redux/modules/secrets';
 
+
+function fetchData(getState, dispatch) {
+  console.log('fetching data');
+  const promises = [];
+  if (!isLoaded(getState())) {
+    console.log('calling load');
+    promises.push(dispatch(load()));
+  }else {
+    console.log('skpping load');
+  }
+  return Promise.all(promises);
+}
+
+@connectData(fetchData)
+@connect(
+  state => ({secrets: state.users.data}))
 class SecretValue extends Component {
   static propTypes = {
+    secrets: React.PropTypes.string,
     data: React.PropTypes.string,
-    error: React.PropTypes.bool
+    error: React.PropTypes.string
   }
 
   render() {
@@ -27,25 +41,38 @@ class SecretValue extends Component {
   }
 }
 
+
+@connectData(fetchData)
+@connect(
+  state => ({secrets: state.users.data}))
 class SecretDisplay extends Component {
   static propTypes = {
-    secretName: React.PropTypes.string.isRequired,
+    secrets: React.PropTypes.string.isRequired,
     data: React.PropTypes.string,
-    error: React.PropTypes.bool
+    error: React.PropTypes.string
   }
 
   render() {
     return (<div className="SecretName">
-      <h2>{this.props.secretName}</h2>
+      <h2>{this.props.secrets}</h2>
       <SecretValue data={this.props.data} error={this.props.error}/>
     </div>);
   }
 }
 
+@connectData(fetchData)
+@connect(
+  state => ({secrets: state.users.data}))
 export default class Secrets extends Component {
+  static propTypes = {
+    secrets: React.PropTypes.string
+  }
 
   render() {
-    const secrets = tempSecrets.map((secret, index) => {
+    const secrets = [
+      { secretName: 'Foo', data: 'Good'},
+      { secretName: 'Bar', error: true}
+    ].map((secret, index) => {
       return (<SecretDisplay secretName={secret.secretName}
         key={index}
         data={secret.data}
