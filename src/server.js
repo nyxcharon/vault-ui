@@ -24,6 +24,8 @@ import getRoutes from './routes';
 import getStatusFromRoutes from './helpers/getStatusFromRoutes';
 import bodyParser from 'body-parser';
 
+import * as consul from './utils/consul.js';
+
 const pretty = new PrettyError();
 const app = new Express();
 const server = new http.Server(app);
@@ -111,8 +113,45 @@ function createProxy(value, key) {
 createProxy('vault', config.api.vault);
 createProxy('consul', config.api.consul);
 
+app.post('/login', (req, res) => {
+  console.log(`http://10.0.10.131:8200/v1/auth/userpass/login/${req.body.username}`);
+  superagent
+    .post(`http://10.0.10.131:8200/v1/auth/userpass/login/${req.body.username}`)
+    .send({ 'password': req.body.password })
+    .set('Content-Type', 'application/json')
+    .end((err, response) => {
+      if (err) {
+        console.log('Error logging into vault', err);
+        res.send(500, 'You could not be logged in to vault');
+      }
+      console.log(response.body.auth.client_token);
+      req.session.vault_api_token = response.body.auth.client_token;
+      res.send({'message': 'success'});
+    });
+});
+
+
+app.get('/users', (req, res) => {
+  consul.users().then((data) => {
+    res.send(data);
+  }, (err) => {
+    console.log(err);
+    res.send(err);
+  });
+});
+
+app.get('/keys', (req, res) => {
+  consul.keys().then((data) => {
+    res.send(data);
+  }, (err) => {
+    console.log(err);
+    res.send(err);
+  });
+});
+
 // If vault api token not on request, redirect to login
 app.use((req, res, next) => {
+  console.log(`PATH: ${req.path}`);
   if (req.session && req.session.vault_api_token) {
     next();
   } else {
@@ -124,6 +163,7 @@ app.use((req, res, next) => {
     }
   }
 });
+
 
 app.use((req, res) => {
   if (__DEVELOPMENT__) {

@@ -96,8 +96,10 @@
   "dependencies": {
     "babel": "~5.8.29",
     "babel-plugin-typecheck": "^2.0.0",
+    "bluebird": "^3.1.1",
     "body-parser": "^1.14.1",
     "compression": "^1.6.0",
+    "consul": "~0.22.0",
     "express": "^4.13.3",
     "express-session": "^1.12.1",
     "file-loader": "^0.8.5",
