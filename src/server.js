@@ -92,7 +92,7 @@ app.post('/login', (req, res) => {
 });
 
 
-app.get('/users', (req, res) => {
+app.get('/loadUsers', (req, res) => {
   consul.users().then((data) => {
     res.send(data);
   }, (err) => {
@@ -101,7 +101,7 @@ app.get('/users', (req, res) => {
   });
 });
 
-app.get('/keys', (req, res) => {
+app.get('/loadSecrets', (req, res) => {
   consul.keys().then((data) => {
     res.send(data);
   }, (err) => {
