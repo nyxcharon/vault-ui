@@ -10,6 +10,7 @@ const environment = {
 }[process.env.NODE_ENV || 'development'];
 
 module.exports = Object.assign({
+  vaultToken: process.env.VAULTTOKEN || 'PLEASE_SET_THE_VAULTTOKEN',
   host: process.env.HOST || 'localhost',
   port: process.env.PORT,
   api: {
