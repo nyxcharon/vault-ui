@@ -1,14 +1,12 @@
-var Vaulted = require('vaulted');
+const Vaulted = require('vaulted');
 
-function getVault(req){
-  var myVault = new Vaulted({
-    vault_host: '10.0.10.131',
+function getVault(req) {
+  const myVault = new Vaulted({
+    vault_host: 'vault.service.consul',
     vault_port: 8200,
     vault_ssl: false
   });
-  myVault.status = { sealed: false };
-  myVault.setToken('req.session.vault_auth_token');
-  //myVault.setToken('');
+  myVault.setToken(req.session.vault_api_token);
   return myVault;
 }
 
