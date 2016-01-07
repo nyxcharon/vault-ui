@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { Button, Grid, Cell } from 'react-mdl';
 import { connect } from 'react-redux';
 import connectData from 'helpers/connectData';
 import { isLoaded, load } from 'redux/modules/secrets';
@@ -28,7 +29,7 @@ function groupOrKey(secret, parent) {
       console.log(`Working key ${key}`);
       if (Object.keys(secret[key]).length > 0 ) {
         console.log( 'Would be group');
-        display = (<SecretGroup groupName={key} groupData={secret[key]} parent={parent} id={key} />);
+        display = (<Grid> <SecretGroup groupName={key} groupData={secret[key]} parent={parent} id={key} /></Grid>);
       } else {
         console.log( 'Would be entry');
         display = (<SecretDisplay secretName={key} parent={parent} id={key}/>);
@@ -53,7 +54,15 @@ class SecretDisplay extends Component {
 
   render() {
     console.log(`Displaying secret: ${this.props.secretName}`);
-    return (<div>Secret Name: {this.props.secretName}</div>);
+    return (<div>
+       <Grid>
+         <Cell align={'middle'}>{this.props.secretName}</Cell>
+         <Cell><Button>Decrypt</Button></Cell>
+       </Grid>
+       <Grid>
+        <Cell>Result</Cell>
+       </Grid>
+     </div>);
   }
 }
 
@@ -65,8 +74,9 @@ class SecretGroup extends Component {
   }
 
   render() {
+    const styles = require('./Secrets.scss');
     console.log(`Secret group: ${this.props.groupName} Data: ${Object.keys(this.props.groupData)}`);
-    return (<div><h1>{this.props.groupName}</h1>
+    return (<div className={styles.secretGroup}><h1>{this.props.groupName}</h1>
       {groupOrKey(this.props.groupData, `${this.props.parent}/${this.props.groupName}`)}
     </div>);
   }
@@ -88,7 +98,7 @@ export default class Secrets extends Component {
     return (
       <div>
         <h1>Secrets</h1>
-        {groupOrKey(this.props.secrets, '')}
+        <SecretGroup groupName="/" groupData={this.props.secrets} parent="" id="root" />
       </div>
     );
   }
