@@ -19,14 +19,16 @@ function fetchData(getState, dispatch) {
 
 @connectData(fetchData)
 @connect(
-  state => ({user: state.auth.user}),
+  state => ({user: state.auth.user,
+             currentRoute: state.router.location.pathname}),
   {logout, pushState})
 export default class App extends Component {
   static propTypes = {
     children: PropTypes.object.isRequired,
     user: PropTypes.object,
     logout: PropTypes.func.isRequired,
-    pushState: PropTypes.func.isRequired
+    pushState: PropTypes.func.isRequired,
+    currentRoute: PropTypes.string
   };
 
   static contextTypes = {
@@ -43,6 +45,13 @@ export default class App extends Component {
     }
   }
 
+
+  getSidebarLinkClass = (path) => {
+    const defaultClass = 'mdl-color-text--white';
+    const activeLinkClass = 'mdl-navigation__link--current';
+    return this.props.currentRoute === path ? `${defaultClass} ${activeLinkClass}` : defaultClass;
+  }
+
   handleLogout = (event) => {
     event.preventDefault();
     this.props.logout();
@@ -51,6 +60,11 @@ export default class App extends Component {
   render() {
     const styles = require('./App.scss');
     const appName = 'Vault - UI';
+    const sideBarLinks = [{ name: 'Secrets', 'path': '/secrets'},
+                          { name: 'Mounts', 'path': '/mounts'},
+                          { name: 'Policies', 'path': '/policies'},
+                          { name: 'Users', 'path': '/users'},
+                          { name: 'Vault Health Check', 'path': '/health'}];
     // const {user} = this.props;
 
     return (
@@ -64,11 +78,9 @@ export default class App extends Component {
           </Header>
           <Drawer title={<IndexLink to="/" className={styles.title}>{appName}</IndexLink>} className="mdl-color--blue-grey mdl-color-text--white" style={{borderRight: 'none'}}>
             <Navigation>
-              <Link to="/secrets" className="mdl-color-text--white">Secrets</Link>
-              <Link to="/mounts" className="mdl-color-text--white">Mounts</Link>
-              <Link to="/policies" className="mdl-color-text--white">Policies</Link>
-              <Link to="/users" className="mdl-color-text--white">Users</Link>
-              <Link to="/health" className="mdl-color-text--white">Vault Healthcheck</Link>
+              {sideBarLinks.map((link, index) => {
+                return <Link key={index} to={link.path} className={this.getSidebarLinkClass(link.path)}>{link.name}</Link>;
+              })}
             </Navigation>
           </Drawer>
           <Content>
