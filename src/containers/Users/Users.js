@@ -27,7 +27,10 @@ export default class Users extends Component {
 
   componentWillMount() {
     console.log('Calling load');
-    this.loadUsersIfNeeded();
+
+    if (this.props.users === null) {
+      this.loadUsersIfNeeded();
+    }
   }
 
   loadUsersIfNeeded = () => {
