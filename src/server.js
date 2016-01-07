@@ -111,7 +111,6 @@ app.get('/keys', (req, res) => {
 });
 
 
-
 app.use((req, res) => {
   if (__DEVELOPMENT__) {
     // Do not cache webpack stats: the script file would change since

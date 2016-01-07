@@ -6,16 +6,19 @@ const usersMount = `${mount}/auth/d535374b-ddfd-5dca-76a7-74e28f669e29/user/`;
 
 function pathsToObject(paths, result = {}) {
   for (const path of paths) {
-    const {key, value} = path.split(/_(.+)?/);
-    if (result.has(key)) {
+    const values = path.split('/');
+    let depth = result;
 
+    for ( const value of values ) {
+      if (! depth[value] ) {
+        depth[value] = {};
+      }
+
+      depth = depth[value];
     }
-    // buildFromSegments(result, path.split('/'));
   }
-
   return result;
 }
-
 
 function fromCallback(fn) {
   return new Bluebird(function(resolve, reject) {
