@@ -73,7 +73,7 @@ app.get('/loadAuth', (req, res) => {
     res.send({message: 'user authed!'});
     return;
   }
-  res.sendStatus(500);
+  res.status(500).send('You are not logged in!');
   return;
 });
 
