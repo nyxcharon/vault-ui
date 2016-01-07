@@ -1,8 +1,11 @@
+const HOST = 'vault.service.consul';
 const Vaulted = require('vaulted');
+const dns = require('dns');
 
-function getVault(req) {
+
+function getVault(req, server = HOST) {
   const myVault = new Vaulted({
-    vault_host: 'vault.service.consul',
+    vault_host: server,
     vault_port: 8200,
     vault_ssl: false
   });
@@ -12,7 +15,22 @@ function getVault(req) {
 }
 
 export function health(req) {
-  return getVault(req).checkHealth();
+  const response = [];
+  return new Promise( (resolve) => {
+    dns.lookup(HOST, {all: true}, (err, addresses) => {
+      addresses.forEach(({address}) => {
+        response.push(getVault(req, address).checkHealth().then((data) => {
+          const healthData = { };
+          healthData[address] = data;
+          return healthData;
+        }));
+      });
+
+      Promise.all(response).then((data) => {
+        resolve(data);
+      });
+    });
+  });
 }
 
 export function mounts(req) {
