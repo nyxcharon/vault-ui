@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Button, Grid, Cell } from 'react-mdl';
+import { Button, Grid, Cell, Spinner } from 'react-mdl';
 import { connect } from 'react-redux';
 import connectData from 'helpers/connectData';
 import { isLoaded, load } from 'redux/modules/secrets';
@@ -85,10 +85,23 @@ class SecretGroup extends Component {
 
 @connectData(fetchData)
 @connect(
-  state => ({secrets: state.secrets.data}))
+  state => ({
+    secrets: state.secrets.data,
+    isFetching: state.secrets.isFetching
+  }))
 export default class Secrets extends Component {
   static propTypes = {
-    secrets: React.PropTypes.object
+    secrets: React.PropTypes.object,
+    isFetching: React.PropTypes.bool
+  }
+
+  refreshSecrets = () => {
+    if (!this.props.isFetching) {
+      console.log('Calling refresh secrets');
+      load();
+    } else {
+      console.log('Currently refreshing');
+    }
   }
 
   render() {
@@ -97,8 +110,9 @@ export default class Secrets extends Component {
     }
     return (
       <div>
-        <h1>Secrets</h1>
-        <SecretGroup groupName="/" groupData={this.props.secrets} parent="" id="root" />
+        <h1>Secrets</h1><Button onClick={this.refreshSecrets}>Refresh</Button>
+        { this.props.isFetching && <Spinner/>}
+        { !this.props.isFetching && <SecretGroup groupName="/" groupData={this.props.secrets} parent="" id="root" /> }
       </div>
     );
   }
