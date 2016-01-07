@@ -68,7 +68,7 @@ export default class App extends Component {
               <Link to="/mounts" className="mdl-color-text--white">Mounts</Link>
               <Link to="/policies" className="mdl-color-text--white">Policies</Link>
               <Link to="/users" className="mdl-color-text--white">Users</Link>
-              <Link to="/paz" className="mdl-color-text--white">Vault Healthcheck</Link>
+              <Link to="/health" className="mdl-color-text--white">Vault Healthcheck</Link>
             </Navigation>
           </Drawer>
           <Content>

@@ -2,7 +2,7 @@ import React from 'react';
 import {IndexRoute, Route} from 'react-router';
 
 
-import AppTest from 'components/AppTest';
+import Health from 'components/Health';
 
 import { isLoaded as isAuthLoaded, load as loadAuth } from 'redux/modules/auth';
 import {
@@ -41,7 +41,7 @@ export default (store) => {
       { <IndexRoute component={Login}/> }
 
       <Route onEnter={requireLogin}>
-        <Route path="paz" component={AppTest} />
+        <Route path="health" component={Health} />
       </Route>
 
       <Route path="secrets" component={Secrets} />
