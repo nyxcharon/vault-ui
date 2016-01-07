@@ -30,7 +30,8 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         loading: false,
-        loaded: false,
+        loaded: true,
+        user: null,
         error: action.error
       };
     case LOGIN:
