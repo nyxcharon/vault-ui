@@ -68,29 +68,27 @@ export default class App extends Component {
     // const {user} = this.props;
 
     return (
-      <div className={styles.app}>
-        <Layout fixedHeader fixedDrawer>
-          <Header className="mdl-color--blue-grey"
-                  title={<IndexLink to="/" className={styles.title}>{appName}</IndexLink>}>
-            <Navigation>
-              <Link to="/login">Login</Link>
-            </Navigation>
-          </Header>
-          <Drawer title={<IndexLink to="/" className={styles.title}>{appName}</IndexLink>} className="mdl-color--blue-grey mdl-color-text--white" style={{borderRight: 'none'}}>
-            <Navigation>
-              {sideBarLinks.map((link, index) => {
-                return <Link key={index} to={link.path} className={this.getSidebarLinkClass(link.path)}>{link.name}</Link>;
-              })}
-            </Navigation>
-          </Drawer>
-          <Content>
-            <DocumentMeta {...config.app}/>
-            <div className={styles.appContent}>
-              {this.props.children}
-            </div>
-          </Content>
-        </Layout>
-      </div>
+      <Layout className={styles.app} fixedHeader fixedDrawer>
+        <Header className="mdl-color--blue-grey"
+                title={<IndexLink to="/" className={styles.title}>{appName}</IndexLink>}>
+          <Navigation>
+            <Link to="/login">Login</Link>
+          </Navigation>
+        </Header>
+        <Drawer title={<IndexLink to="/" className={styles.title}>{appName}</IndexLink>} className="mdl-color--blue-grey mdl-color-text--white" style={{borderRight: 'none'}}>
+          <Navigation className={styles.sideNav}>
+            {sideBarLinks.map((link, index) => {
+              return <Link key={index} to={link.path} className={this.getSidebarLinkClass(link.path)}>{link.name}</Link>;
+            })}
+          </Navigation>
+        </Drawer>
+        <Content>
+          <DocumentMeta {...config.app}/>
+          <div className={styles.appContent}>
+            {this.props.children}
+          </div>
+        </Content>
+      </Layout>
     );
   }
 }
