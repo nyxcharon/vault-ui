@@ -31,17 +31,26 @@ export default class Users extends Component {
 
   render() {
     const { users, isLoading } = this.props;
-    console.log(users);
-    console.log(isLoading);
+    let display = null;
+    console.log(`Users Loading: ${isLoading}`);
 
-    const userNames = users.map((userName) => {
-      return (<UserName name={userName}/>);
-    });
+    if (!isLoading && users !== null) {
+      display = users.map((userName, index) => {
+        return (<UserName name={userName} key={index}/>);
+      });
+    } else {
+      display = null;
+    }
 
     return (
       <div>
         <h1>Users</h1>
-          {userNames}
+        { isLoading &&
+          <p>Loading Users!</p>
+        }
+        { !isLoading &&
+          display
+        }
       </div>
     );
   }
