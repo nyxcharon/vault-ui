@@ -25,7 +25,7 @@ class Policies extends Component {
         <h1>Policies</h1>
         <ul>
           { policies.map((policy, index) => {
-            return (<li key={index}>{policy.name}</li>);
+            return (<li key={index}>{policy}</li>);
           }) }
         </ul>
         <Button onClick={this.handleRefreshPolicies.bind(this)} className="mdl-cell--bottom" raised colored ripple>Refresh Policies</Button>

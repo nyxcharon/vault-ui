@@ -49,10 +49,9 @@ export default class App extends Component {
   }
 
   render() {
-    // const {user} = this.props;
     const styles = require('./App.scss');
     const appName = 'Vault - UI';
-    const {user} = this.props;
+    // const {user} = this.props;
 
     return (
       <div className={styles.app}>

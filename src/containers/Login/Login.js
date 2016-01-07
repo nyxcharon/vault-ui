@@ -3,15 +3,11 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import * as authActions from 'redux/modules/auth';
 import {
-  Grid,
-  Cell,
   Card,
   Textfield,
   CardTitle,
   CardText,
   CardActions,
-  CardMenu,
-  IconButton,
   Button
 } from 'react-mdl';
 
@@ -44,8 +40,8 @@ export default class Login extends Component {
     const {user} = this.props;
 
     const containerStyle = {
-      maxWidth: "960px",
-      margin: "40px auto"
+      maxWidth: '960px',
+      margin: '40px auto'
 
     };
 
@@ -53,7 +49,7 @@ export default class Login extends Component {
       marginTop: '20px',
       height: '200px',
       background: 'url(https://hashicorp.com/images/blog/vault/list-c8bf47c8.png) center / contain',
-      backgroundRepeat:  'no-repeat'
+      backgroundRepeat: 'no-repeat'
     };
 
     return (
