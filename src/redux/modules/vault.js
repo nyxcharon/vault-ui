@@ -90,7 +90,7 @@ export function mounts() {
   return {
     types: [MOUNTS, MOUNTS_SUCCESS, MOUNTS],
     promise: (client) => client.get('mounts')
-  };s
+  };
 }
 
 export function health() {
