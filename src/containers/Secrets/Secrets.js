@@ -16,7 +16,7 @@ function fetchData(getState, dispatch) {
   return Promise.all(promises);
 }
 
-function groupOrKey(secret) {
+function groupOrKey(secret, parent) {
   // console.log(`Analyzing secret: ${secret}`);
   const keys = Object.keys(secret);
   let result = null;
@@ -28,10 +28,10 @@ function groupOrKey(secret) {
       console.log(`Working key ${key}`);
       if (Object.keys(secret[key]).length > 0 ) {
         console.log( 'Would be group');
-        display = (<SecretGroup groupName={key} groupData={secret[key]} id={key} />);
+        display = (<SecretGroup groupName={key} groupData={secret[key]} parent={parent} id={key} />);
       } else {
         console.log( 'Would be entry');
-        display = (<SecretDisplay secretName={key} id={key}/>);
+        display = (<SecretDisplay secretName={key} parent={parent} id={key}/>);
       }
 
       return display;
@@ -47,7 +47,8 @@ function groupOrKey(secret) {
 
 class SecretDisplay extends Component {
   static propTypes = {
-    secretName: PropTypes.string.isRequired
+    secretName: PropTypes.string.isRequired,
+    parent: PropTypes.string.isRequired
   }
 
   render() {
@@ -59,13 +60,14 @@ class SecretDisplay extends Component {
 class SecretGroup extends Component {
   static propTypes = {
     groupName: PropTypes.string.isRequired,
-    groupData: PropTypes.object
+    groupData: PropTypes.object,
+    parent: PropTypes.string.isRequired
   }
 
   render() {
     console.log(`Secret group: ${this.props.groupName} Data: ${Object.keys(this.props.groupData)}`);
     return (<div><h1>{this.props.groupName}</h1>
-      {groupOrKey(this.props.groupData)}
+      {groupOrKey(this.props.groupData, `${this.props.parent}/${this.props.groupName}`)}
     </div>);
   }
 }
@@ -86,7 +88,7 @@ export default class Secrets extends Component {
     return (
       <div>
         <h1>Secrets</h1>
-        {groupOrKey(this.props.secrets)}
+        {groupOrKey(this.props.secrets, '')}
       </div>
     );
   }
