@@ -23,6 +23,7 @@ class _ApiClient {
   constructor(req) {
     methods.forEach((method) =>
       this[method] = (path, { params, data } = {}) => new Promise((resolve, reject) => {
+        console.log(`making request`, path);
         const request = superagent[method](formatUrl(path));
 
         if (params) {

@@ -43,97 +43,41 @@ app.use(Express.static(path.join(__dirname, '..', 'static')));
 
 app.use('/scripts/react-mdl', Express.static(path.join(__dirname, '..', 'node_modules/react-mdl/extra')));
 
-/* AUTH ROUTES */
-app.post('/login', (req, res) => {
-  superagent
-    .post(`http://${config.vault.host}:${config.vault.port}/v1/auth/userpass/login/${req.body.username}`)
-    .send({ 'password': req.body.password })
-    .set('Content-Type', 'application/json')
-    .end((err, response) => {
-      if (err) {
-        console.log('Error logging into vault', err);
-        res.send(500, 'You could not be logged in to vault');
-      }
-      req.session.vault_api_token = response.body.auth.client_token;
-      res.send({'message': 'success'});
-    });
-});
-
-app.get('/logout', (req, res) => {
-  req.session.destroy(() => {
-    req.session = null;
-    res.send(200);
-  });
-});
-
-app.get('/loadAuth', (req, res) => {
-  if (req.session.vault_api_token) {
-    res.send({message: 'user authed!'});
-    return;
-  }
-  res.status(500).send('You are not logged in!');
-  return;
-});
-
-
 // Proxy to API server
-function createProxy(value, key) {
-  const proxy = httpProxy.createProxyServer({
-    target: 'http://' + key.host + ':' + key.port,
-    ws: true
-  });
-
-  app.use(`/api/${value}`, (req, res) => {
-    if (!req.session.vault_api_token) {
-      res.send(401);
-    }
-    if (value === 'vault') {
-      req.headers['X-Vault-Token'] = req.session.vault_api_token;
-    }
-    proxy.web(req, res);
-  });
-
-  // added the error handling to avoid https://github.com/nodejitsu/node-http-proxy/issues/527
-  proxy.on('error', (error, req, res) => {
-    let json;
-    if (error.code !== 'ECONNRESET') {
-      console.error('proxy error', error);
-    }
-    if (!res.headersSent) {
-      res.writeHead(500, {'content-type': 'application/json'});
-    }
-
-    json = {error: 'proxy_error', reason: error.message};
-    res.end(JSON.stringify(json));
-  });
-}
-
-createProxy('vault', config.vault);
-createProxy('consul', config.consul);
-
-app.post('/login', (req, res) => {
-  console.log(`http://10.0.10.131:8200/v1/auth/userpass/login/${req.body.username}`);
-  superagent
-    .post(`http://10.0.10.131:8200/v1/auth/userpass/login/${req.body.username}`)
-    .send({ 'password': req.body.password })
-    .set('Content-Type', 'application/json')
-    .end((err, response) => {
-      if (err) {
-        console.log('Error logging into vault', err);
-        res.status(500).send({'message': 'You could not be logged in to vault'});
-      }
-      console.log(response.body.auth.client_token);
-      req.session.vault_api_token = response.body.auth.client_token;
-      res.send({'message': 'success'});
-    });
+const proxy = httpProxy.createProxyServer({
+  target: 'http://' + config.apiHost + ':' + config.apiPort,
+  ws: true
 });
+
+app.use(`/api`, (req, res) => {
+  if (!req.session.vault_api_token) {
+    res.send(401);
+  }
+  //req.headers['X-Vault-Token'] = req.session.vault_api_token;
+  proxy.web(req, res);
+});
+
+// added the error handling to avoid https://github.com/nodejitsu/node-http-proxy/issues/527
+proxy.on('error', (error, req, res) => {
+  let json;
+  if (error.code !== 'ECONNRESET') {
+    console.error('proxy error', error);
+  }
+  if (!res.headersSent) {
+    res.writeHead(500, {'content-type': 'application/json'});
+  }
+
+  json = {error: 'proxy_error', reason: error.message};
+  res.end(JSON.stringify(json));
+});
+
 
 // If vault api token not on request, redirect to login
 app.use((req, res, next) => {
   if (req.session && req.session.vault_api_token) {
     next();
   } else {
-    if (req.path !== '/login' || req.path !== '/api/login' ) {
+    if (!(req.path === '/login' || req.path === '/api/doLogin' || req.path === '/loadAuth')) {
       console.log(`Request to path: ${req.path} Unauthorized, redirecting to /login`);
       res.redirect('/login');
     } else {

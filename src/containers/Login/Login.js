@@ -27,7 +27,6 @@ export default class Login extends Component {
     // This ref stuff could maybe be better?
     const username = this.refs.username.refs.input.value;
     const password = this.refs.password.refs.input.value;
-    console.log(`Received username: ${username}, pw: ${password}`);
     this.props.login(username, password);
   }
 
