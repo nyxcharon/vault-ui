@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import * as authActions from 'redux/modules/users';
 import {connect} from 'react-redux';
-import { Button } from 'react-mdl';
+import { Card, CardTitle, CardActions, Button } from 'react-mdl';
 
 class UserName extends Component {
   static propTypes = {
@@ -53,14 +53,21 @@ export default class Users extends Component {
 
     return (
       <div>
-        <h1>Users</h1>
-        <Button onClick={this.loadUsersIfNeeded}>Reload</Button>
-        { isLoading &&
-          <p>Loading Users!</p>
-        }
-        { !isLoading &&
-          display
-        }
+        <Card shadow={0} style={{height: '80px'}}>
+          <CardTitle>Users</CardTitle>
+          <CardActions border style={{height: '50px'}}>
+            <Button onClick={this.loadUsersIfNeeded}>Reload</Button>
+          </CardActions>
+        </Card>
+          { isLoading &&
+            <Card>
+              <p>Loading Users!</p>
+            </Card>
+          }
+          { !isLoading &&
+
+            display
+          }
       </div>
     );
   }
