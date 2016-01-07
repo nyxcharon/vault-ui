@@ -82,15 +82,15 @@ export default function reducer(state = initialState, action = {}) {
 export function secrets(path) {
   return {
     types: [PATH, PATH_SUCCESS, PATH],
-    promise: (client) => client.get(`v1/${path}`)
+    promise: (client) => client.get(`secret/${path}`)
   };
 }
 
 export function mounts() {
   return {
     types: [MOUNTS, MOUNTS_SUCCESS, MOUNTS],
-    promise: (client) => client.get('v1/sys/mounts')
-  };
+    promise: (client) => client.get('mounts')
+  };s
 }
 
 export function health() {
