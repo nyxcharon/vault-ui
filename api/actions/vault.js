@@ -19,7 +19,6 @@ export function health(req) {
   return new Promise( (resolve) => {
     dns.lookup(HOST, {all: true}, (err, addresses) => {
       addresses.forEach(({address}) => {
-        response.push(getVault(req, address).checkHealth().then((data) => {
         response.push(getVault(req, address).checkHealth({standbyok: true}).then((data) => {
           const healthData = { };
           healthData[address] = data;
