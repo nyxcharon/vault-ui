@@ -39,11 +39,14 @@ class _ApiClient {
 
         if (__SERVER__ && req.get('cookie')) {
           request.set('cookie', req.get('cookie'));
+
         }
 
         if (data) {
           request.send(data);
         }
+
+        request.set('X-Vault-Token', config.vaultToken);
 
         request.end((err, { body } = {}) => err ? reject(body || err) : resolve(body));
       }));
