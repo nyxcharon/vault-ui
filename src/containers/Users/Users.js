@@ -14,12 +14,14 @@ class UserName extends Component {
 }
 
 @connect(
-  state => ({users: state.users.data}),
+  state => ({users: state.users.data,
+    isLoading: state.users.isLoading}),
   authActions)
 export default class Users extends Component {
   static propTypes = {
     load: PropTypes.func,
-    users: PropTypes.array
+    users: PropTypes.array,
+    isLoading: PropTypes.bool
   }
 
   componentWillMount() {
@@ -28,27 +30,18 @@ export default class Users extends Component {
   }
 
   render() {
-    const { users } = this.props;
+    const { users, isLoading } = this.props;
     console.log(users);
+    console.log(isLoading);
 
-/*
-    if (users == null) {
-      return (<p>null</p>);
-    }
-    */
-/*
-
-*/
-    var userNames = users.map(function(userName,key) {
+    const userNames = users.map((userName) => {
       return (<UserName name={userName}/>);
     });
-
-    // console.log(`User Load ${typeof thing} ${users}`);
 
     return (
       <div>
         <h1>Users</h1>
-        {userNames}
+          {userNames}
       </div>
     );
   }
