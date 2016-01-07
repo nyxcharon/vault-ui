@@ -8,27 +8,26 @@ const initialState = {
   secrets: null
 };
 
-
 export default function reducer(state = initialState, action = {}) {
-  console.log(`consul reducer ${action.type}`);
-  console.log(action.result);
   switch (action.type) {
     case LOAD:
       return {
         ...state,
-        users: 'hello bob'
+        loaded: false
       };
     case LOAD_SUCCESS:
+      const {users, secrets} = action.result;
       return {
         ...state,
-        health: action.result,
+        secrets: secrets,
+        users: users,
         loaded: true
       };
     case LOAD_FAIL:
       return {
         ...state,
         loaded: false,
-        shit: 'yep'
+        error: action.result
       };
     default:
       return state;
@@ -39,12 +38,10 @@ export function isLoaded(globalState) {
   return globalState.consul && globalState.consul.loaded;
 }
 
-
 export function load() {
-  console.log('derpy');
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
-    promise: (client) => client.get('consul', '/v1/kv/vault-prod/auth/d535374b-ddfd-5dca-76a7-74e28f669e29/user/apaz')
+    promise: (client) => client.get('app', '/test')
   };
 }
 

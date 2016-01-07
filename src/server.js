@@ -24,6 +24,8 @@ import getRoutes from './routes';
 import getStatusFromRoutes from './helpers/getStatusFromRoutes';
 import bodyParser from 'body-parser';
 
+import * as consul from './utils/consul.js';
+
 const pretty = new PrettyError();
 const app = new Express();
 const server = new http.Server(app);
@@ -73,7 +75,6 @@ createProxy('consul', config.api.consul);
 app.use('/scripts/react-mdl', Express.static(path.join(__dirname, '..', 'node_modules/react-mdl/extra')));
 
 app.post('/login', (req, res) => {
-  console.log(req.body);
   console.log(`http://10.0.10.131:8200/v1/auth/userpass/login/${req.body.username}`);
   superagent
     .post(`http://10.0.10.131:8200/v1/auth/userpass/login/${req.body.username}`)
@@ -89,6 +90,27 @@ app.post('/login', (req, res) => {
       res.send({'message': 'success'});
     });
 });
+
+
+app.get('/users', (req, res) => {
+  consul.users().then((data) => {
+    res.send(data);
+  }, (err) => {
+    console.log(err);
+    res.send(err);
+  });
+});
+
+app.get('/keys', (req, res) => {
+  consul.keys().then((data) => {
+    res.send(data);
+  }, (err) => {
+    console.log(err);
+    res.send(err);
+  });
+});
+
+
 
 app.use((req, res) => {
   if (__DEVELOPMENT__) {
