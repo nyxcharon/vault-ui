@@ -7,6 +7,7 @@ function getVault(req) {
     vault_ssl: false
   });
   myVault.setToken(req.session.vault_api_token);
+  myVault.status = { sealed: false };
   return myVault;
 }
 
