@@ -45,9 +45,9 @@ class SecretDisplay extends Component {
 export default class Secrets extends Component {
 
   render() {
-    const secrets = tempSecrets.map((secret) => {
+    const secrets = tempSecrets.map((secret, index) => {
       return (<SecretDisplay secretName={secret.secretName}
-        key={secret.id}
+        key={index}
         data={secret.data}
         error={secret.error}
         />);

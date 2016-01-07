@@ -12,7 +12,6 @@ import {Layout, Header, Navigation, Drawer, Content} from 'react-mdl/lib/Layout'
 function fetchData(getState, dispatch) {
   const promises = [];
   if (!isAuthLoaded(getState())) {
-    console.log('AUTH_IS_NOT_LOADED');
     promises.push(dispatch(loadAuth()));
   }
   return Promise.all(promises);

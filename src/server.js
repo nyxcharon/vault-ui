@@ -151,11 +151,10 @@ app.get('/loadSecrets', (req, res) => {
 
 // If vault api token not on request, redirect to login
 app.use((req, res, next) => {
-  console.log(`PATH: ${req.path}`);
   if (req.session && req.session.vault_api_token) {
     next();
   } else {
-    console.log('NOT AUTHED');
+    console.log(`Request to path: ${req.path} Unauthorized, redirecting to /login`);
     if (req.path !== '/login') {
       res.redirect('/login');
     } else {
