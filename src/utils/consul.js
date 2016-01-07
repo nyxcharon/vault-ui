@@ -7,7 +7,7 @@ const usersMount = `${mount}/auth/d535374b-ddfd-5dca-76a7-74e28f669e29/user/`;
 function pathsToObject(paths, result = {}) {
   for (const path of paths) {
     const {key, value} = path.split(/_(.+)?/);
-    if(map.has(key)){
+    if (result.has(key)) {
 
     }
     // buildFromSegments(result, path.split('/'));
