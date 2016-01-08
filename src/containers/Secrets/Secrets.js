@@ -101,16 +101,20 @@ class SecretDisplay extends Component {
   }
 
   render() {
-    console.log(`Displaying secret: ${this.props.secretName}`);
+    const btnStyle = {
+      minWidth: '200px',
+      marginBottom: '10px',
+      background: '#607D8B',
+      color: 'white'
+    };
     return (
       <div>
-        <Button onClick={this.decryptMe} raised accent ripple>{this.props.secretName}</Button>
+        <Button onClick={this.decryptMe} style={btnStyle} raised ripple>{this.props.secretName}</Button>
         {this.state &&
           <div>
             <pre>{ JSON.stringify(this.state.secret, null, 4) }</pre>
           </div>
         }
-        <br />
       </div>
     );
   }
