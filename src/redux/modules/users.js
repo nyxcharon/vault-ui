@@ -4,29 +4,32 @@ const FAIL = 'users/FAIL';
 
 const initialState = {
   data: null,
-  isLoading: false
+  usersLoading: false
 };
 
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
     case LOAD:
+      console.log('USERS ACTION: ', LOAD);
       return {
         ...state,
-        isLoading: true
+        usersLoading: true
       };
     case SUCCESS:
+      console.log('USERS ACTION: ', SUCCESS);
       console.log(action.result);
       return {
         ...state,
         data: action.result,
-        isLoading: false
+        usersLoading: false
       };
     case FAIL:
+      console.log('USERS ACTION: ', FAIL);
       console.log(action.result);
       return {
         ...state,
         error: action.result,
-        isLoading: false
+        usersLoading: false
       };
     default:
       return state;

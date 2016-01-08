@@ -107,11 +107,13 @@ class SecretDisplay extends Component {
       background: '#607D8B',
       color: 'white'
     };
+    const styles = require('./Secrets.scss');
+
     return (
       <div>
         <Button onClick={this.decryptMe} style={btnStyle} raised ripple>{this.props.secretName}</Button>
         {this.state &&
-          <div>
+          <div className={styles.secretValue}>
             <pre>{ JSON.stringify(this.state.secret, null, 4) }</pre>
           </div>
         }
@@ -213,11 +215,19 @@ export default class Secrets extends Component {
       return ccc;
     }).filter(filterFn);
 
-    rootGroup.map((ee) => {
-      console.log('xxx', ee);
+    const filteredGroups = rootGroup.map((ee) => {
+      let grp = ee;
+
+      if (filter && ee.props.groupData) {
+        const subGroup = groupOrKey(ee.props.groupData, `${ee.props.parent}/${ee.props.groupName}`).filter(filterFn);
+        grp = subGroup;
+        console.log(subGroup);
+      }
+
+      return grp;
     });
 
-    return rootGroup;
+    return filteredGroups;
   }
 
   search = (ev) => {

@@ -7,13 +7,13 @@ import { CollapsibleSection, CollapsibleList } from '../../components';
 
 @connect(
   state => ({users: state.users.data,
-    isLoading: state.users.isLoading}),
+    usersLoading: state.users.usersLoading}),
   authActions)
 export default class Users extends Component {
   static propTypes = {
     load: PropTypes.func,
     users: PropTypes.array,
-    isLoading: PropTypes.bool
+    usersLoading: PropTypes.bool
   }
 
   componentWillMount() {
@@ -25,26 +25,22 @@ export default class Users extends Component {
   }
 
   loadUsersIfNeeded = () => {
-    console.log('Calling load users');
-
-    if (!this.props.isLoading) {
-      console.log('Not loading. Repullig');
-      this.props.load();
-    }
+    this.props.load();
   }
 
   render() {
-    const { users, isLoading } = this.props;
+    const { users, usersLoading } = this.props;
     const styles = require('../../components/styles/CardListStyles.scss');
 
     let display = null;
-    console.log(`Users Loading: ${isLoading}`);
+    console.log(`Users Loading: ${usersLoading}`);
+    console.log('this props: ', this.props);
 
-    if (!isLoading && users !== null) {
+    if (!usersLoading && users !== null) {
       display = users.map((userName, index) => {
         return (
           <CollapsibleSection key={index} title={userName} key={index}>
-            <UserView userName={userName}/>
+            <UserView ref={`userView${index}`} userName={userName} />
           </CollapsibleSection>
         );
       });
@@ -62,13 +58,13 @@ export default class Users extends Component {
           <div style={{textAlign: 'right'}}>
             <Button onClick={this.loadUsersIfNeeded} raised colored ripple>Reload</Button>
           </div>
-          { isLoading &&
-            <Card>
+          { usersLoading &&
+            <div>
               <p>Loading Users!</p>
               <Spinner />
-            </Card>
+            </div>
           }
-          { !isLoading &&
+          { !usersLoading &&
             <CollapsibleList>
               {display}
             </CollapsibleList>
