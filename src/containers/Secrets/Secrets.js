@@ -215,11 +215,19 @@ export default class Secrets extends Component {
       return ccc;
     }).filter(filterFn);
 
-    rootGroup.map((ee) => {
-      console.log('xxx', ee);
+    const filteredGroups = rootGroup.map((ee) => {
+      let grp = ee;
+
+      if (filter && ee.props.groupData) {
+        const subGroup = groupOrKey(ee.props.groupData, `${ee.props.parent}/${ee.props.groupName}`).filter(filterFn);
+        grp = subGroup;
+        console.log(subGroup);
+      }
+
+      return grp;
     });
 
-    return rootGroup;
+    return filteredGroups;
   }
 
   search = (ev) => {
