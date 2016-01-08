@@ -4,6 +4,7 @@ import {
   CardText,
   CardTitle,
   Button,
+  Textfield,
   Spinner } from 'react-mdl';
 import { connect } from 'react-redux';
 import connectData from 'helpers/connectData';
@@ -100,7 +101,9 @@ class SecretDisplay extends Component {
       <div>
         <Button onClick={this.decryptMe} raised accent ripple>{this.props.secretName}</Button>
         {this.state &&
-          <input type="text" value={this.state.secret.data.data} />
+          <div>
+            <pre>{ JSON.stringify(this.state.secret, null, 4) }</pre>
+          </div>
         }
         <br />
       </div>
@@ -144,6 +147,80 @@ export default class Secrets extends Component {
     isFetching: React.PropTypes.bool
   }
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      group: this.getRootGroup()
+    };
+  }
+
+  getRootGroup(filter) {
+    let regex = null;
+
+    if (filter) {
+      regex = new RegExp(filter, 'ig');
+    }
+
+    const filterFn = (grp) => {
+      let matches = false;
+
+      if (!filter) {
+        matches = true;
+      } else {
+        if (grp.props.groupName) {
+          const subGroup = groupOrKey(grp.props.groupData, `${grp.props.parent}/${grp.props.groupName}`);
+
+          let subMatches = subGroup.filter(filterFn);
+
+          if (subMatches.length > 0) {
+            matches = true;
+          }
+          //
+        } else {
+          const id = grp.props.id.toUpperCase();
+          matches = regex.test(id);
+        }
+      }
+
+      return matches;
+    };
+
+    let rootGroup = groupOrKey(this.props.secrets, '/').sort((a, b) => {
+      let c = 0;
+
+      if (a.props.groupData && !b.props.groupData) {
+        c = -1;
+      }
+
+      if (!a.props.groupData && b.props.groupData) {
+        c = 1;
+      }
+
+      if (!a.props.groupData && !b.props.groupData) {
+        c = 0;
+      }
+
+      return c;
+    }).filter(filterFn);
+
+    rootGroup.map((ee) => {
+      console.log('xxx', ee);
+    });
+
+    return rootGroup;
+  }
+
+  search = (ev) => {
+    ev.preventDefault();
+    const self = this;
+    const filter = ev.target.value;
+
+
+    this.setState({
+      group: this.getRootGroup(filter)
+    });
+  }
+
   refreshSecrets = () => {
     if (!this.props.isFetching) {
       console.log('Calling refresh secrets');
@@ -160,35 +237,21 @@ export default class Secrets extends Component {
       console.log(Object.keys(this.props.secrets).length);
     }
 
-    const group = groupOrKey(this.props.secrets, '/').sort(function(a, b) {
-      let c = 0;
-
-      if (a.props.groupData && !b.props.groupData) {
-        c = -1;
-      }
-
-      if (!a.props.groupData && b.props.groupData) {
-        c = 1;
-      }
-
-      if (!a.props.groupData && !b.props.groupData) {
-        c = 0;
-      }
-
-      return c;
-    });
-
-    console.log(group);
-
     return (
         <Card shadow={0} className={styles.fullWidthCard}>
           <CardTitle className={styles.cardTitle}>
             <h2 className="mdl-color-text--white">Secrets</h2>
           </CardTitle>
           <CardText className={styles.cardText}>
+            <Textfield
+                onChange={this.search}
+                label="Text..."
+                style={{width: '200px'}}
+            />
+
             { this.props.isFetching && <Spinner/>}
             { !this.props.isFetching &&
-              group
+              this.state.group
             }
           </CardText>
         </Card>
