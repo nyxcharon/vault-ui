@@ -24,7 +24,7 @@ class HealthObject extends Component {
     const { initialized, sealed, standby} = data[ip];
     return (
       <div className={`mdl-cell mdl-cell--4-col, ${styles.healthListItem}`}>
-          <div>ip: { ip }</div>
+          <div className={`${styles.ip}`}>{ ip }</div>
           <div>standby: { standby.toString() }</div>
           <div>sealed: { sealed.toString() }</div>
           <div>initialized: { initialized.toString() }</div>
@@ -54,7 +54,8 @@ export default class AppTest extends Component {
 
   render() {
     const {data} = this.props; // eslint-disable-line no-shadow
-    const styles = require('./Health.scss');
+    const hstyles = require('./Health.scss');
+    const styles = require('../../components/styles/CardListStyles.scss');
 
     let display;
     if (health !== undefined) {
@@ -69,7 +70,7 @@ export default class AppTest extends Component {
     /* const styles = require('./AppTest.scss'); */
     return (
        <div>
-        <Card shadow={0} className={styles.card}>
+        <Card shadow={0} className={styles.fullWidthCard}>
           <CardTitle className={styles.cardTitle}>
             <div style={{float: 'right'}}>
               <h2 className="mdl-color-text--white">Health</h2>
@@ -77,8 +78,8 @@ export default class AppTest extends Component {
             </div>
           </CardTitle>
           <CardText className={styles.cardText}>
-            <ul className={styles.healthList}>
-              <div className={`${styles.healthList}, mdl-grid`}>
+            <ul className={hstyles.healthList}>
+              <div className={`${hstyles.healthList}, mdl-grid`}>
                 { display }
               </div>
             </ul>
@@ -88,5 +89,3 @@ export default class AppTest extends Component {
     );
   }
 }
-
-
