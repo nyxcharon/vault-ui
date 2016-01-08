@@ -65,7 +65,7 @@ export function login(req) {
           reject({'status': 500, 'message': 'You could not be logged in to vault'});
         }
         req.session.vault_api_token = response.body.auth.client_token;
-        resolve({'message': 'success'});
+        resolve({'message': 'success', 'username': req.body.username});
       });
   });
 }
