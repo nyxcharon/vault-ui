@@ -101,16 +101,18 @@ class SecretDisplay extends Component {
   }
 
   render() {
-    console.log(`Displaying secret: ${this.props.secretName}`);
+    const btnStyle = {
+      minWidth: '200px',
+      marginBottom: '10px'
+    };
     return (
       <div>
-        <Button onClick={this.decryptMe} raised accent ripple>{this.props.secretName}</Button>
+        <Button onClick={this.decryptMe} style={btnStyle} raised ripple>{this.props.secretName}</Button>
         {this.state &&
           <div>
             <pre>{ JSON.stringify(this.state.secret, null, 4) }</pre>
           </div>
         }
-        <br />
       </div>
     );
   }
@@ -209,11 +211,19 @@ export default class Secrets extends Component {
       return ccc;
     }).filter(filterFn);
 
-    rootGroup.map((ee) => {
-      console.log('xxx', ee);
+    const filteredGroups = rootGroup.map((ee) => {
+      let grp = ee;
+
+      if (filter && ee.props.groupData) {
+        const subGroup = groupOrKey(ee.props.groupData, `${ee.props.parent}/${ee.props.groupName}`).filter(filterFn);
+        grp = subGroup;
+        console.log(subGroup);
+      }
+
+      return grp;
     });
 
-    return rootGroup;
+    return filteredGroups;
   }
 
   search = (ev) => {
