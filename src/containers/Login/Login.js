@@ -97,7 +97,6 @@ export default class Login extends Component {
       background: 'url(https://hashicorp.com/images/blog/vault/list-c8bf47c8.png) center / contain',
       backgroundRepeat: 'no-repeat'
     };
-    console.log(user);
     return (
       <div style={containerStyle}>
       {!user &&
@@ -130,7 +129,7 @@ export default class Login extends Component {
       }
       {user &&
         <div>
-          <LoggedInScreen user={user.user}/>
+          <LoggedInScreen user={user.username}/>
           <Button className="mdl-cell--bottom" style={{float: 'right'}} onClick={this.handleLogout} raised colored ripple>Logout</Button>
         </div>
       }
