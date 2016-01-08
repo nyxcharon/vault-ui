@@ -13,7 +13,6 @@ import {
 
 
 function fetchData(getState, dispatch) {
-  console.log('calling load mounts');
   const promises = [];
   promises.push(dispatch(mounts()));
   return Promise.all(promises);
@@ -43,7 +42,6 @@ export default class Mounts extends Component {
           <CardText className={styles.cardText}>
             <CollapsibleList>
               {Object.keys(mounts).map((key, index) => {
-                console.log(mounts[key]);
                 return (
                   <CollapsibleSection key={index} title={key}>
                     <pre>{JSON.stringify(mounts[key], null, '  ')}</pre>
