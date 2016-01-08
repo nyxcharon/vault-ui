@@ -1,1 +1,1 @@
-export CollapsibleSection from './CollapsibleSection/CollapsibleSection';
+export { CollapsibleSection, CollapsibleList } from './CollapsibleSection/CollapsibleSection';

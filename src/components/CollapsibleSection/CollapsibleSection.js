@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
-export default class CollapsibleSection extends Component {
+export class CollapsibleSection extends Component {
   static propTypes = {
     open: PropTypes.bool,
     title: PropTypes.string,
@@ -53,6 +53,23 @@ export default class CollapsibleSection extends Component {
           </div>
         </div>
       </div>
+    );
+  }
+}
+
+export class CollapsibleList extends Component {
+  static propTypes = {
+    children: PropTypes.array
+  }
+
+  render() {
+    const styles = require('./Section.scss');
+    return (
+      <ul className={styles.sectionList}>
+        {this.props.children.map((child, index) => {
+          return ( <li key={index} className={styles.sectionListItem}>{child}</li> );
+        })}
+      </ul>
     );
   }
 }

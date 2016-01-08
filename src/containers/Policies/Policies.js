@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { load as loadPolicies, loadIndividualPolicy } from 'redux/modules/policies';
-import { CollapsibleSection } from '../../components';
+import { CollapsibleSection, CollapsibleList } from '../../components';
 import {
   Card,
   CardTitle,
@@ -30,10 +30,10 @@ class Policies extends Component {
 
   render() {
     const { policies } = this.props;
-    const styles = require('./Policies.scss');
+    const styles = require('../../components/styles/CardListStyles.scss');
     return (
       <div>
-        <Card shadow={0} className={styles.card}>
+        <Card shadow={0} className={styles.fullWidthCard}>
           <CardTitle className={styles.cardTitle}>
             <div style={{float: 'right'}}>
               <h2 className="mdl-color-text--white">Policies</h2>
@@ -41,17 +41,15 @@ class Policies extends Component {
             </div>
           </CardTitle>
           <CardText className={styles.cardText}>
-            <ul className={styles.policyList}>
-            { policies.map((policy) => {
-              return (
-                <li key={policy.index} shadow={0}>
-                  <CollapsibleSection title={policy.name} asyncLoadFn={() => this.loadPolicy(policy.name)}>
-                    <div>{policy.policy}</div>
+            <CollapsibleList>
+              {policies.map((policy, index) => {
+                return (
+                  <CollapsibleSection key={index} title={policy.name} asyncLoadFn={() => this.loadPolicy(policy.name)}>
+                    <pre>{policy.policy}</pre>
                   </CollapsibleSection>
-                </li>
-              );
-            }) }
-            </ul>
+                );
+              })}
+            </CollapsibleList>
           </CardText>
         </Card>
       </div>

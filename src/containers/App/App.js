@@ -68,7 +68,7 @@ export default class App extends Component {
                           { name: 'Mounts', 'path': '/mounts'},
                           { name: 'Policies', 'path': '/policies'},
                           { name: 'Users', 'path': '/users'},
-                          { name: 'Vault Health Check', 'path': '/health'}];
+                          { name: 'Health', 'path': '/health'}];
     // const {user} = this.props;
 
     return (
