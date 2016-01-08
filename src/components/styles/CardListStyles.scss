@@ -2,7 +2,7 @@
   width: 100% !important;
 }
 .cardTitle {
-  height: 176px;
+  height: auto !important;
   background: url(../../../static/vaultcard_480.png) center / cover;
   color: white;
   text-shadow: 2px 2px 10px black;
@@ -11,6 +11,7 @@
 
   h2 {
     margin-top: 0px;
+    margin-bottom: 0px;
   }
 }
 
