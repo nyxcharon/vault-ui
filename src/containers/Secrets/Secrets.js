@@ -218,7 +218,6 @@ export default class Secrets extends Component {
 
   search = (ev) => {
     ev.preventDefault();
-    const self = this;
     const filter = ev.target.value;
 
 

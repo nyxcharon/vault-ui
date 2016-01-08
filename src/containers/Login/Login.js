@@ -20,9 +20,9 @@ class LoggedInScreen extends Component {
     }
 
     componentDidMount() {
-      let elem = ReactDOM.findDOMNode(this);
+      const elem = ReactDOM.findDOMNode(this);
       elem.style.opacity = 0;
-      window.requestAnimationFrame(function() {
+      window.requestAnimationFrame(() => {
         elem.style.transition = 'opacity 4000ms';
         elem.style.opacity = 1;
       });
