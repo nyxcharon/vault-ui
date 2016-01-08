@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { load as loadPolicies } from 'redux/modules/policies';
+import { load as loadPolicies, loadIndividualPolicy } from 'redux/modules/policies';
 import { CollapsibleSection } from '../../components';
 import {
   Card,
@@ -12,7 +12,8 @@ import {
 class Policies extends Component {
   static propTypes = {
     policies: PropTypes.array.isRequired,
-    dispatch: PropTypes.func.isRequired
+    dispatch: PropTypes.func.isRequired,
+    loadingIndividual: PropTypes.bool
   }
 
   componentDidMount() {
@@ -26,11 +27,14 @@ class Policies extends Component {
 
   loadPolicy = (policyName) => {
     console.log('beboop loadPolicy: ', policyName);
+    this.props.dispatch(loadIndividualPolicy(policyName));
   }
 
   render() {
-    const { policies } = this.props;
+    const { policies, loadingIndividual } = this.props;
+    console.log(loadingIndividual);
     const styles = require('./Policies.scss');
+    console.log('Policy render called: ', this.props.policies);
     return (
       <div>
         <Card shadow={0} className={styles.card}>
@@ -45,9 +49,7 @@ class Policies extends Component {
             { policies.map((policy) => {
               return (
                 <li key={policy.index} shadow={0}>
-                  <CollapsibleSection title={policy.name} asyncLoadFn={() => this.loadPolicy(policy.name)}>
-                    stuff
-                  </CollapsibleSection>
+                  <CollapsibleSection title={policy.name} asyncLoadFn={() => this.loadPolicy(policy.name)} children={policy.policy}/>
                 </li>
               );
             }) }
