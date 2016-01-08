@@ -22,10 +22,19 @@ class Policies extends Component {
   handleRefreshPolicies = (event) => {
     event.preventDefault();
     this.props.dispatch(loadPolicies());
+    this.collapseAll();
   }
 
   loadPolicy = (policyName) => {
     this.props.dispatch(loadIndividualPolicy(policyName));
+  }
+
+  collapseAll = () => {
+    for (const child of Object.entries(this.refs)) {
+      if (child[1].collapse) {
+        child[1].collapse();
+      }
+    }
   }
 
   render() {
@@ -37,14 +46,16 @@ class Policies extends Component {
           <CardTitle className={styles.cardTitle}>
             <div style={{float: 'right'}}>
               <h2 className="mdl-color-text--white">Policies</h2>
-              <Button onClick={this.handleRefreshPolicies} className="mdl-cell--bottom" raised colored ripple>Refresh Policies</Button>
             </div>
           </CardTitle>
           <CardText className={styles.cardText}>
+            <div style={{textAlign: 'right'}}>
+              <Button onClick={this.handleRefreshPolicies} className="mdl-cell--bottom" raised colored ripple>Refresh</Button>
+            </div>
             <CollapsibleList>
               {policies.map((policy, index) => {
                 return (
-                  <CollapsibleSection key={index} title={policy.name} asyncLoadFn={() => this.loadPolicy(policy.name)}>
+                  <CollapsibleSection ref={`section${index}`} key={index} title={policy.name} asyncLoadFn={() => this.loadPolicy(policy.name)}>
                     <pre>{policy.policy}</pre>
                   </CollapsibleSection>
                 );

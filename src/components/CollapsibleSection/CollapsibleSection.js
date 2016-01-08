@@ -12,6 +12,7 @@ export class CollapsibleSection extends Component {
     open: false
   }
 
+
   constructor(props) {
     super(props);
     this.state = {
@@ -22,6 +23,12 @@ export class CollapsibleSection extends Component {
 
   getState(open) {
     return open ? `${this.state.styles.section} ${this.state.styles.open}` : this.state.styles.section;
+  }
+
+  collapse() {
+    this.setState({
+      open: false
+    });
   }
 
   handleClick = () => {
@@ -39,6 +46,7 @@ export class CollapsibleSection extends Component {
       });
     }
   }
+
 
   render() {
     return (
