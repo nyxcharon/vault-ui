@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import ReactDOM from 'react-dom';
 import {connect} from 'react-redux';
 import * as authActions from 'redux/modules/auth';
 import {
@@ -16,6 +17,16 @@ class LoggedInScreen extends Component {
     static propTypes = {
       user: PropTypes.string
     }
+
+    componentDidMount() {
+      let elem = ReactDOM.findDOMNode(this);
+      elem.style.opacity = 0;
+      window.requestAnimationFrame(function() {
+        elem.style.transition = 'opacity 4000ms';
+        elem.style.opacity = 1;
+      });
+    }
+
     getRedirectFunc = (pth) => {
       return () => {
         console.log('REdirecting to ' + pth);
