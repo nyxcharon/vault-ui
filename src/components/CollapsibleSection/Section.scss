@@ -2,59 +2,9 @@
   .section {
     position: relative;
     width: 100%;
-    button {
-      position: absolute;
-      right: 0;
-      margin: 0;
-      padding: 0;
-      height: 3em;
-      width: 3em;
-      outline: 0;
-      border: 0;
-      background: none;
-      text-indent: -9999%;
-      pointer-events: none;
-      &:before {
-        content: '';
-        display: block;
-        position: absolute;
-        height: 12px;
-        width: 4px;
-        border-radius: .3em;
-        transform-origin: 50%;
-        top: 50%;
-        left: 50%;
-        transition: all .25s ease-in-out;
-        transform: translate(75%, -50%) rotate(45deg);
-      }
-      &:after {
-        content: '';
-        display: block;
-        position: absolute;
-        height: 12px;
-        width: 4px;
-        border-radius: .3em;
-        transform-origin: 50%;
-        top: 50%;
-        left: 50%;
-        transition: all .25s ease-in-out;
-        transform: translate(-75%, -50%) rotate(-45deg);
-      }
-    }
   }
 
   .section.open {
-    button {
-      &:before, &:after {
-        height: 14px;
-      }
-      &:before {
-        transform: translate(0%, -50%) rotate(-45deg);
-      }
-      &:after {
-        transform: translate(0%, -50%) rotate(45deg);
-      }
-    }
     .articlewrap {
       height: auto;
     }
@@ -67,6 +17,7 @@
   }
 
   .sectionhead {
+    user-select: none;
     width: auto;
     overflow: hidden;
     background: white;
