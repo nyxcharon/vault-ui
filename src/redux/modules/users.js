@@ -1,10 +1,15 @@
 const LOAD = 'users/LOAD';
 const SUCCESS = 'users/SUCCESS';
 const FAIL = 'users/FAIL';
+const USERLOAD = 'users/LOAD_READ';
+const USERSUCCESS = 'users/SUCCESS_READ';
+const USERFAIL = 'users/FAIL_READ';
 
 const initialState = {
   data: null,
-  isLoading: false
+  userdata: null,
+  isLoading: false,
+  userLoading: false
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -28,6 +33,23 @@ export default function reducer(state = initialState, action = {}) {
         error: action.result,
         isLoading: false
       };
+      case USER_LOAD:
+        return {
+          ...state,
+          userLoading: true
+        };
+      case USER_SUCCESS:
+        return {
+          ...state,
+          userData: action.result,
+          userLoading: false
+        };
+      case USER_FAIL:
+        return {
+          ...state,
+          error: action.result,
+          userLoading: false
+        };
     default:
       return state;
   }
@@ -41,5 +63,12 @@ export function load() {
   return {
     types: [LOAD, SUCCESS, FAIL],
     promise: (client) => client.get('/users')
+  };
+}
+
+export function readUser(username) {
+  return {
+    types: [USER_LOAD, USER_SUCCESS, USER_FAIL],
+    promise: (client) => client.get(`/readUser?id=${username}`)
   };
 }
