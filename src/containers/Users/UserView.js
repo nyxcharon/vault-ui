@@ -43,20 +43,18 @@ export default class UserView extends Component {
   render() {
     return (<div>
       <p>User Name: {this.props.userName}</p>
-      <p>Policy: Awesome</p>
-      <p>Changes</p>
-      <Button onClick={this.fetchUser} className="mdl-cell--bottom" raised colored ripple>Read!</Button>
       { this.props.isLoading &&
         <Spinner/>
       }
       { !this.props.isLoading &&
         <div>
         { this.props.user &&
-          <pre>{this.props.user.data.policies}</pre>
+          <pre>Policies: {this.props.user.data.policies}</pre>
         }
         { this.props.error &&
-        <pre>{this.props.error.message}</pre>
+        <pre>Error: {this.props.error.message}</pre>
         }
+        <Button onClick={this.fetchUser} className="mdl-cell--bottom" raised colored ripple>Fetch</Button>
         </div>
       }
     </div>);
