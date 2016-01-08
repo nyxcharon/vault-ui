@@ -24,7 +24,7 @@ export default function reducer(state = initialState, action = {}) {
       };
     case SUCCESS: {
       const modifiedArr = [];
-      action.result.policies.map((policy, index) => {
+      action.result.map((policy, index) => {
         modifiedArr.push({
           name: policy,
           index: index,
@@ -65,7 +65,7 @@ export default function reducer(state = initialState, action = {}) {
       const newPoliciesState = [...state.policies];
       newPoliciesState.map((policy) => {
         if (policy.name === action.policy) {
-          policy.policy = action.result.data;
+          policy.policy = action.result.rules;
         }
       });
       return {
@@ -83,22 +83,14 @@ export default function reducer(state = initialState, action = {}) {
 export function load() {
   return {
     types: [LOAD, SUCCESS, FAIL],
-    promise: () => {
-      return Promise.resolve({
-        'policies': ['root', 'deploy', 'test', 'policy1', 'policy2']
-      });
-    }
+    promise: (client) => client.get('/policies')
   };
 }
 
 export function loadIndividualPolicy(policy) {
   return {
     types: [LOAD_INDIVIDUAL, SUCCESS_INDIVIDUAL, FAIL_INDIVIDUAL],
-    promise: () => {
-      return Promise.resolve({
-        data: `Some Policy Info For ${policy}`
-      });
-    },
+    promise: (client) => { return client.get(`/policy?id=${policy}`); },
     policy: policy
   };
 }

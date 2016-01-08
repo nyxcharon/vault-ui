@@ -67,22 +67,6 @@ proxy.on('error', (error, req, res) => {
   res.end(JSON.stringify(json));
 });
 
-
-// If vault api token not on request, redirect to login
-app.use((req, res, next) => {
-  if (req.session && req.session.vault_api_token) {
-    next();
-  } else {
-    if (!(req.path === '/login' || req.path === '/api/login' || req.path === '/loadAuth')) {
-      console.log(`Request to path: ${req.path} Unauthorized, redirecting to /login`);
-      res.redirect('/login');
-    } else {
-      next();
-    }
-  }
-});
-
-
 app.use((req, res) => {
   if (__DEVELOPMENT__) {
     // Do not cache webpack stats: the script file would change since
