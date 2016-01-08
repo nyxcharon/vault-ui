@@ -1,10 +1,10 @@
 import superagent from 'superagent';
 import config from '../../src/config';
 
-const VAULT_LEADER = '10.0.10.131';
 const Vaulted = require('vaulted');
 const dns = require('dns');
-
+const VAULT_URL = `http://${config.vault.host}:${config.vault.port}/v1`;
+console.log(VAULT_URL);
 function getVault(req, server = config.vault.host) {
   const myVault = new Vaulted({
     vault_host: server,
@@ -25,7 +25,6 @@ export function health(req) {
       addresses.forEach(({address}) => {
         response.push(getVault(req, address).checkHealth({standbyok: true}).then((data) => {
           const healthData = { };
-          console.log(data);
           healthData[address] = data;
           return healthData;
         }));
@@ -57,7 +56,7 @@ export function secret(req) {
 export function login(req) {
   return new Promise((resolve, reject) => {
     superagent
-      .post(`http://${VAULT_LEADER}:8200/v1/auth/userpass/login/${req.body.username}`)
+      .post(`${VAULT_URL}/auth/userpass/login/${req.body.username}`)
       .send({ 'password': req.body.password })
       .set('Content-Type', 'application/json')
       .end((err, response) => {
@@ -73,12 +72,11 @@ export function login(req) {
 
 // /readUser?username={username}
 export function readUser(req) {
-  console.log(`http://${VAULT_LEADER}:8200/v1/auth/userpass/users/${req.query.username}`);
   return new Promise((resolve, reject) => {
     const token = getVault(req).token;
     console.log(token);
     superagent
-      .get(`http://${VAULT_LEADER}:8200/v1/auth/userpass/users/${req.query.username}`)
+      .get(`${VAULT_URL}/auth/userpass/users/${req.query.username}`)
       .set('Content-Type', 'application/json')
       .set('X-Vault-Token', token)
       .end((err, response) => {

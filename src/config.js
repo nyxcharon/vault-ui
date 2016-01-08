@@ -20,7 +20,10 @@ module.exports = Object.assign({
   },
   consul: {
     host: process.env.CONSUL_HOST,
-    port: process.env.CONSUL_PORT || 8500
+    port: process.env.CONSUL_PORT || 8500,
+    mount: process.env.CONSUL_MOUNT,
+    keysMount: process.env.CONSUL_KEYS_MOUNT,
+    usersMount: process.env.CONSUL_USERS_MOUNT
   },
   app: {
     title: 'Vault UI',

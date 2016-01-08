@@ -1,9 +1,17 @@
 import React, { Component, PropTypes } from 'react';
-import { Button, Grid, Cell, Spinner } from 'react-mdl';
+import {
+  Card,
+  CardText,
+  CardTitle,
+  Spinner } from 'react-mdl';
 import { connect } from 'react-redux';
 import connectData from 'helpers/connectData';
 import { isLoaded, load } from 'redux/modules/secrets';
 
+
+import {
+  CollapsibleSection,
+  CollapsibleList } from '../../components';
 
 function fetchData(getState, dispatch) {
   console.log('fetching secret data');
@@ -29,10 +37,12 @@ function groupOrKey(secret, parent) {
       console.log(`Working key ${key}`);
       if (Object.keys(secret[key]).length > 0 ) {
         console.log( 'Would be group');
-        display = (<Grid> <SecretGroup groupName={key} groupData={secret[key]} parent={parent} id={key} /></Grid>);
+        display = (<SecretGroup groupName={key} groupData={secret[key]} parent={parent} id={key} />);
       } else {
         console.log( 'Would be entry');
-        display = (<SecretDisplay secretName={key} parent={parent} id={key}/>);
+        display = (
+          <SecretDisplay secretName={key} parent={parent} id={key}/>
+        );
       }
 
       return display;
@@ -54,15 +64,11 @@ class SecretDisplay extends Component {
 
   render() {
     console.log(`Displaying secret: ${this.props.secretName}`);
-    return (<div>
-       <Grid>
-         <Cell align={'middle'}>{this.props.secretName}</Cell>
-         <Cell><Button>Decrypt</Button></Cell>
-       </Grid>
-       <Grid>
-        <Cell>Result</Cell>
-       </Grid>
-     </div>);
+    return (
+      <div>
+        <a href={ `/api/secret?id=${this.props.parent}/${this.props.secretName}` }>{this.props.secretName}</a>
+      </div>
+    );
   }
 }
 
@@ -74,11 +80,19 @@ class SecretGroup extends Component {
   }
 
   render() {
-    const styles = require('./Secrets.scss');
     console.log(`Secret group: ${this.props.groupName} Data: ${Object.keys(this.props.groupData)}`);
-    return (<div className={styles.secretGroup}><h1>{this.props.groupName}</h1>
-      {groupOrKey(this.props.groupData, `${this.props.parent}/${this.props.groupName}`)}
-    </div>);
+    const group = groupOrKey(this.props.groupData, `${this.props.parent}/${this.props.groupName}`);
+    return (
+      <div>
+        <CollapsibleList>
+          <CollapsibleSection key={this.props.groupName} title={this.props.groupName}>
+            {
+              group
+            }
+          </CollapsibleSection>
+        </CollapsibleList>
+        </div>
+    );
   }
 }
 
@@ -105,15 +119,22 @@ export default class Secrets extends Component {
   }
 
   render() {
+    const styles = require('../../components/styles/CardListStyles.scss');
+
     if (this.props.secrets !== null) {
       console.log(Object.keys(this.props.secrets).length);
     }
+
     return (
-      <div>
-        <h1>Secrets</h1><Button onClick={this.refreshSecrets}>Refresh</Button>
-        { this.props.isFetching && <Spinner/>}
-        { !this.props.isFetching && <SecretGroup groupName="/" groupData={this.props.secrets} parent="" id="root" /> }
-      </div>
+        <Card shadow={0} className={styles.fullWidthCard}>
+          <CardTitle className={styles.cardTitle}>
+            <h2 className="mdl-color-text--white">Secrets</h2>
+          </CardTitle>
+          <CardText className={styles.cardText}>
+            { this.props.isFetching && <Spinner/>}
+            { !this.props.isFetching && <SecretGroup groupName="/" groupData={this.props.secrets} parent="" id="root" /> }
+          </CardText>
+        </Card>
     );
   }
 }

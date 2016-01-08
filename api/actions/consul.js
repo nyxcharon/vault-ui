@@ -1,8 +1,10 @@
+import config from '../../src/config';
 const Bluebird = require('bluebird');
-const mount = 'vault-prod';
-const keysMount = `${mount}/logical/ff7e747e-baa3-6739-2c9d-6ec2a044f7ba/`;
-const usersMount = `${mount}/auth/d535374b-ddfd-5dca-76a7-74e28f669e29/user/`;
-
+let MOUNT = config.consul.mount;
+let keysMount = `${MOUNT}/logical/${config.consul.keysMount}/`;
+let usersMount = `${MOUNT}/auth/${config.consul.usersMount}/user/`;
+const SPECIAL_KEY = 'vault_ui';
+const CONSUL_HOST = config.consul.host;
 
 function pathsToObject(paths, result = {}) {
   for (const path of paths) {
@@ -21,9 +23,9 @@ function pathsToObject(paths, result = {}) {
 }
 
 function fromCallback(fn) {
-  return new Bluebird(function(resolve, reject) {
+  return new Bluebird((resolve, reject) => {
     try {
-      return fn(function(err, data, res) {
+      return fn((err, data, res) => {
         if (err) {
           err.res = res;
           return reject(err);
@@ -35,10 +37,29 @@ function fromCallback(fn) {
     }
   });
 }
+const consul = require('consul')({'host': CONSUL_HOST, promisify: fromCallback});
 
-const consul = require('consul')({'host': 'consul.service.consul', promisify: fromCallback});
 
-export  function users() {
+if ( MOUNT === undefined ) {
+  console.log('Attempting to discover location of consul data');
+  consul.kv.keys('').then((data) => {
+    let result = data[0].find((key) => key.includes('sys/token/salt') );
+    MOUNT = result.split('/')[0];
+
+    result = data[0].find((key) =>
+      key.includes(`${MOUNT}/logical/`) && key.includes(SPECIAL_KEY));
+    keysMount = result.split('/').slice(0, -1).join('/') + '/';
+
+    result = data[0].find((key) =>
+      key.includes(`${MOUNT}/auth/`) && key.includes(SPECIAL_KEY));
+    usersMount = result.split('/').slice(0, -1).join('/') + '/';
+
+    console.log('consul data located at ', MOUNT);
+  });
+}
+
+
+export function users() {
   return consul.kv.keys(usersMount).spread((data) => {
     const startString = usersMount.length;
     return data.map((value) => {
