@@ -107,11 +107,13 @@ class SecretDisplay extends Component {
       background: '#607D8B',
       color: 'white'
     };
+    const styles = require('./Secrets.scss');
+
     return (
       <div>
         <Button onClick={this.decryptMe} style={btnStyle} raised ripple>{this.props.secretName}</Button>
         {this.state &&
-          <div>
+          <div className={styles.secretValue}>
             <pre>{ JSON.stringify(this.state.secret, null, 4) }</pre>
           </div>
         }
