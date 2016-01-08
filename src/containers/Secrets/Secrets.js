@@ -3,6 +3,7 @@ import {
   Card,
   CardText,
   CardTitle,
+  Button,
   Spinner } from 'react-mdl';
 import { connect } from 'react-redux';
 import connectData from 'helpers/connectData';
@@ -91,9 +92,9 @@ class SecretDisplay extends Component {
     superagent
     .get('/api/secret')
     .query({ id: id })
-    .then(function(rsp) {
+    .then((rsp) => {
       self.setState({
-        data: rsp.body
+        secret: rsp.body
       });
     });
   }
@@ -102,10 +103,11 @@ class SecretDisplay extends Component {
     console.log(`Displaying secret: ${this.props.secretName}`);
     return (
       <div>
-        <a onClick={this.decryptMe.bind(this)}href={ `/api/secret?id=` }>{this.props.secretName}</a>
+        <Button onClick={this.decryptMe.bind(this)} raised accent ripple>{this.props.secretName}</Button>
         {this.state &&
           <pre>{ JSON.stringify(this.state, null, 4) }</pre>
         }
+        <br />
       </div>
     );
   }
