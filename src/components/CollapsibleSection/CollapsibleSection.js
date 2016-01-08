@@ -52,7 +52,6 @@ export class CollapsibleSection extends Component {
     return (
       <div className={this.state.styles.sectionComponent}>
         <div className={this.getState(this.state.open)}>
-          <button>toggle</button>
           <div className={`${this.state.styles.sectionhead}`} onClick={this.handleClick}>{this.props.title}</div>
           <div className={`${this.state.styles.articlewrap}`}>
             <div className={`${this.state.styles.article}`}>
