@@ -21,7 +21,6 @@ import {Provider} from 'react-redux';
 import qs from 'query-string';
 import getRoutes from './routes';
 import getStatusFromRoutes from './helpers/getStatusFromRoutes';
-import bodyParser from 'body-parser';
 
 const pretty = new PrettyError();
 const app = new Express();

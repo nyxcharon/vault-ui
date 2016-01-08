@@ -18,11 +18,19 @@ export default function reducer(state = initialState, action = {}) {
         policies: state.policies || initialState.policies
       };
     case SUCCESS: {
+      const modifiedArr = [];
+      action.result.policies.map((policy, index) => {
+        modifiedArr.push({
+          name: policy,
+          index: index,
+          policy: null
+        });
+      });
       return {
         ...state,
         loading: false,
         loaded: true,
-        policies: action.result.policies,
+        policies: modifiedArr,
         error: null
       };
     }
