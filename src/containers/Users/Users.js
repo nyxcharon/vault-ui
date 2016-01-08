@@ -1,18 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import * as authActions from 'redux/modules/users';
 import {connect} from 'react-redux';
-import { Card, CardTitle, CardActions, Button } from 'react-mdl';
-
-class UserName extends Component {
-  static propTypes = {
-    name: PropTypes.string.isRequired
-  }
-
-  render() {
-    // console.log(`Rendering name ${this.props.name}`)
-    return (<p>{this.props.name}</p>);
-  }
-}
+import { Card, CardTitle, CardText, Button, Spinner } from 'react-mdl';
+import UserView from './UserView';
+import { CollapsibleSection, CollapsibleList } from '../../components';
 
 @connect(
   state => ({users: state.users.data,
@@ -37,6 +28,7 @@ export default class Users extends Component {
     console.log('Calling load users');
 
     if (!this.props.isLoading) {
+      console.log('Not loading. Repullig');
       this.props.load();
     }
   }
@@ -48,7 +40,11 @@ export default class Users extends Component {
 
     if (!isLoading && users !== null) {
       display = users.map((userName, index) => {
-        return (<UserName name={userName} key={index}/>);
+        return (
+          <CollapsibleSection key={index} title={userName} key={index}>
+            <UserView userName={userName}/>
+          </CollapsibleSection>
+        );
       });
     } else {
       display = null;
@@ -56,21 +52,24 @@ export default class Users extends Component {
 
     return (
       <div>
-        <Card shadow={0} style={{height: '80px'}}>
-          <CardTitle>Users</CardTitle>
-          <CardActions border style={{height: '50px'}}>
+        <Card shadow={0}>
+          <CardTitle>Users
             <Button onClick={this.loadUsersIfNeeded}>Reload</Button>
-          </CardActions>
-        </Card>
+          </CardTitle>
+          <CardText>
           { isLoading &&
             <Card>
               <p>Loading Users!</p>
+              <Spinner />
             </Card>
           }
           { !isLoading &&
-
-            display
+            <CollapsibleList>
+              {display}
+            </CollapsibleList>
           }
+          </CardText>
+        </Card>
       </div>
     );
   }

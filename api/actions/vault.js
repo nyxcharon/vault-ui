@@ -4,7 +4,7 @@ import config from '../../src/config';
 const Vaulted = require('vaulted');
 const dns = require('dns');
 const VAULT_URL = `http://${config.vault.host}:${config.vault.port}/v1`;
-console.log(VAULT_URL);
+
 function getVault(req, server = config.vault.host) {
   const myVault = new Vaulted({
     vault_host: server,
@@ -74,7 +74,6 @@ export function login(req) {
 export function readUser(req) {
   return new Promise((resolve, reject) => {
     const token = getVault(req).token;
-    console.log(token);
     superagent
       .get(`${VAULT_URL}/auth/userpass/users/${req.query.username}`)
       .set('Content-Type', 'application/json')
