@@ -8,10 +8,14 @@ import { connect } from 'react-redux';
 import connectData from 'helpers/connectData';
 import { isLoaded, load } from 'redux/modules/secrets';
 
+import { isDecryptLoaded, decrypt } from 'redux/modules/secrets';
 
 import {
   CollapsibleSection,
   CollapsibleList } from '../../components';
+
+
+import superagent from 'superagent';
 
 function fetchData(getState, dispatch) {
   console.log('fetching secret data');
@@ -22,6 +26,16 @@ function fetchData(getState, dispatch) {
   }else {
     console.log('skpping load secret');
   }
+  return Promise.all(promises);
+}
+
+function fetchDecryptedData(getState, dispatch) {
+  const promises = [];
+
+  if (!isDecryptLoaded(getState())) {
+    promises.push(dispatch(decrypt()));
+  }
+
   return Promise.all(promises);
 }
 
@@ -56,17 +70,42 @@ function groupOrKey(secret, parent) {
   return result;
 }
 
+@connectData(fetchDecryptedData)
+@connect(
+  state => ({
+    secrets: state.secrets.data,
+    isFetching: state.secrets.isFetching
+  }))
 class SecretDisplay extends Component {
   static propTypes = {
     secretName: PropTypes.string.isRequired,
-    parent: PropTypes.string.isRequired
+    parent: PropTypes.string.isRequired,
+  }
+
+  decryptMe(ev) {
+    ev.preventDefault();
+    const self = this;
+
+    const id = `${this.props.parent}/${this.props.secretName}`;
+
+    superagent
+    .get('/api/secret')
+    .query({ id: id })
+    .then(function(rsp) {
+      self.setState({
+        data: rsp.body
+      });
+    });
   }
 
   render() {
     console.log(`Displaying secret: ${this.props.secretName}`);
     return (
       <div>
-        <a href={ `/api/secret?id=${this.props.parent}/${this.props.secretName}` }>{this.props.secretName}</a>
+        <a onClick={this.decryptMe.bind(this)}href={ `/api/secret?id=` }>{this.props.secretName}</a>
+        {this.state &&
+          <pre>{ JSON.stringify(this.state, null, 4) }</pre>
+        }
       </div>
     );
   }
