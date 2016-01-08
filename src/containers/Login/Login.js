@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
+import { pushState } from 'redux-router';
 import {connect} from 'react-redux';
-import * as authActions from 'redux/modules/auth';
+import { login } from 'redux/modules/auth';
 import {
   Card,
   Textfield,
@@ -61,14 +62,15 @@ class LoggedInScreen extends Component {
 
 
 @connect(
-  state => ({user: state.auth.user}),
-  authActions)
+  state => ({user: state.auth.user, router: state.router}),
+  {login, pushState})
 export default class Login extends Component {
   static propTypes = {
     user: PropTypes.object,
     login: PropTypes.func,
-    logout: PropTypes.func
-  };
+    logout: PropTypes.func,
+    pushState: PropTypes.func.isRequired
+  }
 
   handleSubmit = (event) => {
     event.preventDefault();
@@ -76,11 +78,6 @@ export default class Login extends Component {
     const username = this.refs.username.refs.input.value;
     const password = this.refs.password.refs.input.value;
     this.props.login(username, password);
-  }
-
-  handleLogout = (event) => {
-    event.preventDefault();
-    this.props.logout();
   }
 
   render() {
@@ -97,6 +94,7 @@ export default class Login extends Component {
       background: 'url(https://hashicorp.com/images/blog/vault/list-c8bf47c8.png) center / contain',
       backgroundRepeat: 'no-repeat'
     };
+
     return (
       <div style={containerStyle}>
       {!user &&
@@ -127,6 +125,7 @@ export default class Login extends Component {
           </Card>
         </form>
       }
+
       {user &&
         <div>
           <LoggedInScreen user={user.username}/>
