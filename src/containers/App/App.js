@@ -6,7 +6,7 @@ import { isLoaded as isAuthLoaded, load as loadAuth, logout } from 'redux/module
 import { pushState } from 'redux-router';
 import connectData from 'helpers/connectData';
 import config from '../../config';
-import {Layout, Header, Navigation, Drawer, Content, Button} from 'react-mdl/lib/Layout';
+import { Layout, Header, Navigation, Drawer, Content } from 'react-mdl/lib/Layout';
 
 
 function fetchData(getState, dispatch) {

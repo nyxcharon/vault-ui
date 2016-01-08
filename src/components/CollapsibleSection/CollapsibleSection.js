@@ -5,7 +5,7 @@ export class CollapsibleSection extends Component {
     open: PropTypes.bool,
     title: PropTypes.string,
     asyncLoadFn: PropTypes.func,
-    children: PropTypes.object
+    children: PropTypes.node
   }
 
   static defaultProps = {
@@ -59,14 +59,14 @@ export class CollapsibleSection extends Component {
 
 export class CollapsibleList extends Component {
   static propTypes = {
-    children: PropTypes.array
+    children: PropTypes.node
   }
 
   render() {
     const styles = require('./Section.scss');
     return (
       <ul className={styles.sectionList}>
-        {this.props.children.map((child, index) => {
+        {React.Children.map(this.props.children, (child, index) => {
           return ( <li key={index} className={styles.sectionListItem}>{child}</li> );
         })}
       </ul>
