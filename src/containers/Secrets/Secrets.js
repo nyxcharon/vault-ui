@@ -170,7 +170,7 @@ export default class Secrets extends Component {
         if (grp.props.groupName) {
           const subGroup = groupOrKey(grp.props.groupData, `${grp.props.parent}/${grp.props.groupName}`);
 
-          let subMatches = subGroup.filter(filterFn);
+          const subMatches = subGroup.filter(filterFn);
 
           if (subMatches.length > 0) {
             matches = true;
@@ -185,22 +185,22 @@ export default class Secrets extends Component {
       return matches;
     };
 
-    let rootGroup = groupOrKey(this.props.secrets, '/').sort((a, b) => {
-      let c = 0;
+    const rootGroup = groupOrKey(this.props.secrets, '/').sort((aaa, bbb) => {
+      let ccc = 0;
 
-      if (a.props.groupData && !b.props.groupData) {
-        c = -1;
+      if (aaa.props.groupData && !bbb.props.groupData) {
+        ccc = -1;
       }
 
-      if (!a.props.groupData && b.props.groupData) {
-        c = 1;
+      if (!aaa.props.groupData && bbb.props.groupData) {
+        ccc = 1;
       }
 
-      if (!a.props.groupData && !b.props.groupData) {
-        c = 0;
+      if (!aaa.props.groupData && !bbb.props.groupData) {
+        ccc = 0;
       }
 
-      return c;
+      return ccc;
     }).filter(filterFn);
 
     rootGroup.map((ee) => {
@@ -245,7 +245,7 @@ export default class Secrets extends Component {
           <CardText className={styles.cardText}>
             <Textfield
                 onChange={this.search}
-                label="Text..."
+                label="Search"
                 style={{width: '200px'}}
             />
 
