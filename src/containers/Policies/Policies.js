@@ -6,7 +6,8 @@ import {
   Card,
   CardTitle,
   CardText,
-  Button
+  Button,
+  Spinner
 } from 'react-mdl';
 
 class Policies extends Component {
@@ -45,7 +46,12 @@ class Policies extends Component {
               {policies.map((policy, index) => {
                 return (
                   <CollapsibleSection key={index} title={policy.name} asyncLoadFn={() => this.loadPolicy(policy.name)}>
-                    <pre>{policy.policy}</pre>
+                    { policy.policy &&
+                      <pre>{policy.policy}</pre>
+                    }
+                    { !policy.policy &&
+                      <Spinner/>
+                    }
                   </CollapsibleSection>
                 );
               })}
