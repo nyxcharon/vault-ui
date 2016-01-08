@@ -40,16 +40,16 @@ export default (store) => {
       <IndexRoute component={Login}/>
 
       <Route path="/" component={App}>
+        <IndexRoute component={Login}/>
         <Route path="/login" component={Login} />
 
         <Route onEnter={requireLogin}>
           <Route path="health" component={Health} />
+          <Route path="secrets" component={Secrets} />
+          <Route path="policies" component={Policies} />
+          <Route path="mounts" component={Mounts} />
+          <Route path="users" component={Users} />
         </Route>
-
-        <Route path="secrets" component={Secrets} />
-        <Route path="policies" component={Policies} />
-        <Route path="mounts" component={Mounts} />
-        <Route path="users" component={Users} />
       </Route>
       </div>
 

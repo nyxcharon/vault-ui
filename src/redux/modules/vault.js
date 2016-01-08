@@ -12,7 +12,8 @@ const PATH_FAIL = 'vault/PATH_FAIL';
 
 const initialState = {
   health: {
-  }
+  },
+  mounts: null
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -82,20 +83,21 @@ export default function reducer(state = initialState, action = {}) {
 export function secrets(path) {
   return {
     types: [PATH, PATH_SUCCESS, PATH],
-    promise: (client) => client.get(`v1/${path}`)
+    promise: (client) => client.get(`secret/${path}`)
   };
 }
 
 export function mounts() {
+  console.log('loading mounttttts');
   return {
     types: [MOUNTS, MOUNTS_SUCCESS, MOUNTS],
-    promise: (client) => client.get('v1/sys/mounts')
+    promise: (client) => client.get('mounts')
   };
 }
 
 export function health() {
   return {
     types: [HEALTH, HEALTH_SUCCESS, HEALTH_FAIL],
-    promise: (client) => client.get('v1/sys/health')
+    promise: (client) => client.get('health')
   };
 }

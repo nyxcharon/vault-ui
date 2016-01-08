@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { Button, Grid, Cell, Spinner } from 'react-mdl';
 import { connect } from 'react-redux';
 import connectData from 'helpers/connectData';
 import { isLoaded, load } from 'redux/modules/secrets';
@@ -16,7 +17,7 @@ function fetchData(getState, dispatch) {
   return Promise.all(promises);
 }
 
-function groupOrKey(secret) {
+function groupOrKey(secret, parent) {
   // console.log(`Analyzing secret: ${secret}`);
   const keys = Object.keys(secret);
   let result = null;
@@ -28,10 +29,10 @@ function groupOrKey(secret) {
       console.log(`Working key ${key}`);
       if (Object.keys(secret[key]).length > 0 ) {
         console.log( 'Would be group');
-        display = (<SecretGroup groupName={key} groupData={secret[key]} id={key} />);
+        display = (<Grid> <SecretGroup groupName={key} groupData={secret[key]} parent={parent} id={key} /></Grid>);
       } else {
         console.log( 'Would be entry');
-        display = (<SecretDisplay secretName={key} id={key}/>);
+        display = (<SecretDisplay secretName={key} parent={parent} id={key}/>);
       }
 
       return display;
@@ -47,25 +48,36 @@ function groupOrKey(secret) {
 
 class SecretDisplay extends Component {
   static propTypes = {
-    secretName: PropTypes.string.isRequired
+    secretName: PropTypes.string.isRequired,
+    parent: PropTypes.string.isRequired
   }
 
   render() {
     console.log(`Displaying secret: ${this.props.secretName}`);
-    return (<div>Secret Name: {this.props.secretName}</div>);
+    return (<div>
+       <Grid>
+         <Cell align={'middle'}>{this.props.secretName}</Cell>
+         <Cell><Button>Decrypt</Button></Cell>
+       </Grid>
+       <Grid>
+        <Cell>Result</Cell>
+       </Grid>
+     </div>);
   }
 }
 
 class SecretGroup extends Component {
   static propTypes = {
     groupName: PropTypes.string.isRequired,
-    groupData: PropTypes.object
+    groupData: PropTypes.object,
+    parent: PropTypes.string.isRequired
   }
 
   render() {
+    const styles = require('./Secrets.scss');
     console.log(`Secret group: ${this.props.groupName} Data: ${Object.keys(this.props.groupData)}`);
-    return (<div><h1>{this.props.groupName}</h1>
-      {groupOrKey(this.props.groupData)}
+    return (<div className={styles.secretGroup}><h1>{this.props.groupName}</h1>
+      {groupOrKey(this.props.groupData, `${this.props.parent}/${this.props.groupName}`)}
     </div>);
   }
 }
@@ -73,10 +85,23 @@ class SecretGroup extends Component {
 
 @connectData(fetchData)
 @connect(
-  state => ({secrets: state.secrets.data}))
+  state => ({
+    secrets: state.secrets.data,
+    isFetching: state.secrets.isFetching
+  }))
 export default class Secrets extends Component {
   static propTypes = {
-    secrets: React.PropTypes.object
+    secrets: React.PropTypes.object,
+    isFetching: React.PropTypes.bool
+  }
+
+  refreshSecrets = () => {
+    if (!this.props.isFetching) {
+      console.log('Calling refresh secrets');
+      load();
+    } else {
+      console.log('Currently refreshing');
+    }
   }
 
   render() {
@@ -85,8 +110,9 @@ export default class Secrets extends Component {
     }
     return (
       <div>
-        <h1>Secrets</h1>
-        {groupOrKey(this.props.secrets)}
+        <h1>Secrets</h1><Button onClick={this.refreshSecrets}>Refresh</Button>
+        { this.props.isFetching && <Spinner/>}
+        { !this.props.isFetching && <SecretGroup groupName="/" groupData={this.props.secrets} parent="" id="root" /> }
       </div>
     );
   }
