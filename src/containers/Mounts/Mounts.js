@@ -1,8 +1,15 @@
 import React, { Component, PropTypes } from 'react';
 import {connect} from 'react-redux';
 import connectData from 'helpers/connectData';
+import { CollapsibleSection } from '../../components';
 
 import {mounts} from 'redux/modules/vault';
+
+import {
+  Card,
+  CardTitle,
+  CardText,
+} from 'react-mdl';
 
 
 function fetchData(getState, dispatch) {
@@ -24,8 +31,10 @@ class MountData extends Component {
     console.log('id', this.props.id);
     return (
       <div>
-        <div>name = { this.props.id }</div>
-        <div>description = { this.props.data.description }</div>
+        <CollapsibleSection title={this.props.id}>
+          { }
+          <div>{this.props.data.description}</div>
+        </CollapsibleSection>
       </div>
     );
   }
@@ -62,8 +71,16 @@ export default class Mounts extends Component {
 
     return (
       <div>
-        <h3>Mounts</h3>
-        { display }
+        <Card shadow={0}>
+          <CardTitle>
+            User Title Stuff
+          </CardTitle>
+          <CardText >
+            <ul>
+              {display}
+            </ul>
+          </CardText>
+        </Card>
       </div>
     );
   }
