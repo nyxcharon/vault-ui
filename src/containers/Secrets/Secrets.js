@@ -19,13 +19,13 @@ import {
 import superagent from 'superagent';
 
 function fetchData(getState, dispatch) {
-  console.log('fetching secret data');
+  // console.log('fetching secret data');
   const promises = [];
   if (!isLoaded(getState())) {
-    console.log('calling load secret');
+    // console.log('calling load secret');
     promises.push(dispatch(load()));
   }else {
-    console.log('skpping load secret');
+    // console.log('skpping load secret');
   }
   return Promise.all(promises);
 }
@@ -46,11 +46,15 @@ function groupOrKey(secret, parent) {
   let result = null;
 
   if (keys.length > 0) {
+    // console.log(`Key Length of Secret: ${keys.length}`);
     const moreKeys = keys.map((key) => {
       let display = null;
+      // console.log(`Working key ${key}`);
       if (Object.keys(secret[key]).length > 0 ) {
+        // console.log( 'Would be group');
         display = (<SecretGroup groupName={key} groupData={secret[key]} parent={parent} id={key} />);
       } else {
+        // console.log( 'Would be entry');
         display = (
           <SecretDisplay secretName={key} parent={parent} id={key}/>
         );
@@ -61,7 +65,7 @@ function groupOrKey(secret, parent) {
 
     result = moreKeys;
   } else {
-    console.log(`No length for ${Object.keys(secret)}`);
+    // console.log(`No length for ${Object.keys(secret)}`);
   }
 
   return result;
@@ -96,6 +100,7 @@ class SecretDisplay extends Component {
   }
 
   render() {
+    console.log(`Displaying secret: ${this.props.secretName}`);
     return (
       <div>
         <Button onClick={this.decryptMe} raised accent ripple>{this.props.secretName}</Button>
@@ -116,17 +121,18 @@ class SecretGroup extends Component {
   }
 
   render() {
+    // console.log(`Secret group: ${this.props.groupName} Data: ${Object.keys(this.props.groupData)}`);
     const group = groupOrKey(this.props.groupData, `${this.props.parent}/${this.props.groupName}`);
     return (
       <div>
         <CollapsibleList>
           <CollapsibleSection key={this.props.groupName} title={this.props.groupName}>
-          {
-            group
-          }
+            {
+              group
+            }
           </CollapsibleSection>
         </CollapsibleList>
-      </div>
+        </div>
     );
   }
 }
@@ -146,10 +152,10 @@ export default class Secrets extends Component {
 
   refreshSecrets = () => {
     if (!this.props.isFetching) {
-      console.log('Calling refresh secrets');
+      // console.log('Calling refresh secrets');
       load();
     } else {
-      console.log('Currently refreshing');
+      // console.log('Currently refreshing');
     }
   }
 
@@ -157,28 +163,8 @@ export default class Secrets extends Component {
     const styles = require('../../components/styles/CardListStyles.scss');
 
     if (this.props.secrets !== null) {
-      console.log(Object.keys(this.props.secrets).length);
+      // console.log(Object.keys(this.props.secrets).length);
     }
-
-    const group = groupOrKey(this.props.secrets, '/').sort(function(a, b) {
-      let c = 0;
-
-      if (a.props.groupData && !b.props.groupData) {
-        c = -1;
-      }
-
-      if (!a.props.groupData && b.props.groupData) {
-        c = 1;
-      }
-
-      if (!a.props.groupData && !b.props.groupData) {
-        c = 0;
-      }
-
-      return c;
-    });
-
-    console.log(group);
 
     return (
         <Card shadow={0} className={styles.fullWidthCard}>
@@ -187,9 +173,7 @@ export default class Secrets extends Component {
           </CardTitle>
           <CardText className={styles.cardText}>
             { this.props.isFetching && <Spinner/>}
-            { !this.props.isFetching &&
-              group
-            }
+            { !this.props.isFetching && <SecretGroup groupName="/" groupData={this.props.secrets} parent="" id="root" /> }
           </CardText>
         </Card>
     );

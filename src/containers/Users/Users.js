@@ -35,6 +35,8 @@ export default class Users extends Component {
 
   render() {
     const { users, isLoading } = this.props;
+    const styles = require('../../components/styles/CardListStyles.scss');
+
     let display = null;
     console.log(`Users Loading: ${isLoading}`);
 
@@ -52,11 +54,14 @@ export default class Users extends Component {
 
     return (
       <div>
-        <Card shadow={0}>
-          <CardTitle>Users
-            <Button onClick={this.loadUsersIfNeeded}>Reload</Button>
+        <Card shadow={0} className={styles.fullWidthCard}>
+          <CardTitle className={styles.cardTitle}>
+            <h2 className="mdl-color-text--white">Users</h2>
           </CardTitle>
-          <CardText>
+          <CardText className={styles.cardText}>
+          <div style={{textAlign: 'right'}}>
+            <Button onClick={this.loadUsersIfNeeded} raised colored ripple>Reload</Button>
+          </div>
           { isLoading &&
             <Card>
               <p>Loading Users!</p>
