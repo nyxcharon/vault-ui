@@ -4,8 +4,8 @@ export default class CollapsibleSection extends Component {
   static propTypes = {
     open: PropTypes.bool,
     title: PropTypes.string,
-    children: PropTypes.string,
-    asyncLoadFn: PropTypes.func
+    asyncLoadFn: PropTypes.func,
+    children: PropTypes.object
   }
 
   static defaultProps = {

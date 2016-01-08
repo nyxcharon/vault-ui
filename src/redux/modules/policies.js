@@ -62,7 +62,7 @@ export default function reducer(state = initialState, action = {}) {
       };
     }
     case SUCCESS_INDIVIDUAL: {
-      const newPoliciesState = state.policies;
+      const newPoliciesState = [...state.policies];
       newPoliciesState.map((policy) => {
         if (policy.name === action.policy) {
           policy.policy = action.result.data;

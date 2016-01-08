@@ -12,8 +12,7 @@ import {
 class Policies extends Component {
   static propTypes = {
     policies: PropTypes.array.isRequired,
-    dispatch: PropTypes.func.isRequired,
-    loadingIndividual: PropTypes.bool
+    dispatch: PropTypes.func.isRequired
   }
 
   componentDidMount() {
@@ -26,15 +25,12 @@ class Policies extends Component {
   }
 
   loadPolicy = (policyName) => {
-    console.log('beboop loadPolicy: ', policyName);
     this.props.dispatch(loadIndividualPolicy(policyName));
   }
 
   render() {
-    const { policies, loadingIndividual } = this.props;
-    console.log(loadingIndividual);
+    const { policies } = this.props;
     const styles = require('./Policies.scss');
-    console.log('Policy render called: ', this.props.policies);
     return (
       <div>
         <Card shadow={0} className={styles.card}>
@@ -49,7 +45,9 @@ class Policies extends Component {
             { policies.map((policy) => {
               return (
                 <li key={policy.index} shadow={0}>
-                  <CollapsibleSection title={policy.name} asyncLoadFn={() => this.loadPolicy(policy.name)} children={policy.policy}/>
+                  <CollapsibleSection title={policy.name} asyncLoadFn={() => this.loadPolicy(policy.name)}>
+                    <div>{policy.policy}</div>
+                  </CollapsibleSection>
                 </li>
               );
             }) }
