@@ -103,7 +103,9 @@ class SecretDisplay extends Component {
   render() {
     const btnStyle = {
       minWidth: '200px',
-      marginBottom: '10px'
+      marginBottom: '10px',
+      background: '#607D8B',
+      color: 'white'
     };
     return (
       <div>
@@ -211,19 +213,11 @@ export default class Secrets extends Component {
       return ccc;
     }).filter(filterFn);
 
-    const filteredGroups = rootGroup.map((ee) => {
-      let grp = ee;
-
-      if (filter && ee.props.groupData) {
-        const subGroup = groupOrKey(ee.props.groupData, `${ee.props.parent}/${ee.props.groupName}`).filter(filterFn);
-        grp = subGroup;
-        console.log(subGroup);
-      }
-
-      return grp;
+    rootGroup.map((ee) => {
+      console.log('xxx', ee);
     });
 
-    return filteredGroups;
+    return rootGroup;
   }
 
   search = (ev) => {
