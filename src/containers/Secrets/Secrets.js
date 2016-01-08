@@ -83,7 +83,7 @@ class SecretDisplay extends Component {
     parent: PropTypes.string.isRequired,
   }
 
-  decryptMe(ev) {
+  decryptMe = (ev) => {
     ev.preventDefault();
     const self = this;
 
@@ -103,9 +103,9 @@ class SecretDisplay extends Component {
     console.log(`Displaying secret: ${this.props.secretName}`);
     return (
       <div>
-        <Button onClick={this.decryptMe.bind(this)} raised accent ripple>{this.props.secretName}</Button>
+        <Button onClick={this.decryptMe} raised accent ripple>{this.props.secretName}</Button>
         {this.state &&
-          <pre>{ JSON.stringify(this.state, null, 4) }</pre>
+          <input type="text" value={this.state.secret.data.data} />
         }
         <br />
       </div>
