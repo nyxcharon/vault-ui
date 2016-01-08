@@ -7,6 +7,7 @@ import { pushState } from 'redux-router';
 import connectData from 'helpers/connectData';
 import config from '../../config';
 import { Layout, Header, Navigation, Drawer, Content } from 'react-mdl/lib/Layout';
+import { Button } from 'react-mdl';
 
 
 function fetchData(getState, dispatch) {
@@ -24,7 +25,7 @@ function fetchData(getState, dispatch) {
   {logout, pushState})
 export default class App extends Component {
   static propTypes = {
-    children: PropTypes.object.isRequired,
+    children: PropTypes.object,
     user: PropTypes.object,
     logout: PropTypes.func.isRequired,
     pushState: PropTypes.func.isRequired,
@@ -57,10 +58,6 @@ export default class App extends Component {
     this.props.logout();
   }
 
-  logOutThing = () => {
-    console.log('Logout thing');
-  }
-
   render() {
     const styles = require('./App.scss');
     const appName = 'Vault - UI';
@@ -69,7 +66,6 @@ export default class App extends Component {
                           { name: 'Policies', 'path': '/policies'},
                           { name: 'Users', 'path': '/users'},
                           { name: 'Health', 'path': '/health'}];
-    // const {user} = this.props;
 
     return (
       <Layout className={styles.app} fixedHeader fixedDrawer>
@@ -77,7 +73,7 @@ export default class App extends Component {
                 title={<IndexLink to="/" className={styles.title}>{appName}</IndexLink>}>
           <Navigation>
             {this.props.user &&
-              <Link to="/logout">Logout</Link>
+              <Button onClick={this.handleLogout}>Logout</Button>
             }
           </Navigation>
         </Header>

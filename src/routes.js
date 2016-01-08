@@ -16,12 +16,14 @@ export default (store) => {
   const requireLogin = (nextState, replaceState, cb) => {
     function checkAuth() {
       const { auth: { user }} = store.getState();
+
       if (!user) {
         // oops, not logged in, so can't be here!
-        replaceState(null, '/login');
+        replaceState(null, '/');
       }
       cb();
     }
+
     if (!isAuthLoaded(store.getState())) {
       store.dispatch(loadAuth()).then(checkAuth);
     } else {
@@ -34,12 +36,8 @@ export default (store) => {
    */
   return (
     <div>
-
-      <IndexRoute component={Login}/>
-
       <Route path="/" component={App}>
         <IndexRoute component={Login}/>
-        <Route path="/login" component={Login} />
 
         <Route onEnter={requireLogin}>
           <Route path="health" component={Health} />
@@ -48,6 +46,7 @@ export default (store) => {
           <Route path="mounts" component={Mounts} />
           <Route path="users" component={Users} />
         </Route>
+        <Route path="*" component={Login}/>
       </Route>
       </div>
 
