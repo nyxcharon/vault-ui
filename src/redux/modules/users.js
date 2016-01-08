@@ -1,13 +1,13 @@
 const LOAD = 'users/LOAD';
 const SUCCESS = 'users/SUCCESS';
 const FAIL = 'users/FAIL';
-const USERLOAD = 'users/LOAD_READ';
-const USERSUCCESS = 'users/SUCCESS_READ';
-const USERFAIL = 'users/FAIL_READ';
+const USER_LOAD = 'users/USER_READ';
+const USER_SUCCESS = 'users/USER_READ';
+const USER_FAIL = 'users/USER_READ';
 
 const initialState = {
   data: null,
-  userdata: null,
+  userData: null,
   isLoading: false,
   userLoading: false
 };
@@ -33,23 +33,23 @@ export default function reducer(state = initialState, action = {}) {
         error: action.result,
         isLoading: false
       };
-      case USER_LOAD:
-        return {
-          ...state,
-          userLoading: true
-        };
-      case USER_SUCCESS:
-        return {
-          ...state,
-          userData: action.result,
-          userLoading: false
-        };
-      case USER_FAIL:
-        return {
-          ...state,
-          error: action.result,
-          userLoading: false
-        };
+    case USER_LOAD:
+      return {
+        ...state,
+        userLoading: true
+      };
+    case USER_SUCCESS:
+      return {
+        ...state,
+        userData: action.result,
+        userLoading: false
+      };
+    case USER_FAIL:
+      return {
+        ...state,
+        error: action.result,
+        userLoading: false
+      };
     default:
       return state;
   }
