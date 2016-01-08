@@ -5,7 +5,6 @@ import {
   Card,
   CardTitle,
   CardText,
-  Button
 } from 'react-mdl';
 
 import {health} from 'redux/modules/vault';
@@ -74,7 +73,6 @@ export default class AppTest extends Component {
           <CardTitle className={styles.cardTitle}>
             <div style={{float: 'right'}}>
               <h2 className="mdl-color-text--white">Health</h2>
-              <Button onClick={this.handleRefreshPolicies} className="mdl-cell--bottom" raised colored ripple>Refresh Health</Button>
             </div>
           </CardTitle>
           <CardText className={styles.cardText}>
