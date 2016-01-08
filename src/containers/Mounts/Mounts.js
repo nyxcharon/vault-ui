@@ -29,11 +29,18 @@ class MountData extends Component {
   render() {
     console.log('data', this.props.data);
     console.log('id', this.props.id);
+    let description = null;
+
+    if ( this.props.data.description === null || this.props.data.description === '' ) {
+      description = 'No Description provided';
+    } else {
+      description = this.props.data.description;
+    }
+
     return (
       <div>
         <CollapsibleSection title={this.props.id}>
-          { }
-          <div>{this.props.data.description}</div>
+          <div>{description}</div>
         </CollapsibleSection>
       </div>
     );
@@ -58,7 +65,7 @@ export default class Mounts extends Component {
 
     console.log('reunder mounts', mounts);
     let display;
-    if (mounts !== undefined) {
+    if (mounts !== undefined && mounts !== null) {
       console.log('derpy mounts');
       console.log(mounts);
       display = Object.keys(mounts).map((key) => {
@@ -73,7 +80,7 @@ export default class Mounts extends Component {
       <div>
         <Card shadow={0}>
           <CardTitle>
-            User Title Stuff
+            Mount Title Stuff
           </CardTitle>
           <CardText >
             <ul>
