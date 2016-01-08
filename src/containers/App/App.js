@@ -9,7 +9,6 @@ import config from '../../config';
 import { Layout, Header, Navigation, Drawer, Content } from 'react-mdl/lib/Layout';
 import { Button } from 'react-mdl';
 
-
 function fetchData(getState, dispatch) {
   const promises = [];
   if (!isAuthLoaded(getState())) {
@@ -25,7 +24,7 @@ function fetchData(getState, dispatch) {
   {logout, pushState})
 export default class App extends Component {
   static propTypes = {
-    children: PropTypes.object,
+    children: PropTypes.object.isRequired,
     user: PropTypes.object,
     logout: PropTypes.func.isRequired,
     pushState: PropTypes.func.isRequired,
@@ -66,6 +65,7 @@ export default class App extends Component {
                           { name: 'Policies', 'path': '/policies'},
                           { name: 'Users', 'path': '/users'},
                           { name: 'Health', 'path': '/health'}];
+    const img = require('../../../static/home.png');
 
     return (
       <Layout className={styles.app} fixedHeader fixedDrawer>
@@ -77,7 +77,7 @@ export default class App extends Component {
             }
           </Navigation>
         </Header>
-        <Drawer title={<IndexLink to="/" className={styles.title}>{appName}</IndexLink>} className="mdl-color--blue-grey mdl-color-text--white" style={{borderRight: 'none'}}>
+        <Drawer title={<IndexLink to="/" className={styles.title}><img src={img} alt="Home" height="50px"/></IndexLink>} className="mdl-color--blue-grey mdl-color-text--white" style={{borderRight: 'none'}}>
           <Navigation className={styles.sideNav}>
             {sideBarLinks.map((link, index) => {
               return <Link key={index} to={link.path} className={this.getSidebarLinkClass(link.path)}>{link.name}</Link>;
