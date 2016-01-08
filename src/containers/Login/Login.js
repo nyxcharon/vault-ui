@@ -14,25 +14,26 @@ import {
   IconButton
 } from 'react-mdl';
 
+@connect(
+  state => ({user: state.auth.user, router: state.router}),
+  {pushState})
 class LoggedInScreen extends Component {
     static propTypes = {
-      user: PropTypes.string
+      username: PropTypes.string,
+      pushState: PropTypes.func.isRequired
     }
 
     componentDidMount() {
-      let elem = ReactDOM.findDOMNode(this);
+      const elem = ReactDOM.findDOMNode(this);
       elem.style.opacity = 0;
-      window.requestAnimationFrame(function() {
+      window.requestAnimationFrame(() => {
         elem.style.transition = 'opacity 4000ms';
         elem.style.opacity = 1;
       });
     }
 
-    getRedirectFunc = (pth) => {
-      return () => {
-        console.log('REdirecting to ' + pth);
-        console.log('REdirected to ' + pth);
-      };
+    getNavigationFunc = (pth) => () => {
+      this.props.pushState(null, pth);
     };
 
     render() {
@@ -53,16 +54,16 @@ class LoggedInScreen extends Component {
       return (
           <Card shadow={0} style={{width: '100%', margin: 'auto'}}>
               <CardText style={{marginTop: '20px', fontSize: '2em', width: '100%', textAlign: 'center'}}>
-                  Welcome, <span style={{fontSize: '3em', fontWeight: 'bold'}}>{this.props.user}</span>!
+                  Welcome, <span style={{fontSize: '3em', fontWeight: 'bold'}}>{this.props.username}</span>!
               </CardText>
               <CardTitle style={cardTitleStyle}/>
 
               <CardActions border>
-                  <Button style={buttonStyle} onClick={this.getRedirectFunc('secrets')} colored>Secrets</Button>
-                  <Button style={buttonStyle} onClick={this.getRedirectFunc('mounts')} colored>Mounts</Button>
-                  <Button style={buttonStyle} onClick={this.getRedirectFunc('policies')} colored>Policies</Button>
-                  <Button style={buttonStyle} onClick={this.getRedirectFunc('users')} colored>Users</Button>
-                  <Button style={buttonStyle} onClick={this.getRedirectFunc('health')} colored>Vault Health</Button>
+                  <Button style={buttonStyle} onClick={this.getNavigationFunc('secrets')} colored>Secrets</Button>
+                  <Button style={buttonStyle} onClick={this.getNavigationFunc('mounts')} colored>Mounts</Button>
+                  <Button style={buttonStyle} onClick={this.getNavigationFunc('policies')} colored>Policies</Button>
+                  <Button style={buttonStyle} onClick={this.getNavigationFunc('users')} colored>Users</Button>
+                  <Button style={buttonStyle} onClick={this.getNavigationFunc('health')} colored>Vault Health</Button>
               </CardActions>
               <CardMenu style={{color: '#fff'}}>
                   <IconButton name="share" />
@@ -74,13 +75,12 @@ class LoggedInScreen extends Component {
 
 @connect(
   state => ({user: state.auth.user, router: state.router}),
-  {login, pushState})
+  {login})
 export default class Login extends Component {
   static propTypes = {
     user: PropTypes.object,
     login: PropTypes.func,
-    logout: PropTypes.func,
-    pushState: PropTypes.func.isRequired
+    logout: PropTypes.func
   }
 
   handleSubmit = (event) => {
@@ -139,7 +139,7 @@ export default class Login extends Component {
 
       {user &&
         <div>
-          <LoggedInScreen user={user.username}/>
+          <LoggedInScreen username={user.username}/>
           <Button className="mdl-cell--bottom" style={{float: 'right'}} onClick={this.handleLogout} raised colored ripple>Logout</Button>
         </div>
       }
