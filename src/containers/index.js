@@ -4,3 +4,4 @@ export Users from './Users/Users';
 export Policies from './Policies/Policies';
 export Mounts from './Mounts/Mounts';
 export Login from './Login/Login';
+export Health from './Health/Health';

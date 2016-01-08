@@ -1,9 +1,6 @@
 import React from 'react';
 import {IndexRoute, Route} from 'react-router';
 
-
-import Health from 'components/Health';
-
 import { isLoaded as isAuthLoaded, load as loadAuth } from 'redux/modules/auth';
 import {
     App,
@@ -11,7 +8,8 @@ import {
     Users,
     Mounts,
     Secrets,
-    Login
+    Login,
+    Health
 } from 'containers';
 
 export default (store) => {
