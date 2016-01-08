@@ -6,7 +6,7 @@ import { isLoaded as isAuthLoaded, load as loadAuth, logout } from 'redux/module
 import { pushState } from 'redux-router';
 import connectData from 'helpers/connectData';
 import config from '../../config';
-import {Layout, Header, Navigation, Drawer, Content} from 'react-mdl/lib/Layout';
+import {Layout, Header, Navigation, Drawer, Content, Button} from 'react-mdl/lib/Layout';
 
 
 function fetchData(getState, dispatch) {
@@ -57,6 +57,10 @@ export default class App extends Component {
     this.props.logout();
   }
 
+  logOutThing = () => {
+    console.log('Logout thing');
+  }
+
   render() {
     const styles = require('./App.scss');
     const appName = 'Vault - UI';
@@ -72,7 +76,9 @@ export default class App extends Component {
         <Header className="mdl-color--blue-grey"
                 title={<IndexLink to="/" className={styles.title}>{appName}</IndexLink>}>
           <Navigation>
-            <Link to="/login">Login</Link>
+            {this.props.user &&
+              <Link to="/logout">Logout</Link>
+            }
           </Navigation>
         </Header>
         <Drawer title={<IndexLink to="/" className={styles.title}>{appName}</IndexLink>} className="mdl-color--blue-grey mdl-color-text--white" style={{borderRight: 'none'}}>
