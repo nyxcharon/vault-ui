@@ -37,9 +37,10 @@ The userpass backend must be configured in order to login to the UI. LDAP/Other 
   * VAULT_HOST 
   * VAULT_PORT (default: 8200)
   * CONSUL_HOST 
-  * CONSUL_PORT (default: 8500)
+  * CONSUL_PORT (default: 8500)  
+    
 ### The following will attempt to auto discover, but if that is not working set them
-  * To use the auto discovery create a user called 'vault-ui' and write a secret called 'vault-ui'
+  To use the auto discovery create a user called 'vault-ui' and write a secret called 'vault-ui'
   * CONSUL_MOUNT - This is the top level key value location vault is configured to use
   * CONSUL_KEYS_MOUNT - The location of secrets Example(VAULT-PROD/AUTH/xxxxxx-xxxx-xxxx-xxxx-xxxxxx/USER/) - the value to set would be xxxxxx-xxxx-xxxx-xxxx-xxxxxx
   * CONSUL_USERS_MOUNT - The location of users Example(VAULT-PROD/LOGICAL/xxxxx-xxxx-xxxx-xxxx-xxxxxxx/) - the value to set would be xxxxx-xxxx-xxxx-xxxx-xxxxxxx
