@@ -9,6 +9,9 @@
 
 ---
 
+##Screenshots
+![Welcome Screen](/screenshots/welcome.png?raw=true "Welcome Screen")
+![Mounts](/screenshots/mounts.png?raw=true "Mounts")
 
 ## Setup
 
