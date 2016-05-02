@@ -63,9 +63,10 @@ export function login(req) {
         if (err) {
           console.log('Error logging into vault', err);
           reject({'status': 500, 'message': 'You could not be logged in to vault'});
-        }
+        } else {
         req.session.vault_api_token = response.body.auth.client_token;
         resolve({'message': 'success', 'username': req.body.username});
+      }
       });
   });
 }
@@ -84,6 +85,23 @@ export function readUser(req) {
           reject({'status': 500, 'message': 'You could not be logged in to vault'});
         }
         resolve(JSON.parse(response.text));
+      });
+  });
+}
+
+export function secretList(req){
+  return new Promise((resolve, reject) => {
+    const token = getVault(req).token;
+    superagent
+      .get(`${VAULT_URL}/secret?list=true`)
+      .set('Content-Type', 'application/json')
+      .set('X-Vault-Token', token)
+      .end((err, response) => {
+        if (err) {
+          console.log('Error logging into vault', err);
+          reject({'status': 500, 'message': 'You could not be logged in to vault'});
+        }
+        resolve(JSON.parse(response.text).data.keys);
       });
   });
 }
