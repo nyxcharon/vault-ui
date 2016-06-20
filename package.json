@@ -53,9 +53,7 @@
       "env": {
         "NODE_PATH": "./api",
         "NODE_ENV": "production",
-        "API_PORT": 3030,
-        "VAULT_HOST": "vault.service.consul",
-        "CONSUL_HOST": "consul.service.consul"
+        "API_PORT": 3030
       }
     },
     "start-dev": {
@@ -72,9 +70,7 @@
       "env": {
         "NODE_PATH": "./api",
         "NODE_ENV": "development",
-        "API_PORT": 3030,
-        "VAULT_HOST": "vault.service.consul",
-        "CONSUL_HOST": "consul.service.consul"
+        "API_PORT": 3030
       }
     },
     "watch-client": {
