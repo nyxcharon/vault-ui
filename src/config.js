@@ -15,11 +15,11 @@ module.exports = Object.assign({
   apiHost: process.env.API_HOST || 'localhost',
   apiPort: process.env.API_PORT,
   vault: {
-    host: process.env.VAULT_HOST,
+    host: process.env.VAULT_HOST || 'vault.service.consul',
     port: process.env.VAULT_PORT || 8200
   },
   consul: {
-    host: process.env.CONSUL_HOST,
+    host: process.env.CONSUL_HOST || 'consul.service.consul',
     port: process.env.CONSUL_PORT || 8500,
     mount: process.env.CONSUL_MOUNT,
     keysMount: process.env.CONSUL_KEYS_MOUNT,
