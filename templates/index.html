@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block section %}
+    <div class="card pad-top center-block">
+        <div class="card-title"><h2>Welcome {{ username }}!</h2></div>
+        <div class="card-image">
+            <img class="shrink-image" src="/static/vault.png">
+        </div>
+        <div class="card-action">
+            <a hred="/secrets">Secrets</a>
+            <a href="/mounts">Mounts</a>
+            <a href="/users">Users</a>
+            <a href="/policies">Policies</a>
+            <a href="/health">Health</a>
+        </div>
+    </div>
+{% endblock %}

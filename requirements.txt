@@ -1,0 +1,7 @@
+Flask==0.11.1
+requests==2.11.1
+Flask-Material==0.1.1
+hvac==0.2.16
+ply==3.4
+pyhcl==0.2.1
+dnspython==1.14.0

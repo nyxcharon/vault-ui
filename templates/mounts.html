@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block section_title %} Mounts {% endblock %}
+
+{% block section_content %}
+        {% if secrets %}
+            <div class="row left-align"><h4>Secret Backends</h4></div>
+            {% for secret in secrets %}
+                <div class="row" style="margin: auto;">
+                    <div class="col s4">
+                        <div class="card">
+                            <div class="card-title left-align" style="padding: 10px; padding-left: 20px;">{{ secret }}</div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+        {% if audits %}
+            <div class="row left-align"><h4>Audit Backends</h4></div>
+            {% for audit in audits %}
+                <div class="row" style="margin: auto;">
+                    <div class="col s4">
+                        <div class="card">
+                            <div class="card-title left-align" style="padding: 10px; padding-left: 20px;">{{ audit }}</div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+        {% if auths %}
+            <div class="row left-align"><h4>Auth Backends</h4></div>
+            {% for auth in auths %}
+                <div class="row" style="margin: auto;">
+                    <div class="col s4">
+                        <div class="card">
+                            <div class="card-title left-align" style="padding: 10px; padding-left: 20px;">{{ auth }}</div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+{% endblock %}

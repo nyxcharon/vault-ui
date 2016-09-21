@@ -1,0 +1,79 @@
+.card {
+    text-align: center;
+}
+
+.pad-top {
+    margin-top: 30px;
+}
+.card .card-title {
+    color: cornflowerblue;
+    font-weight: bold;
+    font-size: medium;
+}
+
+.fancy-header {
+    background: url("/static/vaultcard_480.png");
+}
+.card .card-title .section-header {
+    padding: 16px;
+    font-size: 45px;
+    text-align: right;
+    color: white;
+    text-shadow: 2px 2px 10px #000;
+    background: url("/static/vaultcard_480.png") no-repeat center;
+    -webkit-background-size: cover; /* For WebKit*/
+    -moz-background-size: cover; /* Mozilla*/
+    -o-background-size: cover; /* Opera*/
+    background-size: cover; /* Generic*/
+}
+
+.card .card-content {
+    color: white;
+    background-color: gray;
+}
+
+.full-height {
+    height: 100%;
+    min-height: 100%;
+    max-height: 100%;
+}
+
+html {
+  height: 100%;
+}
+body {
+  min-height: 100%;
+  height: 100%;
+}
+
+.header {
+    min-height: 20px;
+    background-color: gray;
+    padding: 5px;
+    padding-left: 10px;
+    font-size: 30px;
+    color: white;
+    text-shadow: 2px 2px 10px #000;
+}
+
+.row .left-align h4 {
+    padding-left: 20px;
+}
+
+.pad-10 {
+    padding: 10px;
+}
+
+nav .brand-logo {
+    padding-left: 10px;
+}
+
+.shrink-image {
+    max-width: 15%;
+}
+
+.center-block {
+    max-width: 75%;
+    margin: auto;
+    margin-top: 20px;
+}

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block section_title %} Users {% endblock %}
+
+{% block section_content %}
+        {% if users %}
+            {% for user in users %}
+                <div class="row" style="margin: auto;">
+                    <div class="col s4">
+                        <div class="card">
+                            <div class="card-title left-align" style="padding: 10px; padding-left: 20px;">{{ user }}</div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+{% endblock %}

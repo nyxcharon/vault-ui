@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block section_title %} Health {% endblock %}
+
+{% block section_content %}
+    <div class="row" style="margin: auto; width: 75%">
+        {% if servers %}
+            {% for key, value in servers.iteritems() %}
+                <div class="col s4">
+                    <div class="card">
+                        <div class="card-title fancy-header">{{ key }}</div>
+                        <div class="card-content">
+                            {% for k,v in value.iteritems() %}
+                                <p>{{ k }} : {{ v }}</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+{% endblock %}

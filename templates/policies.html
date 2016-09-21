@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block section_title %} Policies {% endblock %}
+
+{% block section_content %}
+        {% if policies %}
+            {% for policy in policies %}
+                <div class="row" style="margin: auto;">
+                    <div class="col s4">
+                        <div class="card">
+                            <div class="card-title left-align" style="padding: 10px; padding-left: 20px;">{{ policy }}</div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+{% endblock %}

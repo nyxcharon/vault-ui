@@ -1,0 +1,36 @@
+{% extends "material/base.html" %}
+
+{% block styles %}
+    {{ super() }}
+    <link rel="stylesheet" href="/static/app.css">
+{% endblock %}
+
+{% block  navbar %}
+    <nav class="grey darken-1">
+    <div class="nav-wrapper">
+      <a href="" class="brand-logo">Vault UI</a>
+    </div>
+    </nav>
+{% endblock %}
+
+{% block content %}
+     <div class="row full-height">
+          <!-- Navbar -->
+          <div class="col s12 m2 l2 full-height grey darken-1">
+              <ul><div class="card pad-10"><div class="card-title"><a href="/">Home</a></div></div></ul>
+          </div>
+
+          <!-- Content -->
+          <div class="col s12 m10 l10 white">
+                <div class="card pad-top">
+                <div class="card-title">
+                    <div class="section-header">{% block section_title %}Error{% endblock %}</div>
+                </div>
+                {% block section_content %}
+                    <h5>We could not find the page you were looking for</h5>
+                {% endblock %}
+            </div>
+          </div>
+    </div>
+</div>
+{% endblock %}}

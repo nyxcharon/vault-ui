@@ -1,0 +1,50 @@
+{% extends "material/base.html" %}
+
+{% block styles %}
+    {{ super() }}
+    <link rel="stylesheet" href="/static/app.css">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.png') }}">
+{% endblock %}
+
+{% block  navbar %}
+    <nav class="grey darken-1">
+    <div class="nav-wrapper">
+      <a href="" class="brand-logo">Vault UI</a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+          {%  if session.vault_token %}
+            <li><a href="/logout">Logout</a></li>
+          {% endif %}
+      </ul>
+    </div>
+    </nav>
+{% endblock %}
+
+{% block content %}
+     <div class="row full-height">
+          <!-- Navbar -->
+          <div class="col s12 m2 l2 full-height grey darken-1">
+              {%  block nav %}
+              <ul><div class="card pad-10"><div class="card-title"><a href="/">Home</a></div></div></ul>
+              <ul><div class="card pad-10"><div class="card-title"><a href="/secrets">Secrets</a></div></div></ul>
+              <ul><div class="card pad-10"><div class="card-title"><a href="/mounts">Mounts</a></div></div></ul>
+              <ul><div class="card pad-10"><div class="card-title"><a href="/users">Users</a></div></div></ul>
+              <ul><div class="card pad-10"><div class="card-title"><a href="/policies">Policies</a></div></div></ul>
+              <ul><div class="card pad-10"><div class="card-title"><a href="/health">Health</a></div></div></ul>
+              {%  endblock %}
+          </div>
+
+          <!-- Content -->
+          <div class="col s12 m10 l10 white">
+          {% block section %}
+                <div class="card pad-top">
+                <div class="card-title">
+                    <div class="section-header">{% block section_title %}{% endblock %}</div>
+                </div>
+                {% block section_content %}
+                {% endblock %}
+                </div>
+          {% endblock %}
+          </div>
+    </div>
+</div>
+{% endblock %}
