@@ -1,5 +1,7 @@
 # Vault UI
 
+# This is deprecated
+This version of vault-ui is now deprecated. It has been replaced with a simpler flask app. When this app was originally written, it was done as part of a 3 day company hackathon. As such, we started with a large boilerplate template to get things started quickly. By the time we were done the codebase was un-maintainable. Thus, I re-wrote it as a simple flask app. If you still want to use this version for some reason, it has been tagged both in github and on docker.
 
 [![Dependency Status](https://david-dm.org/nyxcharon/vault-ui.svg?style=flat-square)](https://david-dm.org/nyxcharon/vault-ui)
 [![devDependency Status](https://david-dm.org/nyxcharon/vault-ui/dev-status.svg?style=flat-square)](https://david-dm.org/nyxcharon/vault-ui#info=devDependencies)
