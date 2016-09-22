@@ -10,11 +10,14 @@
             <img class="shrink-image" src="/static/vault.png">
         </div>
         <div class="card-action">
+            {% if error %}
+                <div class="card-panel yellow lighten-4"> You could not be logged in with the given username/password combo.</div>
+            {% endif %}
          <form action="" method="post">
-                               <p><input type=text name=username>
-                                 <p><input type=password name=password>
-                                 <p><input type=submit value=Login>
-                             </form>
+             <p><input type=text name=username>
+             <p><input type=password name=password>
+             <p><input type=submit value=Login>
+         </form>
         </div>
     </div>
 {% endblock %}

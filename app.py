@@ -25,11 +25,16 @@ def index():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        token = vault_auth(request.form['username'], request.form['password'])
-        session['vault_token'] = token
-        session['username'] = request.form['username']
-        return redirect(url_for('index'))
-    return render_template('login.html')
+        try:
+            token = vault_auth(request.form['username'], request.form['password'])
+            session['vault_token'] = token
+            session['username'] = request.form['username']
+            return redirect(url_for('index'))
+        except:
+            print "error logging in"
+            return render_template('login.html', error=True)
+    else:
+        return render_template('login.html')
 
 
 @app.route('/logout')
