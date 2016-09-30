@@ -10,8 +10,17 @@ from urlparse import urlparse
 # as a couple other methods to fetch things not supported by it.
 
 
+def __client(token=None):
+    client = hvac.Client(
+        url=app.config['VAULT_URL'],
+        verify=not app.config['VAULT_SKIP_VERIFY']
+    )
+    if token:
+        client.token = token
+    return client
+
 def vault_auth(username,password):
-    client = hvac.Client(url=app.config['VAULT_URL'])
+    client = __client()
     client.auth_userpass(username, password)
     return client.token
 
@@ -26,8 +35,7 @@ def vault_health():
     return servers
 
 def vault_secrets(token):
-    client = hvac.Client(url=app.config['VAULT_URL'])
-    client.token = token
+    client = __client(token)
     secrets = client.list('secret')['data']['keys']
     list = []
     for secret in secrets:
@@ -49,36 +57,30 @@ def list_path(client,path):
     return items
 
 def list_secret(token,path):
-    client = hvac.Client(url=app.config['VAULT_URL'])
-    client.token = token
+    client = __client(token)
     return client.read(path)['data']
 
 
 def list_users(token):
-    client = hvac.Client(url=app.config['VAULT_URL'])
-    client.token = token
+    client = __client(token)
     return client.list('auth/userpass/users')['data']['keys']
 
 
 def list_policies(token):
-    client = hvac.Client(url=app.config['VAULT_URL'])
-    client.token = token
+    client = __client(token)
     return client.list_policies()
 
 
 def list_secret_backend(token):
-    client = hvac.Client(url=app.config['VAULT_URL'])
-    client.token = token
+    client = __client(token)
     return client.list_secret_backends()
 
 
 def list_audit(token):
-    client = hvac.Client(url=app.config['VAULT_URL'])
-    client.token = token
+    client = __client(token)
     return client.list_audit_backends()
 
 
 def list_auth(token):
-    client = hvac.Client(url=app.config['VAULT_URL'])
-    client.token = token
+    client = __client(token)
     return client.list_auth_backends()
