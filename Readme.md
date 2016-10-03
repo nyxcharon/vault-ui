@@ -1,10 +1,14 @@
 # Vault UI
 
-
-[![Image Layers](https://badge.imagelayers.io/nyxcharon/vault-ui:latest.svg)](https://imagelayers.io/?images=nyxcharon/vault-ui:latest)
 [![Docker Registry](https://img.shields.io/docker/pulls/nyxcharon/vault-ui.svg)](https://registry.hub.docker.com/u/nyxcharon/vault-ui)
 
 ---
+
+## Screenshots
+![Login Screen](/screenshots/login.png?raw=true)
+![Mount Screen](/screenshots/mounts.png?raw=true)
+![Cluster Health Screen](/screenshots/cluster.png?raw=true)
+
 
 ## Docker
 
