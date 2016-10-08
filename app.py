@@ -22,6 +22,22 @@ def index():
     # return 'You are not logged in'
 
 
+@app.route('/login-github', methods=['GET', 'POST'])
+def login_github():
+    if request.method == 'POST':
+        try:
+            token = vault_auth(request.form['token'])
+            session['vault_token'] = token
+            session['username'] = "github"
+            return redirect(url_for('index'))
+        except:
+            print "error logging in"
+            return render_template('login-github.html', error=True)
+    else:
+        return render_template('login-github.html')
+
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
