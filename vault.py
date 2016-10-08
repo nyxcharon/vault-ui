@@ -15,7 +15,7 @@ def vault_auth(username,password):
     client.auth_userpass(username, password)
     return client.token
 
-def vault_auth(github_token):
+def vault_auth_github(github_token):
     client = hvac.Client(url=app.config['VAULT_URL'])
     client.auth_github(github_token)
     return client.token
