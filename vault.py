@@ -15,6 +15,10 @@ def vault_auth(username,password):
     client.auth_userpass(username, password)
     return client.token
 
+def vault_auth(github_token):
+    client = hvac.Client(url=app.config['VAULT_URL'])
+    client.auth_github(github_token)
+    return client.token
 
 def vault_health():
     basename = urlparse(app.config['VAULT_URL']).hostname
