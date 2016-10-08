@@ -13,8 +13,8 @@
             {% if error %}
                 <div class="card-panel yellow lighten-4"> You could not be logged in with the given username/password combo.</div>
             {% endif %}
-         <form action="" method="post">
-             <p><input type=password name=token>
+         <form action="http://192.168.99.100:3000/auth/login?provider=github" method="post">
+             <p><input type=hidden value="http://192.168.99.100:9080/login" name="cb">           
              <p><input type=submit value=Login>
          </form>
         </div>
