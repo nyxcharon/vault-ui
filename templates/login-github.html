@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block nav %}
+{% endblock %}
+
+{% block section %}
+    <div class="card pad-top center-block">
+        <div class="card-title"><h3>Please login</h3></div>
+        <div class="card-image">
+            <img class="shrink-image" src="/static/vault.png">
+        </div>
+        <div class="card-action">
+            {% if error %}
+                <div class="card-panel yellow lighten-4"> You could not be logged in with the given username/password combo.</div>
+            {% endif %}
+         <form action="" method="post">
+             <p><input type=password name=token>
+             <p><input type=submit value=Login>
+         </form>
+        </div>
+    </div>
+{% endblock %}
