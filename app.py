@@ -26,7 +26,7 @@ def index():
 def login_github():
     if request.method == 'POST':
         try:
-            token = vault_auth(request.form['token'])
+            token = vault_auth_github(request.form['token'])
             session['vault_token'] = token
             session['username'] = "github"
             return redirect(url_for('index'))
