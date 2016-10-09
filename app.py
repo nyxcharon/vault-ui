@@ -12,6 +12,8 @@ Material(app)
 app.config.from_pyfile('settings.py',silent=True)
 if "VAULT_ADDR" in os.environ:
     app.config['VAULT_URL'] = os.environ['VAULT_ADDR']
+if "VAULT_SKIP_VERIFY" in os.environ:
+    app.config['VAULT_SKIP_VERIFY'] = True
 
 @app.route('/')
 @login_required
