@@ -4,14 +4,27 @@ from flask_material import Material
 from decorators import *
 import werkzeug.exceptions
 import os
+import jwt
+import traceback
+import sys
+import json
 
-
+JWT_SECRET = os.environ['JWT_SECRET']
+JWT_ALGORITHM = 'HS256'
+JWT_EXP_DELTA_SECONDS = 20
 
 app = Flask(__name__)
 Material(app)
 app.config.from_pyfile('settings.py',silent=True)
 if "VAULT_ADDR" in os.environ:
     app.config['VAULT_URL'] = os.environ['VAULT_ADDR']
+
+
+def json_response(body='', **kwargs):
+    kwargs['body'] = json.dumps(body or kwargs['body']).encode('utf-8')
+    kwargs['content_type'] = 'text/json'
+    return web.Response(**kwargs)
+
 
 @app.route('/')
 @login_required
@@ -24,18 +37,31 @@ def index():
 
 @app.route('/login-github', methods=['GET', 'POST'])
 def login_github():
-    if request.method == 'POST':
-        try:
-            token = vault_auth_github(request.form['token'])
-            session['vault_token'] = token
-            session['username'] = "github"
-            return redirect(url_for('index'))
-        except:
-            print "error logging in"
-            return render_template('login-github.html', error=True)
-    else:
-        return render_template('login-github.html')
+    try:
+        bearer_token = request.cookies['Authorization']
+        print "bearer token " + bearer_token
+        access_token_encrypted = bearer_token.split()[1]
+        print "access_token_encrypted " + access_token_encrypted
+        payload = dict()
+        if access_token_encrypted:
+            try:
+                payload = jwt.decode(access_token_encrypted, JWT_SECRET,
+                                 algorithms=[JWT_ALGORITHM])
+            except (jwt.DecodeError, jwt.ExpiredSignatureError):
+                return render_template('login-github.html', error=True)
 
+        gh_token = payload ['token']['access_token']
+        print gh_token
+        token = vault_auth_github(gh_token)
+        session['vault_token'] = token
+        print token, gh_token
+
+        session['username'] = "github"
+        return redirect(url_for('index'))
+    except:
+        print traceback.format_exc()
+        print "error logging in"
+        return render_template('login-github.html', error=True)
 
 
 @app.route('/login', methods=['GET', 'POST'])
