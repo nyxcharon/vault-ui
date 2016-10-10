@@ -21,7 +21,10 @@ def __client(token=None):
 
 def vault_auth(username,password):
     client = __client()
-    client.auth_userpass(username, password)
+    if app.config.get('AUTH_BACKEND') == 'ldap':
+        client.auth_ldap(username, password)
+    else:
+        client.auth_userpass(username, password)
     return client.token
 
 
