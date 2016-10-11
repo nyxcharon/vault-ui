@@ -24,6 +24,7 @@ docker build -t vault-ui .
 docker run -it \
     -p 80:80 \
     -e VAULT_ADDR=my.vault.host \
+    -e VAULT_SKIP_VERIFY=1 \
         nyxcharon/vault-ui
 
 ```
@@ -38,7 +39,9 @@ docker run -it \
 ## Configuration
 ### Environment (Required)
   * `VAULT_ADDR` - the Vault host
-  
+### Environment (Optional)
+  * `VAULT_SKIP_VERIFY` - If set, do not verify Vault's presented certificate before communicating with it.
+
 ### Authentication
-  * You must mount and setup the userpass backend before you can login. The policies the user has will determine what they can view in the ui. For more information on setting up this backend, see https://www.vaultproject.io/docs/auth/userpass.html
+  * You must configure github auth model or setup the userpass backend before you can login. The policies the user has will determine what they can view in the ui. For more information on setting up this backend, see https://www.vaultproject.io/docs/auth/userpass.html
   * Other auth backends will be supported in the feature

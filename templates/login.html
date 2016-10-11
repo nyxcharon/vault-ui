@@ -14,8 +14,16 @@
                 <div class="card-panel yellow lighten-4"> You could not be logged in with the given username/password combo.</div>
             {% endif %}
          <form action="" method="post">
-             <p><input type=text name=username>
-             <p><input type=password name=password>
+             <div>
+               <p>User</p>
+               <p><input type=text name=username>
+               <p>Password</p>
+               <p><input type=password name=password>
+             </div>
+             <div>
+               <p>Github Token</p>
+               <p><input type=password name=ghetoken>
+             </div>
              <p><input type=submit value=Login>
          </form>
         </div>
