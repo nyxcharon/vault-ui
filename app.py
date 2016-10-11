@@ -78,6 +78,19 @@ def login():
     else:
         return render_template('login.html')
 
+@app.route('/login-token', methods=['GET', 'POST'])
+def login_token():
+    if request.method == 'POST':
+        try:
+            token = request.form['token']
+            session['vault_token'] = token
+            session['username'] = "_token"
+            return redirect(url_for('index'))
+        except:
+            print "error logging in"
+            return render_template('login-token.html', error=True)
+    else:
+        return render_template('login-token.html')
 
 @app.route('/logout')
 @login_required
