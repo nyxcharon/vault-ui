@@ -13,6 +13,12 @@ app.config.from_pyfile('settings.py',silent=True)
 if "VAULT_ADDR" in os.environ:
     app.config['VAULT_URL'] = os.environ['VAULT_ADDR']
 
+if "VAULT_SKIP_VERIFY" in os.environ:
+    if os.environ['VAULT_SKIP_VERIFY'] == "1":
+       app.config['VERIFY'] = False
+    else:
+       app.config['VERIFY'] = True
+
 @app.route('/')
 @login_required
 def index():
@@ -26,9 +32,13 @@ def index():
 def login():
     if request.method == 'POST':
         try:
-            token = vault_auth(request.form['username'], request.form['password'])
+            if request.form['ghetoken'] != "":
+                token = vault_auth_github(request.form['ghetoken'])
+                session['username'] = "Github User"
+            else:
+                token = vault_auth(request.form['username'], request.form['password'])
+                session['username'] = request.form['username']
             session['vault_token'] = token
-            session['username'] = request.form['username']
             return redirect(url_for('index'))
         except:
             print "error logging in"
