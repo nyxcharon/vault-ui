@@ -28,7 +28,7 @@ def vault_health():
 def vault_secrets(token):
     client = hvac.Client(url=app.config['VAULT_URL'])
     client.token = token
-    secrets = client.list('secret')['data']['keys']
+    secrets = client.list('secret/')['data']['keys']
     list = []
     for secret in secrets:
          if '/' in secret:
