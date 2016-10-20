@@ -1,0 +1,9 @@
+version: '2'
+services:
+  vaultui:
+    build: .
+    image: nyxcharon/vault-ui
+    environment:
+      - "VAULT_ADDR=my.vault.host"
+    ports:
+      - "80:80"
