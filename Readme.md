@@ -14,19 +14,38 @@
 
 ### Build (for custom changes)
 
-```bash
+__Manually__
+
+```
+bash
 docker build -t vault-ui .
+```
+
+__Docker-Compose__
+
+```
+docker-compose build
 ```
 
 ### Run
 
-```bash
+__Manually__
+
+```
+bash
 docker run -it \
     -p 80:80 \
     -e VAULT_ADDR=my.vault.host \
         nyxcharon/vault-ui
+```
+
+__Docker-Compose__
 
 ```
+docker-compose pull
+docker-compose run -d
+```
+
 
 ## Features
 * List/View Secrets
