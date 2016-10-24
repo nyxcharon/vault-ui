@@ -72,24 +72,37 @@ def list_secret(token,path):
 
 def list_users(token):
     client = __client(token)
-    return client.list('auth/userpass/users')['data']['keys']
+    try:
+        return client.list('auth/userpass/users')['data']['keys']
+    except Exception:
+        return None
 
 
 def list_policies(token):
     client = __client(token)
-    return client.list_policies()
+    try:
+        return client.list_policies()
+    except Exception:
+        return None
 
 
 def list_secret_backend(token):
     client = __client(token)
-    return client.list_secret_backends()
-
+    try:
+        return client.list_secret_backends()
+    except Exception:
+        return None
 
 def list_audit(token):
     client = __client(token)
-    return client.list_audit_backends()
-
+    try:
+        return client.list_audit_backends()
+    except Exception:
+        return None
 
 def list_auth(token):
     client = __client(token)
-    return client.list_auth_backends()
+    try:
+        return client.list_auth_backends()
+    except Exception:
+        return None
