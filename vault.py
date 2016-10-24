@@ -39,11 +39,17 @@ def vault_health():
 
 def vault_secrets(token):
     client = __client(token)
-    secrets = client.list('secret')['data']['keys']
     list = []
+    try:
+        secrets = client.list('secret')['data']['keys']
+    except Exception:
+        return list
     for secret in secrets:
          if '/' in secret:
-            list += list_path(client,secret)
+            try:
+                list += list_path(client,secret)
+            except Exception:
+                continue
          else:
              list.append('secret/' + secret)
     return list
