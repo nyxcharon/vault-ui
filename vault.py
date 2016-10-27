@@ -41,7 +41,7 @@ def vault_secrets(token):
     client = __client(token)
     list = []
     try:
-        secrets = client.list('secret')['data']['keys']
+        secrets = client.list('secret/')['data']['keys']
     except Exception:
         return list
     for secret in secrets:
