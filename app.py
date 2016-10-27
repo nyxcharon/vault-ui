@@ -86,7 +86,7 @@ def read_secret(path):
 
 # Health check, useful for monitoring #
 @app.route('/healthcheck')
-def healtcheck():
+def healthcheck():
     return 'Healthy'
 
 
