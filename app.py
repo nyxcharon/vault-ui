@@ -32,8 +32,8 @@ def login():
             session['vault_token'] = token
             session['username'] = request.form['username']
             return redirect(url_for('index'))
-        except:
-            print "error logging in"
+        except Exception as e:
+            print "error logging in: ", str(e)
             return render_template('login.html', error=True)
     else:
         return render_template('login.html')
@@ -108,4 +108,9 @@ def teapot():
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0',  port=80)
+    if app.config['VAULT_SSL_CERT'] and app.config['VAULT_SSL_KEY']:
+       app.run(host='0.0.0.0', port=443, ssl_context=(app.config['VAULT_SSL_CERT'],app.config['VAULT_SSL_KEY']))
+    else:
+       print 'Warning:  Your secrets are being sent unencrypted over the network.'
+       print 'To enable SSL support. update the VAULT_SSL_CERT, VAULT_SSL_KEY, and VAULT_SSL_CA variables in settings.py'
+       app.run(host='0.0.0.0',  port=80)

@@ -11,9 +11,18 @@ from urlparse import urlparse
 
 
 def __client(token=None):
+    if app.config['VAULT_SSL_CERT'] and app.config['VAULT_SSL_KEY']:
+       cert = (app.config['VAULT_SSL_CERT'],app.config['VAULT_SSL_KEY'])
+    else:
+       cert = None
+    if app.config['VAULT_SSL_CA']:
+       verify = app.config['VAULT_SSL_CA']
+    else:
+       verify = not app.config['VAULT_SKIP_VERIFY']
     client = hvac.Client(
         url=app.config['VAULT_URL'],
-        verify=not app.config['VAULT_SKIP_VERIFY']
+        verify=verify,
+        cert=cert
     )
     if token:
         client.token = token
@@ -21,10 +30,17 @@ def __client(token=None):
 
 def vault_auth(username,password):
     client = __client()
-    if app.config.get('AUTH_BACKEND') == 'ldap':
-        client.auth_ldap(username, password)
+    if app.config.get('VAULT_AUTH_BACKEND'):
+        auth_backend = app.config.get('VAULT_AUTH_BACKEND')
     else:
+        auth_backend = 'userpass'
+
+    if auth_backend == 'ldap':
+        client.auth_ldap(username, password)
+    elif auth_backend == 'userpass':
         client.auth_userpass(username, password)
+    else:
+        raise ValueError("Unsupported VAULT_AUTH_BACKEND: %s" % auth_backend)
     return client.token
 
 
@@ -34,7 +50,11 @@ def vault_health():
     servers = {}
     for rdata in answers:
         address = rdata.to_text('A')
-        servers[str(address)] = json.loads(requests.get(app.config['VAULT_URL'] + "/v1/sys/health").text)
+        if app.config['VAULT_SSL_CA']:
+            verify = app.config['VAULT_SSL_CA']
+        else:
+            verify = None
+        servers[str(address)] = json.loads(requests.get(app.config['VAULT_URL'] + "/v1/sys/health", verify=verify).text)
     return servers
 
 def vault_secrets(token):
