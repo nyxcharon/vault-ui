@@ -77,3 +77,11 @@ nav .brand-logo {
     margin: auto;
     margin-top: 20px;
 }
+
+select {
+    display: inline;
+}
+
+.btn {
+    background-color: cornflowerblue;
+}

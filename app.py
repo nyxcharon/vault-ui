@@ -19,24 +19,20 @@ if "VAULT_SKIP_VERIFY" in os.environ:
 @login_required
 def index():
     return render_template('index.html', username=session['username'])
-    # if 'vault_token' in session:
-    #     return 'Logged in with token: %s' % escape(session['vault_token'])
-    # return 'You are not logged in'
-
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         try:
-            token = vault_auth(request.form['username'], request.form['password'])
+            token = vault_auth(request.form['username'], request.form['password'], str(request.form.get('auth_type')))
             session['vault_token'] = token
             session['username'] = request.form['username']
             return redirect(url_for('index'))
-        except:
-            print "error logging in"
-            return render_template('login.html', error=True)
+        except Exception as e:
+            print "Error logging in:", str(e)
+            return render_template('login.html', error=True,methods=app.config["AUTH_METHODS"])
     else:
-        return render_template('login.html')
+        return render_template('login.html', methods=app.config["AUTH_METHODS"])
 
 
 @app.route('/logout')
