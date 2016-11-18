@@ -1,24 +1,28 @@
-from flask import Flask, abort, render_template, g, session, redirect, url_for, escape, request
+""" Main application logic
+This contains all the routing information for the app
+"""
+import os
+from flask import Flask, abort, render_template
 from vault import *
 from flask_material import Material
 from decorators import *
 import werkzeug.exceptions
-import os
-
 
 
 app = Flask(__name__)
 Material(app)
-app.config.from_pyfile('settings.py',silent=True)
+app.config.from_pyfile('settings.py', silent=True)
 if "VAULT_ADDR" in os.environ:
     app.config['VAULT_URL'] = os.environ['VAULT_ADDR']
 if "VAULT_SKIP_VERIFY" in os.environ:
     app.config['VAULT_SKIP_VERIFY'] = True
 
+
 @app.route('/')
 @login_required
 def index():
     return render_template('index.html', username=session['username'])
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -28,9 +32,9 @@ def login():
             session['vault_token'] = token
             session['username'] = request.form['username']
             return redirect(url_for('index'))
-        except Exception as e:
-            print "Error logging in:", str(e)
-            return render_template('login.html', error=True,methods=app.config["AUTH_METHODS"])
+        except Exception as error: #pylint: disable=broad-except
+            print "Error logging in:", str(error)
+            return render_template('login.html', error=True, methods=app.config["AUTH_METHODS"])
     else:
         return render_template('login.html', methods=app.config["AUTH_METHODS"])
 
@@ -38,7 +42,6 @@ def login():
 @app.route('/logout')
 @login_required
 def logout():
-    # remove the username from the session if it's there
     session.pop('vault_token', None)
     return redirect(url_for('index'))
 
@@ -80,21 +83,19 @@ def read_secret(path):
     return render_template('secret.html', path=path, secret=list_secret(session['vault_token'], path))
 
 
-# Health check, useful for monitoring #
 @app.route('/healthcheck')
 def healthcheck():
     return 'Healthy'
 
 
-# Error Handling #
 @app.errorhandler(werkzeug.exceptions.NotFound)
-def handle_bad_request(e):
-    return render_template('404.html', error=e)
+def handle_404_request(error):
+    return render_template('404.html', error=error)
 
 
 @app.errorhandler(werkzeug.exceptions.InternalServerError)
-def handle_bad_request(e):
-    return render_template('500.html', error=e)
+def handle_505_request(error):
+    return render_template('500.html', error=error)
 
 
 # Implement HTTP 418
@@ -104,4 +105,4 @@ def teapot():
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0',  port=80)
+    app.run(host='0.0.0.0', port=80)
