@@ -6,7 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-## [0.0.1] - 2016-11-18
+## [1.0.0] - 2016-11-18
 ### Added
-- Initial Vault UI with support for Userpass and LDAP Auth
+- Initial Vault UI re-written with Flask
+- Support for Userpass and LDAP Auth
 - This changelog and a license file
+
+## [0.0.1] - 2016-5-2
+### Added
+- Vault UI written in react, with support for userpass
