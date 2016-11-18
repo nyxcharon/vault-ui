@@ -25,9 +25,10 @@
   
 ### Configuration
   These varaibles can either be set in settings.py, or via environment variables. Environment variables will always override settings.py
-  * `VAULT_ADDR` - (Required) the Vault host to connect to.
+  * `VAULT_ADDR` - (Required) the Vault host to connect to. Default is "https://localhost:8200"
   * `VAULT_SKIP_VERIFY` - 	If set, do not verify Vault's presented certificate before communicating with it. Setting this variable is not recommended except during testing.
-  * `AUTH_METHODS` - Defines the auth types users can use. Supports "LDAP" and "Userpass". Specifying anything else will be seen as a custom userpass mount.
+  * `AUTH_METHODS` - Defines the auth types users can use. Supports "LDAP" and "Userpass". Specifying anything else will be seen as a custom userpass mount. Default is "Userpass"
+  * `VAULT_PORT` - Defines the port vault uses for the health check. Default is 8200
   
 ### Authentication
   * You must mount and setup an authentication backend before you can login to Vault UI. The easiest to get started with is userpass. For more information on setting up this backend, see the userpass [docs](https://www.vaultproject.io/docs/auth/userpass.html)

@@ -39,11 +39,22 @@ def vault_auth(username, password, auth_type):
 def vault_health():
     """Retrieve the health information for all vault servers"""
     basename = urlparse(app.config['VAULT_URL']).hostname
+    scheme = urlparse(app.config['VAULT_URL']).scheme
     answers = dns.resolver.query(basename, "A")
     servers = {}
+    session = requests.Session()
+    if not app.config['VAULT_SKIP_VERIFY']:
+        session.verify = True
+    else:
+        session.verify = False
     for rdata in answers:
-        address = rdata.to_text('A')
-        servers[str(address)] = json.loads(requests.get(app.config['VAULT_URL'] + "/v1/sys/health").text)
+        try:
+            address = rdata.to_text('A')
+            url = scheme + "://" + str(address) + ":" + str(app.config['VAULT_PORT']).strip('[\']')
+            servers[str(address)] = json.loads(session.get(url + '/v1/sys/health').text)
+        except Exception as error:  # pylint: disable=broad-except
+            print "Error fetching health information:", str(error)
+            continue
     return servers
 
 

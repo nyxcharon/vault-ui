@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Added support for custom userpass mounts
 ### Changed
 - Updated readme to have a proper getting started guide - [#14](https://github.com/nyxcharon/vault-ui/issues/14)
+- Health check page now needs VAULT_PORT define to work correctly
+- Health check page no longer will crash if an error occurs
 
 ## [1.0.0] - 2016-11-18
 ### Added
