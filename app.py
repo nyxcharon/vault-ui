@@ -16,6 +16,8 @@ if "VAULT_ADDR" in os.environ:
     app.config['VAULT_URL'] = os.environ['VAULT_ADDR']
 if "VAULT_SKIP_VERIFY" in os.environ:
     app.config['VAULT_SKIP_VERIFY'] = True
+if "AUTH_METHODS" in os.environ:
+    app.config['AUTH_METHODS'] = os.environ['AUTH_METHODS'].split(',')
 
 
 @app.route('/')
