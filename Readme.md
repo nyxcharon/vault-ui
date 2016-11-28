@@ -43,7 +43,7 @@
   
   __Docker__
   ```
-  docker run -p 80:80 -e VAULT_ADDR=https://vault.example.com:8200 nyxcharon/vault-ui:1.0.0
+  docker run -p 80:80 -e VAULT_ADDR=https://vault.example.com:8200 nyxcharon/vault-ui:latest
   ```
 
   __Python__
