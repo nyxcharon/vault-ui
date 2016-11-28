@@ -116,8 +116,12 @@ def list_policies(token):
 def list_secret_backend(token):
     """List all secret backends enabled in vault"""
     client = __client(token)
+    backends = []
     try:
-        return client.list_secret_backends()
+        for backend in client.list_secret_backends():
+            if "/" in backend:
+                backends.append(backend)
+        return backends
     except Exception: #pylint: disable=broad-except
         return None
 
@@ -125,8 +129,12 @@ def list_secret_backend(token):
 def list_audit(token):
     """List all audit backends enabled in vault"""
     client = __client(token)
+    backends = []
     try:
-        return client.list_audit_backends()
+        for backend in client.list_audit_backends():
+            if "/" in backend:
+                backends.append(backend)
+        return backends
     except Exception: #pylint: disable=broad-except
         return None
 
@@ -134,7 +142,11 @@ def list_audit(token):
 def list_auth(token):
     """List all auth backends enabled in vault"""
     client = __client(token)
+    backends = []
     try:
-        return client.list_auth_backends()
+        for backend in client.list_auth_backends():
+            if "/" in backend:
+                backends.append(backend)
+        return backends
     except Exception: #pylint: disable=broad-except
         return None
