@@ -15,9 +15,20 @@ from flask import current_app as app
 
 def __client(token=None):
     """Setup a basic vault client"""
+    if 'VAULT_SSL_CERT' in app.config and 'VAULT_SSL_KEY' in app.config:
+       cert = (app.config['VAULT_SSL_CERT'],app.config['VAULT_SSL_KEY'])
+    else:
+       cert = None
+    if 'VAULT_SSL_CA' in app.config:
+       verify = app.config['VAULT_SSL_CA']
+    elif 'VAULT_SKIP_VERIFY' in app.config:
+       verify = not app.config['VAULT_SKIP_VERIFY']
+    else:
+       verify = True
     client = hvac.Client(
         url=app.config['VAULT_URL'],
-        verify=not app.config['VAULT_SKIP_VERIFY']
+        verify=verify,
+        cert=cert
     )
     if token:
         client.token = token
@@ -43,8 +54,11 @@ def vault_health():
     answers = dns.resolver.query(basename, "A")
     servers = {}
     session = requests.Session()
-    if not app.config['VAULT_SKIP_VERIFY']:
-        session.verify = True
+    if ('VAULT_SKIP_VERIFY' not in app.config) or (not app.config['VAULT_SKIP_VERIFY']):
+        if 'VAULT_SSL_CA' in app.config:
+            session.verify = app.config['VAULT_SSL_CA']
+        else:
+            session.verify = True
     else:
         session.verify = False
     for rdata in answers:
