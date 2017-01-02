@@ -109,9 +109,9 @@ def teapot():
 
 if __name__ == "__main__":
     if app.config['VAULT_SSL_CERT'] and app.config['VAULT_SSL_KEY']:
-       app.run(host='0.0.0.0', port=443, ssl_context=(app.config['VAULT_SSL_CERT'],app.config['VAULT_SSL_KEY']))
+       app.run(host='0.0.0.0', port=app.config.get('VAULT_UI_HTTPS_PORT', 443), ssl_context=(app.config['VAULT_SSL_CERT'],app.config['VAULT_SSL_KEY']))
     else:
        print 'Warning:  Your secrets are being sent unencrypted over the network.'
        print 'To enable SSL support. update the VAULT_SSL_CERT, VAULT_SSL_KEY, and VAULT_SSL_CA variables in settings.py'
-       app.run(host='0.0.0.0',  port=80)
+       app.run(host='0.0.0.0',  port=app.config.get('VAULT_UI_HTTP_PORT', 80))
 
