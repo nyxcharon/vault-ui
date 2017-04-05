@@ -32,6 +32,9 @@
   * `VAULT_SSL_CERT` - Full path to the SSL cert used for https support
   * `VAULT_SSL_KEY` - Full path to the SSL key used for the https support
   * `VAULT_SSL_CA` - Full path to the SSL certificate authority used to verify VAUT_URL's cert when it uses https.
+  * `VAULT_UI_HTTP_PORT` - Make vault-ui listen on this port for http connections. Default is 80.
+  * `VAULT_UI_HTTPS_PORT` - Make vault-ui listen on this port for http connections. Default is 443.
+
   
 ### Authentication
   * You must mount and setup an authentication backend before you can login to Vault UI. The easiest to get started with is userpass. For more information on setting up this backend, see the userpass [docs](https://www.vaultproject.io/docs/auth/userpass.html)
