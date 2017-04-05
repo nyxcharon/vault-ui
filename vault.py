@@ -16,15 +16,15 @@ from flask import current_app as app
 def __client(token=None):
     """Setup a basic vault client"""
     if 'VAULT_SSL_CERT' in app.config and 'VAULT_SSL_KEY' in app.config:
-       cert = (app.config['VAULT_SSL_CERT'],app.config['VAULT_SSL_KEY'])
+        cert = (app.config['VAULT_SSL_CERT'], app.config['VAULT_SSL_KEY'])
     else:
-       cert = None
+        cert = None
     if 'VAULT_SSL_CA' in app.config:
-       verify = app.config['VAULT_SSL_CA']
+        verify = app.config['VAULT_SSL_CA']
     elif 'VAULT_SKIP_VERIFY' in app.config:
-       verify = not app.config['VAULT_SKIP_VERIFY']
+        verify = not app.config['VAULT_SKIP_VERIFY']
     else:
-       verify = True
+        verify = True
     client = hvac.Client(
         url=app.config['VAULT_URL'],
         verify=verify,
@@ -77,29 +77,33 @@ def vault_secrets(token):
     client = __client(token)
     secret_list = []
     try:
-        secrets = client.list('secret/')['data']['keys']
+        for backend in list_secret_backend(token):
+            data = client.list(str(backend))
+            if data is None:
+                continue
+            secrets = data['data']['keys']
+            for secret in secrets:
+                if '/' in secret:
+                    try:
+                        secret_list += list_path(client, secret, backend)
+                    except Exception:  # pylint: disable=broad-except
+                        continue
+                else:
+                    secret_list.append(backend + secret)
     except Exception: #pylint: disable=broad-except
         return secret_list
-    for secret in secrets:
-        if '/' in secret:
-            try:
-                secret_list += list_path(client, secret)
-            except Exception: #pylint: disable=broad-except
-                continue
-        else:
-            secret_list.append('secret/' + secret)
     return secret_list
 
 
-def list_path(client, path):
+def list_path(client, path, backend):
     """Recursively expand the list of secrets"""
-    secret_list = client.list("secret/"+path)['data']['keys']
+    secret_list = client.list(backend+path)['data']['keys']
     items = []
     for secret in secret_list:
         if '/' in secret:
-            items += list_path(client, path + secret)
+            items += list_path(client, path + secret, backend)
         else:
-            items.append('secret/' + path + secret)
+            items.append(backend + path + secret)
     return items
 
 
